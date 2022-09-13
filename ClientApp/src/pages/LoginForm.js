@@ -3,18 +3,23 @@ import { Navigate } from 'react-router-dom';
 import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
 
+// Login page
 const LoginForm = () => {
 	const { state, dispatch } = useContext(AuthContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [redirect, setRedirect] = useState(false);
+	
+	// Initial Form Data
 	const initialFormData = Object.freeze({
 		username: "",
 		password: ""
 	});
 
+	// Form fields
 	const [formData, setFormData] = useState(initialFormData);
 
+	// Handle change form data
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -22,6 +27,7 @@ const LoginForm = () => {
 		});
 	};
 
+	// Handle submit - POST request
 	function handleSubmit(e) {
 		e.preventDefault();
 		// Automatically Login
@@ -60,6 +66,7 @@ const LoginForm = () => {
 			});
 	}
 
+	// The user registered and transfer to the home page
 	if (redirect) {
 		console.log(`User successfully logged in`);
 		return <Navigate to={"/"} />

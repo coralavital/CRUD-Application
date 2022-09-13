@@ -7,6 +7,7 @@ const Nav = () => {
 	const [username, setUsername] = useState('');
   const { state, dispatch } = useContext(AuthContext);
 
+	// Log out function
 	const logout = async () => {
 		const logout_url = Constants.API_URL_LOGOUT_USER;
     fetch(logout_url, {

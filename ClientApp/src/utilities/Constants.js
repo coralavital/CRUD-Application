@@ -1,6 +1,7 @@
+// Local host port
 const API_BASE_URL_DEVELOPMENT = 'https://localhost:7007';
 
-
+// Endpoints
 const ENDPOINTS = {
 	REGISTER_USER: 'api/register',
 	LOGIN_USER: 'api/login',
@@ -12,6 +13,7 @@ const ENDPOINTS = {
 	GET_ADDRESSES: 'api/getAddresses',
 };
 
+// Development
 const development = {
 	API_URL_REGISTER_USER: `${API_BASE_URL_DEVELOPMENT}/${ENDPOINTS.REGISTER_USER}`,
 	API_URL_LOGIN_USER: `${API_BASE_URL_DEVELOPMENT}/${ENDPOINTS.LOGIN_USER}`,

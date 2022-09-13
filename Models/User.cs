@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace hometask.Models
 {
+	// User model
 	public class User
 	{
 		[Key]

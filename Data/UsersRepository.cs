@@ -13,6 +13,7 @@ namespace hometask.Data
 			_context = context;
 		}
 
+		// Create a new user
 		public User CreateUser(User user)
 		{
 			_context.Users.Add(user);
@@ -20,6 +21,7 @@ namespace hometask.Data
 			return user;
 		}
 
+		// Create a new address
 		public Address CreateAddress(Address address)
 		{
 			_context.Addresses.Add(address);
@@ -27,26 +29,31 @@ namespace hometask.Data
 			return address;
 		}
 
+		// Get user by username
 		public User GetByUsername(string username)
 		{
-			return _context.Users.FirstOrDefault(user => user.Username == username);
+			return  _context.Users.FirstOrDefault(user => user.Username == username);
 		}
 
+		// Get user by id
 		public User GetUserById(int id)
 		{
 			return _context.Users.FirstOrDefault(user => user.Id == id);
 		}
 
+		// Get address by id
 		public Address GetAddressById(int id)
 		{
 			return _context.Addresses.FirstOrDefault(address => address.Id == id);
 		}
 
+		// Get all users list
 		public List<User> GetAllUsers()
 		{
 			return _context.Users.ToList();
 		}
 
+		// Delete existing user
 		public bool DeleteUser(int id)
 		{
 			Address address = GetAddressById(id);
@@ -59,6 +66,7 @@ namespace hometask.Data
 			return true;
 		}
 
+		// Update a user details
 		public bool UpdateUser(User user, Address address)
 		{
 			_context.Addresses.Update(address);
@@ -67,6 +75,7 @@ namespace hometask.Data
 			return true;
 		}
 
+		// Get all addresses list
 		public List<Address> GetAllAddresses()
 		{
 			return _context.Addresses.ToList();

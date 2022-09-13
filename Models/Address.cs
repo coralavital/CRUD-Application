@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace hometask.Models
 {
+	// Address model 
 	public class Address
 	{
 		[Key]

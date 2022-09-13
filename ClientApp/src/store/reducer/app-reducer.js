@@ -1,3 +1,5 @@
+
+// Reducer for keep app state
 export const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN": {

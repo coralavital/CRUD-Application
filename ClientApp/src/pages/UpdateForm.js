@@ -8,21 +8,25 @@ const UpdateForm = (props) => {
 	const { user } = props;
 	const { address } = props;
 
-
+	// Initial Form Data
 	const initialFormData = Object.freeze({
 		username: "",
 		email: "",
 		userAddress: ""
 	});
 
+	// Form fields
 	const [formData, setFormData] = useState(initialFormData);
 
+	// Handle change form data
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
 		});
 	};
+
+	// Handle submit - PUT request
 	function handleSubmit(e) {
 		e.preventDefault();
 		const userToUpdate = {
@@ -45,12 +49,14 @@ const UpdateForm = (props) => {
 			.then(response => {
 				if (!response) {
 					throw new Error(response.message);
+					props.setShowDialog(false)
 				}
 				dispatch({
 					type: "UPDATED",
 					payload: { ...response }
 				});
-				props.setShowDialog(false)
+				
+				alert(response.message)
 			})
 			.catch((error) => {
 				console.log(error);

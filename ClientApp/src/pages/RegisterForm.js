@@ -3,15 +3,13 @@ import { Navigate } from 'react-router-dom';
 import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
 
+// Register page
 const RegisterForm = (props) => {
 
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	//const [userAddress, setuserAddress] = useState('');
 	const [redirect, setRedirect] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
 
+	// Initial Form Data
 	const initialFormData = Object.freeze({
 		username: "",
 		email: "",
@@ -19,8 +17,10 @@ const RegisterForm = (props) => {
 		userAddress: ""
 	});
 
+	// Form fields
 	const [formData, setFormData] = useState(initialFormData);
 
+	// Handle change form data
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -28,6 +28,7 @@ const RegisterForm = (props) => {
 		});
 	};
 
+	// Handle submit - POST request
 	function handleSubmit(e) {
 		e.preventDefault();
 		const userToCreate = {
@@ -51,25 +52,26 @@ const RegisterForm = (props) => {
 				if (!response.user) {
 					throw new Error(response.message);
 				}
-
-				dispatch({
-					type: "REGISTER",
-					payload: { ...response }
-				});
-				setRedirect(true);
-
+				if(props.setShowDialog){
+					props.setShowDialog(false);
+					setRedirect(true);
+				}
+				else {
+					setRedirect(true);
+					dispatch({
+						type: "REGISTER",
+						payload: { ...response }
+					});
+				}
+				
 			})
 			.catch((error) => {
 				console.log(error);
 				alert(error);
 			});
-
-		if (props.flag) {
-			props.setShowDialog(false);
-			return;
-		}
 	};
 
+	// The user registered and transfer to the home page
 	if (redirect) {
 		console.log(`User successfully created and login automatically`);
 		return <Navigate to={"/"} />
@@ -77,7 +79,7 @@ const RegisterForm = (props) => {
 
 	return (
 		<>
-			{props.flag ?
+			{props.flag == true ?
 				<>
 					<form onSubmit={handleSubmit}>
 						<div className='mb-3'>

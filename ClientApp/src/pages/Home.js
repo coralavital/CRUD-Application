@@ -21,13 +21,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateForm from './UpdateForm';
 import RegisterForm from './RegisterForm';
+import { Navigate } from 'react-router-dom';
 
-const StyledTable = styled.table`
-    border-collapse: collapse;
-    margin: auto;
-  `;
 
+
+
+// Home page - for a logged in user 
 const Home = () => {
+
 	const [users, setUsers] = useState([]);
 	const { state, dispatch } = useContext(AuthContext);
 	const [showDialog, setShowDialog] = useState(false);
@@ -35,6 +36,7 @@ const Home = () => {
 
 	console.log(state);
 
+	// Get all users - GET request
 	function getUsers() {
 		const url = Constants.API_URL_GET_USERS;
 
@@ -51,6 +53,8 @@ const Home = () => {
 			});
 
 	}
+
+	// Get all addresses - GET request
 	function getAddresses() {
 		const url = Constants.API_URL_GET_ADDRESSES;
 
@@ -68,51 +72,63 @@ const Home = () => {
 		return;
 	}
 
-	
-
-
-
+	// Handle dialog open
 	const handleClickOpen = () => {
 		setShowDialog(true);
 	};
 
+	// Handle dialog close
 	const handleClose = () => {
 		setShowDialog(false);
 	};
 
+	// Rows for showing table - contain users list
 	const rows = [...users];
-	const addressesList = [...addresses]
-	
 
+	// Rows for showing table - contain addresses list
+	const addressesList = [...addresses]
+
+	// If user logged in display users table
 	if (state.user) {
+
+		// Get the addresses list
 		getAddresses();
+		// Get the users list
 		getUsers();
+
+		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>
-				<StyledTable>
-				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
-				<TableContainer component={Paper} style={{ maxHeight: 650, maxWidth: 700}}>
-					<Table aria-label="collapsible table" stickyHeader >
-						<TableHead>
-							<TableRow>
-								<TableCell />
-								<TableCell>User Name</TableCell>
-								<TableCell align="right">Email</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{rows.map((row) => (
-								<Row key={row.username} row={row} address={addressesList.find((address) => {return address.id === row.id})} />
-							))}
-						</TableBody>
+				<div className='border'>
+					{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
+					<TableContainer component={Paper} style={{ maxHeight: 650, maxWidth: 700, minHeight: 650, minWidth: 700, fontSize: 50 }}>
+						<Table aria-label="collapsible table" stickyHeader >
+							<TableHead>
+								<TableRow>
+									<TableCell />
+									<TableCell>User Name</TableCell>
+									<TableCell align="right">Email</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{rows.map((row) => (
+									<Row key={row.username} row={row} address={addressesList.find((address) => { return address.id === row.id })} />
+								))}
+							</TableBody>
 
-					</Table>
-				</TableContainer>
-				</StyledTable>
+						</Table>
+					</TableContainer>
+				</div>
 				<>
 					{showDialog ?
 						<>
-							<Dialog open={showDialog} onClose={handleClose}>
+							<Dialog open={showDialog} onClose={handleClose} PaperProps={{
+								style: {
+
+									minHeight: 300,
+									minWidth: 400,
+								},
+							}}>
 								<DialogTitle>Register User</DialogTitle>
 								<DialogContent>
 									<RegisterForm flag={true} setShowDialog={setShowDialog} />
@@ -124,10 +140,9 @@ const Home = () => {
 				</>
 				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1" >Add User</button>
 			</div>
-
 		)
 	}
-
+	// If user not logged in display welcome page
 	return (
 		<div className='main'>
 			<div>
@@ -143,25 +158,25 @@ const Home = () => {
 
 export default (Home);
 
-
+// For every user create a row with the user details
 function Row(props) {
 	const { row } = props;
-	const {address} = props;
+	const { address } = props;
 	const [open, setOpen] = useState(false);
 	const [showDialog, setShowDialog] = useState(false);
-	//const [addresses, setAddresses] = useState([]);
+	const { state, dispatch } = useContext(AuthContext);
 
-
-
+	// Handle dialog open
 	const handleClickOpen = () => {
 		setShowDialog(true);
 	};
 
+	// Handle dialog close
 	const handleClose = () => {
 		setShowDialog(false);
 	};
 
-
+	// Delete user function - DELETE request
 	function deleteUser(id) {
 		const url = `${Constants.API_URL_DELETE_USER}?id=${id}`;
 
@@ -183,7 +198,7 @@ function Row(props) {
 			});
 	}
 
-
+	// Return user row with option to open dialog for update user as a logged in user
 	return (
 		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100 }} >
 			<TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -220,9 +235,17 @@ function Row(props) {
 										<TableCell>{row.username}</TableCell>
 										<TableCell>{row.email}</TableCell>
 										<TableCell>{address.userAddress}</TableCell>
-										<TableCell align="right">
-											<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>
-											<button onClick={() => { if (window.confirm(`Are you sure you want to delete the user "${row.id}"?`)) deleteUser(row.id) }} className="btn btn-secondary btn-lg mx-1 my-1">Delete</button>
+										<TableCell align="center">
+											{state.user.id != row.id ?
+												<>
+													<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>
+													<button onClick={() => { if (window.confirm(`Are you sure you want to delete the user "${row.username}"?`)) deleteUser(row.id) }} className="btn btn-secondary btn-lg mx-1 my-1">Delete</button>
+
+												</> : <>
+													<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>
+													{/*<button onClick={() => { if (window.confirm(`Are you sure you want to delete your user?\nAfter deleted you automatically logged out`)) deleteUser(row.id) }} className="btn btn-secondary btn-lg mx-1 my-1">Delete</button>*/}
+												</>
+											}
 										</TableCell>
 									</TableRow>
 								</TableBody>
@@ -234,10 +257,16 @@ function Row(props) {
 			<>
 				{showDialog ?
 					<>
-						<Dialog open={showDialog} onClose={handleClose}>
+						<Dialog open={showDialog} onClose={handleClose} PaperProps={{
+							style: {
+
+								minHeight: 300,
+								minWidth: 400,
+							},
+						}}>
 							<DialogTitle>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setShowDialog={setShowDialog} user={row} address={address}/>
+								<UpdateForm setShowDialog={setShowDialog} user={row} address={address} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>

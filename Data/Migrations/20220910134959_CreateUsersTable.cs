@@ -35,7 +35,7 @@ namespace hometask.Data.Migrations
 				name: "IX_Users_Email",
 				table: "Users",
 				column: "Email",
-				unique: true);
+				unique: false);
 
 		}
 

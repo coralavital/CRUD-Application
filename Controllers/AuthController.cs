@@ -18,7 +18,7 @@ namespace hometask.Controllers
 			_repository = repository;
 			_jwtService = jwtService;
 		}
-
+		// Http POST request for register a uaer
 		[HttpPost("register")]
 		public IActionResult Register(RegisterDto dto)
 		{
@@ -32,6 +32,11 @@ namespace hometask.Controllers
 					Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
 				};
 
+				if (_repository.GetByUsername(user.Username) != null)
+				{
+					return BadRequest(error: new { message = "The user already exist", error = true });
+				}
+
 				var createResponse = _repository.CreateUser(user);
 
 				if (createResponse != null)
@@ -42,9 +47,6 @@ namespace hometask.Controllers
 					};
 					_repository.CreateAddress(address);
 				}
-
-
-
 
 				return Ok(new
 				{
@@ -60,6 +62,7 @@ namespace hometask.Controllers
 
 		}
 
+		// Http POST request for login a uaer
 		[HttpPost("login")]
 		public IActionResult Login(LoginDto dto)
 		{
@@ -88,6 +91,7 @@ namespace hometask.Controllers
 			});
 		}
 
+		// Http GST request to get the current user
 		[HttpGet("currentUser")]
 		public IActionResult currentUser()
 		{
@@ -109,6 +113,7 @@ namespace hometask.Controllers
 			}
 		}
 
+		// Http GET request for get addresses list
 		[HttpGet("getAddresses")]
 		public IActionResult getAddresses()
 		{
@@ -116,16 +121,18 @@ namespace hometask.Controllers
 			return Ok(addresses);
 		}
 
+		// Http POST request for logout user
 		[HttpPost("logout")]
 		public IActionResult Logout()
 		{
 			Response.Cookies.Delete("jwt");
 			return Ok(new
 			{
-				message = "success"
+				message = "User logged out"
 			});
 		}
 
+		// Http GET request for get users list
 		[HttpGet("getAllUsers")]
 		public IActionResult GetAllUsers()
 		{
@@ -140,13 +147,18 @@ namespace hometask.Controllers
 			_repository.DeleteUser(id);
 			return Ok(new
 			{
-				message = "success"
+				message = "User deleted"
 			});
 		}
 
+		// Http PUT request for update user data
 		[HttpPut("updateUser")]
 		public IActionResult UpdateUser(UpdateDto dto)
 		{
+			if (_repository.GetByUsername(dto.Username) != null)
+			{
+				return BadRequest(error: new { message = "The username already exist", error = true });
+			}
 			Address address = _repository.GetAddressById(dto.Id);
 			User user = _repository.GetUserById(dto.Id);
 			user.Username = dto.Username;
@@ -155,7 +167,7 @@ namespace hometask.Controllers
 			_repository.UpdateUser(user, address);
 			return Ok(new
 			{
-				message = "success"
+				message = "User updated"
 			});
 		}
 	}

@@ -6,6 +6,7 @@ namespace hometask.Helpers
 {
 	public class JwtService
 	{
+		// JWT service
 		private string secureKey = "This is a very secure key";
 
 		public string Generate(int id)
