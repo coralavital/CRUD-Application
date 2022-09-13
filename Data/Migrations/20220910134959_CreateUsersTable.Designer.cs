@@ -36,7 +36,7 @@ namespace hometask.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Username");
+                    b.HasKey("Id");
 
                     b.HasIndex("Username")
                         .IsUnique();

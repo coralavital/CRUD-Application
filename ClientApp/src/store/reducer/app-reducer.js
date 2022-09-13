@@ -4,8 +4,6 @@ export const reducer = (state, action) => {
       return {
         ...state,
         user: action.payload.user
-        
-        
       };
     }
     case "REGISTER": {
@@ -19,6 +17,13 @@ export const reducer = (state, action) => {
         return {
         ...state,
         user: undefined
+      };
+    }
+
+	case "UPDATE": {
+        return {
+        ...state,
+        user: action.payload.user,
       };
     }
     

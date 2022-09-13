@@ -1,14 +1,19 @@
 using hometask.Models;
+using hometask.Data;
 
 namespace hometask.Data
 {
 	public interface IUserRepository
 	{
-		User Create(User user);
+		User CreateUser(User user);
+		Address CreateAddress(Address address);
 		User GetByUsername(string username);
-		User GetById(int id);
+		User GetUserById(int id);
+		Address GetAddressById(int id);
 		List<User> GetAllUsers();
-		void DeleteUser(int id);
-		//void UpdateUser(int id);
+		bool DeleteUser(int id);
+		bool UpdateUser(User user);
+
+		List<Address> GetAllAddresses();
 	}
 }

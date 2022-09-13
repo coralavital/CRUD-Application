@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
- 
+
 const LoginForm = () => {
-  const { state, dispatch } = useContext(AuthContext);
+	const { state, dispatch } = useContext(AuthContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [redirect, setRedirect] = useState(false);
@@ -42,22 +42,21 @@ const LoginForm = () => {
 		})
 			.then(response => response.json())
 			.then(response => {
-        if(response.error){
-          throw new Error(response.message);
-        }
-        dispatch({
-          type: "LOGIN",
-          payload: { ...response }
-        });
-
-        setRedirect(true);
+				if (!response.user) {
+					throw new Error(response.message);
+				}
+				dispatch({
+					type: "LOGIN",
+					payload: { ...response }
+				});
 
 			})
 			.catch((error) => {
-        console.log("ERROR")
 				console.log(error);
-        alert(error);
+				alert(error);
 			});
+
+		setRedirect(true);
 	}
 
 	if (redirect) {
@@ -78,7 +77,7 @@ const LoginForm = () => {
 					<div className='mb-3'>
 						<label>Password</label>
 						<input type='password' name='password' className='form-control' placeholder='Enter Password'
-							onChange={handleChange} required />
+							onChange={handleChange} required minLength={6} maxLength={20} />
 					</div>
 					<div className='d-grid'>
 						<button type='submit' className='btn btn-primary'>

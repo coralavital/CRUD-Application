@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -13,19 +13,117 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
-import Constants from '../utilities/Constants';
 import '../custom.css';
 import { AuthContext } from '../App';
+import Constants from '../utilities/Constants';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import UpdateForm from './UpdateForm';
+import RegisterForm from './RegisterForm';
+
+
 
 const Home = () => {
+	const [users, setUsers] = useState([]);
 	const { state, dispatch } = useContext(AuthContext);
+	const [showDialog, setShowDialog] = useState(false);
+	const [addresses, setAddresses] = useState([]);
+
 	console.log(state);
 
+	function getUsers() {
+		const url = Constants.API_URL_GET_USERS;
+
+		fetch(url, {
+			method: 'GET'
+		})
+			.then(response => response.json())
+			.then(usersFromServer => {
+				setUsers(usersFromServer);
+			})
+			.catch((error) => {
+				console.log(error);
+				alert(error);
+			});
+
+	}
+	function getAddresses() {
+		const url = Constants.API_URL_GET_ADDRESSES;
+
+		fetch(url, {
+			method: 'GET'
+		})
+			.then(response => response.json())
+			.then(addressesFromServer => {
+				setAddresses(addressesFromServer);
+			})
+			.catch((error) => {
+				console.log(error);
+				alert(error);
+			});
+		return;
+	}
+
+	
+
+
+
+	const handleClickOpen = () => {
+		setShowDialog(true);
+	};
+
+	const handleClose = () => {
+		setShowDialog(false);
+	};
+
+	const rows = [...users];
+	const addressesList = [...addresses]
+	
+
 	if (state.user) {
+		getAddresses();
+		getUsers();
 		return (
 			<div className='main'>
 				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
+				<TableContainer component={Paper}>
+					<Table aria-label="collapsible table">
+						<TableHead>
+							<TableRow>
+								<TableCell />
+								<TableCell>User Name</TableCell>
+								<TableCell align="right">Email</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{rows.map((row) => (
+								<Row key={row.username} row={row} address={addressesList.find((address) => {return address.id === row.id})} />
+							))}
+						</TableBody>
+
+					</Table>
+				</TableContainer>
+				<>
+					{showDialog ?
+						<>
+							<Dialog open={showDialog} onClose={handleClose}>
+								<DialogTitle>Register User</DialogTitle>
+								<DialogContent>
+									<RegisterForm flag={true} setShowDialog={setShowDialog} />
+								</DialogContent>
+							</Dialog>
+						</> :
+						<> </>
+					}
+				</>
+				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1" >Add User</button>
 			</div>
+
 		)
 	}
 
@@ -45,33 +143,68 @@ const Home = () => {
 export default Home;
 
 
-function createData(name, calories, fat, carbs, protein, price) {
-	return {
-		name,
-		calories,
-		fat,
-		carbs,
-		protein,
-		price,
-		history: [
-			{
-				date: '2020-01-05',
-				customerId: '11091700',
-				amount: 3,
-			},
-			{
-				date: '2020-01-02',
-				customerId: 'Anonymous',
-				amount: 1,
-			},
-		],
-	};
-}
-
 function Row(props) {
 	const { row } = props;
-	const [open, setOpen] = React.useState(false);
+	const {address} = props;
+	const [open, setOpen] = useState(false);
+	const [showDialog, setShowDialog] = useState(false);
+	//const [addresses, setAddresses] = useState([]);
 
+
+
+	const handleClickOpen = () => {
+		setShowDialog(true);
+	};
+
+	const handleClose = () => {
+		setShowDialog(false);
+	};
+
+
+	function deleteUser(id) {
+		const url = `${Constants.API_URL_DELETE_USER}?id=${id}`;
+
+		fetch(url, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			// credentials: 'include',
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response.response) {
+					throw new Error(response);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+				alert(error);
+			});
+	}
+
+	//function getAddresses() {
+	//	const url = Constants.API_URL_GET_ADDRESSES;
+
+	//	fetch(url, {
+	//		method: 'GET'
+	//	})
+	//		.then(response => response.json())
+	//		.then(addressesFromServer => {
+	//			setAddresses(addressesFromServer);
+	//		})
+	//		.catch((error) => {
+	//			console.log(error);
+	//			alert(error);
+	//		});
+	//	return;
+	//}
+
+	//getAddresses();
+
+	//const addressesList = [...addresses]
+	//const address = addressesList.find((address) => {return address.id === row.id})
+	//alert(address.userAddress)
 	return (
 		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100 }} >
 			<TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -84,13 +217,9 @@ function Row(props) {
 						{open ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />}
 					</IconButton>
 				</TableCell>
-				<TableCell component="th" scope="row">
-					{row.name}
-				</TableCell>
-				<TableCell align="right">{row.calories}</TableCell>
-				<TableCell align="right">{row.fat}</TableCell>
-				<TableCell align="right">{row.carbs}</TableCell>
-				<TableCell align="right">{row.protein}</TableCell>
+
+				<TableCell>{row.username}</TableCell>
+				<TableCell align="right">{row.email}</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -108,25 +237,13 @@ function Row(props) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{/*{row.history.map((historyRow) => (
-					  <TableRow key={historyRow.date}>
-						<TableCell component="th" scope="row">
-						  {historyRow.date}
-						</TableCell>
-						<TableCell>{historyRow.customerId}</TableCell>
-						<TableCell align="right">{historyRow.amount}</TableCell>
-						<TableCell align="right">
-						  {Math.round(historyRow.amount * row.price * 100) / 100}
-						</TableCell>
-					  </TableRow>
-					))}*/}
 									<TableRow>
-										<TableCell></TableCell>
-										<TableCell></TableCell>
-										<TableCell></TableCell>
+										<TableCell>{row.username}</TableCell>
+										<TableCell>{row.email}</TableCell>
+										<TableCell>{address.userAddress}</TableCell>
 										<TableCell align="right">
-											<button onClick={() => { }} className="btn btn-dark btn-lg mx-1 my-1">Update</button>
-											<button onClick={() => { }} className="btn btn-secondary btn-lg">Delete</button>
+											<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>
+											<button onClick={() => { if (window.confirm(`Are you sure you want to delete the user "${row.id}"?`)) deleteUser(row.id) }} className="btn btn-secondary btn-lg mx-1 my-1">Delete</button>
 										</TableCell>
 									</TableRow>
 								</TableBody>
@@ -135,8 +252,21 @@ function Row(props) {
 					</Collapse>
 				</TableCell>
 			</TableRow>
+			<>
+				{showDialog ?
+					<>
+						<Dialog open={showDialog} onClose={handleClose}>
+							<DialogTitle>Update User Details</DialogTitle>
+							<DialogContent>
+								<UpdateForm setShowDialog={setShowDialog} id={row.id} />
+							</DialogContent>
+						</Dialog>
+					</> : <> </>
+				}
+			</>
 		</React.Fragment>
 	);
+
 }
 
 Row.propTypes = {
@@ -157,11 +287,5 @@ Row.propTypes = {
 	}).isRequired,
 };
 
-const rows = [
-	createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-	createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-	createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-	createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-	createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
+
 

@@ -1,11 +1,12 @@
 using hometask.Models;
+
 namespace hometask.Dtos
 {
-	public class RegisterDto
+	public class UpdateDto
 	{
+		public int Id { get; set; }
 		public string Username { get; set; }
 		public string Email { get; set; }
-		public string Password { get; set; }
-		public string UserAddress { get; set; }
+		//public Address? UserAddress{ get; set; }
 	}
 }
