@@ -58,6 +58,7 @@ namespace hometask.Data
 		{
 			Address address = GetAddressById(id);
 			_context.Addresses.Remove(address);
+			_context.SaveChanges();
 
 			User user = GetUserById(id);
 			_context.Users.Remove(user);

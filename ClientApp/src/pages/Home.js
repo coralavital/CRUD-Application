@@ -188,9 +188,10 @@ function Row(props) {
 		})
 			.then(response => response.json())
 			.then(response => {
-				if (response.response) {
+				if (!response.message) {
 					throw new Error(response);
 				}
+				alert("The user deleted");
 			})
 			.catch((error) => {
 				console.log(error);

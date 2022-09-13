@@ -8,6 +8,7 @@ const RegisterForm = (props) => {
 
 	const [redirect, setRedirect] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
+	const { setShowDialog } = props
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
@@ -52,23 +53,23 @@ const RegisterForm = (props) => {
 				if (!response.user) {
 					throw new Error(response.message);
 				}
-				if(props.setShowDialog){
-					props.setShowDialog(false);
-					setRedirect(true);
+				if(setShowDialog) {
+					setShowDialog(false);
 				}
 				else {
-					setRedirect(true);
 					dispatch({
 						type: "REGISTER",
 						payload: { ...response }
 					});
 				}
-				
+				setRedirect(true);
 			})
 			.catch((error) => {
 				console.log(error);
 				alert(error);
 			});
+
+
 	};
 
 	// The user registered and transfer to the home page
