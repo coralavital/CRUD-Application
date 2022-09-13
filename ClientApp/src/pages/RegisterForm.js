@@ -53,9 +53,11 @@ const RegisterForm = (props) => {
 				if (!response.user) {
 					throw new Error(response.message);
 				}
+				
 				if(setShowDialog) {
 					setShowDialog(false);
 				}
+
 				else {
 					dispatch({
 						type: "REGISTER",
