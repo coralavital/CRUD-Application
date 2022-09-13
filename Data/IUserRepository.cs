@@ -12,8 +12,7 @@ namespace hometask.Data
 		Address GetAddressById(int id);
 		List<User> GetAllUsers();
 		bool DeleteUser(int id);
-		bool UpdateUser(User user);
-
+		bool UpdateUser(User user, Address address);
 		List<Address> GetAllAddresses();
 	}
 }

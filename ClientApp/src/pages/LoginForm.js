@@ -32,6 +32,7 @@ const LoginForm = () => {
 			password: formData.password,
 		};
 
+		// Send a POST request for login user
 		fetch(login_url, {
 			method: 'POST',
 			headers: {
@@ -49,14 +50,14 @@ const LoginForm = () => {
 					type: "LOGIN",
 					payload: { ...response }
 				});
+				// Navigate to the home page as a logged in user
+				setRedirect(true);
 
 			})
 			.catch((error) => {
 				console.log(error);
 				alert(error);
 			});
-
-		setRedirect(true);
 	}
 
 	if (redirect) {

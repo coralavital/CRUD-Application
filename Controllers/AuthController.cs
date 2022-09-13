@@ -147,10 +147,12 @@ namespace hometask.Controllers
 		[HttpPut("updateUser")]
 		public IActionResult UpdateUser(UpdateDto dto)
 		{
+			Address address = _repository.GetAddressById(dto.Id);
 			User user = _repository.GetUserById(dto.Id);
 			user.Username = dto.Username;
 			user.Email = dto.Email;
-			_repository.UpdateUser(user);
+			address.UserAddress = dto.UserAddress;
+			_repository.UpdateUser(user, address);
 			return Ok(new
 			{
 				message = "success"

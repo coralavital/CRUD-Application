@@ -5,14 +5,14 @@ import { AuthContext } from '../App';
 const UpdateForm = (props) => {
 
 	const { state, dispatch } = useContext(AuthContext);
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [address, setAddress] = useState('');
+	const { user } = props;
+	const { address } = props;
+
 
 	const initialFormData = Object.freeze({
 		username: "",
 		email: "",
-		address: ""
+		userAddress: ""
 	});
 
 	const [formData, setFormData] = useState(initialFormData);
@@ -26,9 +26,10 @@ const UpdateForm = (props) => {
 	function handleSubmit(e) {
 		e.preventDefault();
 		const userToUpdate = {
-			id: props.id,
-			username: formData.username,
-			email: formData.email,
+			id: user.id,
+			username: formData.username? formData.username : user.username,
+			email: formData.email? formData.email : user.email,
+			userAddress: formData.userAddress? formData.userAddress : address.userAddress
 		};
 
 
@@ -43,17 +44,17 @@ const UpdateForm = (props) => {
 			.then(response => response.json())
 			.then(response => {
 				if (!response) {
-					throw new Error("response.message");
+					throw new Error(response.message);
 				}
 				dispatch({
 					type: "UPDATED",
 					payload: { ...response }
 				});
-
+				props.setShowDialog(false)
 			})
 			.catch((error) => {
 				console.log(error);
-				alert("error");
+				alert(error);
 			});
 
 
@@ -64,13 +65,18 @@ const UpdateForm = (props) => {
 		<form onSubmit={handleSubmit}>
 			<div className='mb-3'>
 				<label>User Name</label>
-				<input type='text' name="username" className='form-control' placeholder='Enter User Name'
-					onChange={handleChange} required />
+				<input type='text' name="username" className='form-control' placeholder={user.username}
+					onChange={handleChange} />
 			</div>
 			<div className='mb-3'>
 				<label>Email Address</label>
-				<input type='email' name='email' className='form-control' placeholder='Enter Email'
-					onChange={handleChange} required />
+				<input type='email' name='email' className='form-control' placeholder={user.email}
+					onChange={handleChange} />
+			</div>
+			<div className='mb-3'>
+				<label>User Address</label>
+				<input type='text' name='userAddress' className='form-control' placeholder={address.userAddress}
+					onChange={handleChange} />
 			</div>
 			<div className="col-md-12 text-center">
 				<button type='submit' className='btn btn-primary btn-lg btn-block d-grid mb-2 mx-auto' >Update User</button>

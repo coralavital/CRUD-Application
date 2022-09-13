@@ -16,17 +16,16 @@ import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined
 import '../custom.css';
 import { AuthContext } from '../App';
 import Constants from '../utilities/Constants';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import UpdateForm from './UpdateForm';
 import RegisterForm from './RegisterForm';
 
-
+const StyledTable = styled.table`
+    border-collapse: collapse;
+    margin: auto;
+  `;
 
 const Home = () => {
 	const [users, setUsers] = useState([]);
@@ -90,9 +89,10 @@ const Home = () => {
 		getUsers();
 		return (
 			<div className='main'>
+				<StyledTable>
 				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
-				<TableContainer component={Paper}>
-					<Table aria-label="collapsible table">
+				<TableContainer component={Paper} style={{ maxHeight: 650, maxWidth: 700}}>
+					<Table aria-label="collapsible table" stickyHeader >
 						<TableHead>
 							<TableRow>
 								<TableCell />
@@ -108,6 +108,7 @@ const Home = () => {
 
 					</Table>
 				</TableContainer>
+				</StyledTable>
 				<>
 					{showDialog ?
 						<>
@@ -140,7 +141,7 @@ const Home = () => {
 	)
 }
 
-export default Home;
+export default (Home);
 
 
 function Row(props) {
@@ -169,7 +170,6 @@ function Row(props) {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			// credentials: 'include',
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -183,28 +183,7 @@ function Row(props) {
 			});
 	}
 
-	//function getAddresses() {
-	//	const url = Constants.API_URL_GET_ADDRESSES;
 
-	//	fetch(url, {
-	//		method: 'GET'
-	//	})
-	//		.then(response => response.json())
-	//		.then(addressesFromServer => {
-	//			setAddresses(addressesFromServer);
-	//		})
-	//		.catch((error) => {
-	//			console.log(error);
-	//			alert(error);
-	//		});
-	//	return;
-	//}
-
-	//getAddresses();
-
-	//const addressesList = [...addresses]
-	//const address = addressesList.find((address) => {return address.id === row.id})
-	//alert(address.userAddress)
 	return (
 		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100 }} >
 			<TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -258,7 +237,7 @@ function Row(props) {
 						<Dialog open={showDialog} onClose={handleClose}>
 							<DialogTitle>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setShowDialog={setShowDialog} id={row.id} />
+								<UpdateForm setShowDialog={setShowDialog} user={row} address={address}/>
 							</DialogContent>
 						</Dialog>
 					</> : <> </>

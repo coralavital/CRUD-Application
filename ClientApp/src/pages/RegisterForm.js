@@ -11,7 +11,7 @@ const RegisterForm = (props) => {
 	//const [userAddress, setuserAddress] = useState('');
 	const [redirect, setRedirect] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
-	
+
 	const initialFormData = Object.freeze({
 		username: "",
 		email: "",
@@ -96,7 +96,7 @@ const RegisterForm = (props) => {
 								onChange={handleChange} required minLength={6} maxLength={20} />
 						</div>
 						<div className='mb-3'>
-							<label>Address</label>
+							<label>User Address</label>
 							<input type='text' name='userAddress' className='form-control' placeholder='Enter Address'
 								onChange={handleChange} required />
 						</div>
@@ -127,7 +127,7 @@ const RegisterForm = (props) => {
 										onChange={handleChange} required minLength={6} maxLength={20} />
 								</div>
 								<div className='mb-3'>
-									<label>Address</label>
+									<label>User Address</label>
 									<input type='text' name='userAddress' className='form-control' placeholder='Enter Address'
 										onChange={handleChange} required />
 								</div>

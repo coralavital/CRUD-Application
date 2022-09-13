@@ -7,6 +7,6 @@ namespace hometask.Dtos
 		public int Id { get; set; }
 		public string Username { get; set; }
 		public string Email { get; set; }
-		//public Address? UserAddress{ get; set; }
+		public string UserAddress{ get; set; }
 	}
 }

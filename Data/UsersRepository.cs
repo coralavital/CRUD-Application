@@ -54,13 +54,14 @@ namespace hometask.Data
 
 			User user = GetUserById(id);
 			_context.Users.Remove(user);
-			
+
 			_context.SaveChanges();
 			return true;
 		}
 
-		public bool UpdateUser(User user)
+		public bool UpdateUser(User user, Address address)
 		{
+			_context.Addresses.Update(address);
 			_context.Users.Update(user);
 			_context.SaveChanges();
 			return true;
