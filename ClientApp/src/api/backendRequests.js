@@ -40,6 +40,7 @@ const REGISTER_USER = (data, onSuccess, onError) => {
 }
 
 const LOGOUT_USER = (data, onSuccess, onError) => {
+	// Get all addresses - GET request
 	const logout_url = Constants.API_URL_LOGOUT_USER;
 	fetch(logout_url, {
 		method: 'POST',
@@ -60,29 +61,27 @@ const GET_ALL_ADDRESSES = (data, onSuccess, onError) => {
 		method: 'GET'
 	})
 		.then(response => response.json())
-		.then(addressesFromServer => {
-			data.setAddresses(addressesFromServer);
+		.then(response => {
+			onSuccess(response);
 		})
 		.catch((error) => {
-			console.log(error);
-			alert(error);
+			onError(error);
 		});
 }
 
-//const GET_ALL_USERS = (data, onSuccess, onError) => {
-//	const url = Constants.API_URL_GET_USERS;
-//	fetch(url, {
-//		method: 'GET'
-//	})
-//		.then(response => response.json())
-//		.then(addressesFromServer => {
-//			setAddresses(addressesFromServer);
-//		})
-//		.catch((error) => {
-//			console.log(error);
-//			alert(error);
-//		});
-//}
+const GET_ALL_USERS = (data, onSuccess, onError) => {
+	const url = Constants.API_URL_GET_USERS;
+	fetch(url, {
+		method: 'GET'
+	})
+		.then(response => response.json())
+		.then(response => {
+			onSuccess(response);
+		})
+		.catch((error) => {
+			onError(error);
+		});
+}
 
 
-export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, }
+export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS }

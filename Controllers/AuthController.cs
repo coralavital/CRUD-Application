@@ -141,6 +141,10 @@ namespace hometask.Controllers
 		public IActionResult getAddresses()
 		{
 			var addresses = _repository.GetAllAddresses();
+			if (addresses == null)
+			{
+				return BadRequest(error: new { message = "Error", error = true });
+			}
 			return Ok(addresses);
 		}
 
@@ -160,6 +164,10 @@ namespace hometask.Controllers
 		public IActionResult GetAllUsers()
 		{
 			var users = _repository.GetAllUsers();
+			if (users == null)
+			{
+				return BadRequest(error: new { message = "Error", error = true });
+			}
 			return Ok(users);
 		}
 

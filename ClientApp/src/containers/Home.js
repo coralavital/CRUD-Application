@@ -8,7 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import '../custom.css';
 import { AuthContext } from '../App';
-import Constants from '../utilities/Constants';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -33,43 +32,30 @@ const Home = () => {
 	const [showCreatedAlert, setShowCreatedAlert] = useState(false);
 
 	useEffect(() => {
-		getUsers()
-		GET_ALL_ADDRESSES(setAddresses)
+		GET_ALL_ADDRESSES({},
+			(response) => {
+				if (!response) {
+					throw new Error(response.message);
+				}
+				setAddresses(response);
+			},
+			(error) => {
+				console.log(error);
+				alert(error);
+			})
+
+		GET_ALL_USERS({},
+			(response) => {
+				if (!response) {
+					throw new Error(response.message);
+				}
+				setUsers(response);
+			},
+			(error) => {
+				console.log(error);
+				alert(error);
+			})
 	}, [addedUser, updatedUser])
-
-	// Get all users - GET request
-	function getUsers() {
-		const url = Constants.API_URL_GET_USERS;
-
-		fetch(url, {
-			method: 'GET'
-		})
-			.then(response => response.json())
-			.then(usersFromServer => {
-				setUsers(usersFromServer);
-			})
-			.catch((error) => {
-				console.log(error);
-				alert(error);
-			});
-	}
-
-	// Get all addresses - GET request
-	function getAddresses() {
-		const url = Constants.API_URL_GET_ADDRESSES;
-
-		fetch(url, {
-			method: 'GET'
-		})
-			.then(response => response.json())
-			.then(addressesFromServer => {
-				setAddresses(addressesFromServer);
-			})
-			.catch((error) => {
-				console.log(error);
-				alert(error);
-			});
-	}
 
 	function onDeleteUser(id) {
 		setUsers(users.filter(user => user.id !== id));
@@ -101,14 +87,17 @@ const Home = () => {
 				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
 				<TableContainer component={Paper} sx={{
 					maxHeight: 425, maxWidth: 900, minHeight: 425, minWidth: 900, margin: 'auto', marginBottom: 3, marginTop: 3, borderRadius: 6,
+					boxShadow: 10,
 					"&::-webkit-scrollbar": {
-						width: 8,
+						width: 7, height: 2
 					},
 
 					"&::-webkit-scrollbar-thumb": {
 						backgroundColor: "silver",
 						borderRadius: 10
-					}
+					},
+
+					
 				}}>
 					<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
 						<TableHead sx={{ borderBottom: "1px solid black", }}>
@@ -117,8 +106,9 @@ const Home = () => {
 									backgroundColor: "silver",
 									fontSize: "1.3rem",
 									fontWeight: "bolder",
-									color: "rgba(96, 96, 96)"
+									color: "rgba(96, 96, 96)",
 								},
+								width: 100
 							}} >
 								<TableCell />
 								<TableCell align="center">Email</TableCell>
@@ -127,9 +117,9 @@ const Home = () => {
 						</TableHead>
 						<TableBody>
 							{rows.map((row) => (
-								<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert} 
-								row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
-								address={addressesList.find((address) => { return address.userId === row.id })} />
+								<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
+									row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
+									address={addressesList.find((address) => { return address.userId === row.id })} />
 							))}
 						</TableBody>
 
@@ -146,7 +136,7 @@ const Home = () => {
 									maxWidth: 400,
 								},
 							}}>
-								<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold'}}>Register User</DialogTitle>
+								<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Register User</DialogTitle>
 								<DialogContent>
 									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert} setShowDialog={setShowDialog} />
 								</DialogContent>
@@ -198,165 +188,3 @@ const Home = () => {
 }
 
 export default (Home);
-
-// For every user create a row with the user details
-//function Row(props) {
-//	const { address, row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
-//	const [open, setOpen] = useState(false);
-//	const [showDialog, setShowDialog] = useState(false);
-//	const { state, dispatch } = useContext(AuthContext);
-
-//	// Handle dialog open
-//	const handleClickOpen = () => {
-//		setShowDialog(true);
-//	};
-
-//	// Handle dialog close
-//	const handleClose = () => {
-//		setShowDialog(false);
-//	};
-
-
-
-//	// Delete user function - DELETE request
-//	function deleteUser(id) {
-//		const url = `${Constants.API_URL_DELETE_USER}?id=${id}`;
-
-//		fetch(url, {
-//			method: 'DELETE',
-//			headers: {
-//				'Content-Type': 'application/json'
-//			},
-//		})
-//			.then(response => response.json())
-//			.then(response => {
-//				if (!response.message) {
-//					throw new Error(response);
-//				}
-//				onDeleteUser(id);
-
-//				setShowDeletedAlert(true);
-//				if (id === state.user.id) {
-//					dispatch({
-//						type: "LOGOUT",
-//						payload: {}
-//					});
-//				}
-//			})
-//			.catch((error) => {
-//				console.log(error);
-//				alert(error);
-//			});
-//	}
-
-//	// Return user row with option to open dialog for update user as a logged in user
-//	return (
-//		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none"}} >
-//			<TableRow sx={{
-//				'& > *': { borderBottom: 'unset' },
-//				"& td": {
-//					fontSize: "1.3rem",
-//				},
-//			}}>
-//				<TableCell>
-//					<IconButton
-//						aria-label="expand row"
-//						size="small"
-//						onClick={() => setOpen(!open)}
-//					>
-//						{open ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />}
-//					</IconButton>
-//				</TableCell>
-
-//				<TableCell align="center">{row.email}</TableCell>
-//				<TableCell align="center">{row.username}</TableCell>
-//			</TableRow>
-//			<TableRow sx={{
-//				"& th": {
-//					fontSize: "1.2rem",
-//					fontWeight: "bolder",
-//					color: "rgba(96, 96, 96)"
-//				},
-//			}}>
-//				<TableCell style={{ paddingBottom: 0, paddingTop: 0, }} colSpan={6}>
-//					<Collapse in={open} timeout="auto" unmountOnExit>
-//						<Box sx={{ margin: 4, backgroundColor: "silver", borderRadius: 2}}>
-//							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder' }}>
-//								User Details
-//							</Typography>
-//							<Table size="small" aria-label="purchases">
-//								<TableHead>
-//									<TableRow>
-//										<TableCell>Email</TableCell>
-//										<TableCell>User Name</TableCell>
-//										<TableCell>Address</TableCell>
-//									</TableRow>
-//								</TableHead>
-//								<TableBody>
-//									<TableRow sx={{
-//										"& td": {
-//											fontSize: "1.1rem",
-//										},
-//									}}>
-//										<TableCell>{row.email}</TableCell>
-//										<TableCell>{row.username}</TableCell>
-//										<TableCell>{address.userAddress}</TableCell>
-//										<TableCell align='right'>
-//											{state.user.id != row.id ?
-//												<>
-//													<Tooltip title="Update user details">
-//														<IconButton>
-//															<BorderColorIcon onClick={handleClickOpen} />
-//														</IconButton>
-//													</Tooltip>
-//													{/*<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>*/}
-//													<Tooltip title="Delete user">
-//														<IconButton>
-//															<DeleteIcon onClick={() => { if (window.confirm(`Are you sure you want to delete the user "${row.username}"?`)) deleteUser(row.id); onDeleteUser(row.id) }} />
-//														</IconButton>
-//													</Tooltip>
-
-//												</> : <>
-//													<Tooltip title="Update user details">
-//														<IconButton>
-//															<BorderColorIcon onClick={handleClickOpen} />
-//														</IconButton>
-//													</Tooltip>
-//													{/*<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>*/}
-//													<Tooltip title="Delete" onClick={() => { if (window.confirm(`Are you sure you want to delete your user?\nAfter deleted you automatically logged out`)) deleteUser(row.id) }} >
-//														<IconButton >
-//															<DeleteIcon />
-//														</IconButton>
-//													</Tooltip>
-//												</>}
-//										</TableCell>
-//									</TableRow>
-//								</TableBody>
-//							</Table>
-//						</Box>
-//					</Collapse>
-//				</TableCell>
-//			</TableRow>
-//			<>
-//				{/* Dialog for Add user as a logged in user */}
-//				{showDialog ?
-//					<>
-//						<Dialog open={showDialog} onClose={handleClose} PaperProps={{
-//							style: {
-//								minHeight: 300,
-//								minWidth: 400,
-//							},
-//						}}>
-//							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold'}}>Update User Details</DialogTitle>
-//							<DialogContent>
-//								<UpdateForm setShowDialog={setShowDialog} setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
-//							</DialogContent>
-//						</Dialog>
-//					</> : <> </>
-//				}
-//			</>
-//		</React.Fragment>
-//	);
-
-//}
-
