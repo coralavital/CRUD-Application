@@ -16,7 +16,7 @@ namespace hometask.Helpers
 			var header = new JwtHeader(credentials);
 
 
-			var payload = new JwtPayload(id.ToString(), null, null, null, DateTime.Today.AddDays(1));
+			var payload = new JwtPayload(id.ToString(), null, null, null, TimeZoneInfo.ConvertTimeToUtc(DateTime.Now.AddHours(3)));
 			var securityToken = new JwtSecurityToken(header, payload);
 
 			return new JwtSecurityTokenHandler().WriteToken(securityToken);

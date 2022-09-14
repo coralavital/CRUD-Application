@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import Constants from '../utilities/Constants';
-import CustomizedSnackbar from '../components/Alerts';
+import { REGISTER_USER } from '../api/backendRequests';
 import { AuthContext } from '../App';
 
 // Register page
@@ -33,6 +32,7 @@ const RegisterForm = (props) => {
 	// Handle submit - POST request
 	function handleSubmit(e) {
 		e.preventDefault();
+
 		const userToCreate = {
 			email: formData.email,
 			username: formData.username,
@@ -40,39 +40,30 @@ const RegisterForm = (props) => {
 			userAddress: formData.userAddress
 		};
 
-
-		const url = Constants.API_URL_REGISTER_USER;
-		fetch(url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(userToCreate)
-		})
-			.then(response => response.json())
-			.then(response => {
+		REGISTER_USER({ userToCreate },
+			(response) => {
 				if (!response.user) {
 					throw new Error(response.message);
 				}
-				if(setShowDialog) {
+
+				if (setShowDialog) {
 					setShowDialog(false);
 					setShowCreatedAlert(true);
+					setAddedUser(userToCreate)
 				}
-				else {
-					dispatch({
-						type: "REGISTER",
-						payload: { ...response }
-					});
-				}
+
+				dispatch({
+					type: "REGISTER",
+					payload: { ...response }
+				});
+
+				// Navigate to the home page as a logged in user
 				setRedirect(true);
-				if(setAddedUser){
-					{setAddedUser(userToCreate)}
-				}
-			})
-			.catch((error) => {
+			},
+			(error) => {
 				console.log(error);
 				alert(error);
-			});
+			})
 	};
 
 	// The user registered and transfer to the home page
@@ -87,7 +78,7 @@ const RegisterForm = (props) => {
 			{props.flag == true ?
 				<>
 					<form onSubmit={handleSubmit}>
-					<div className='mb-3'>
+						<div className='mb-3'>
 							<label>Email</label>
 							<input type='email' name='email' className='form-control' placeholder='Enter Email'
 								onChange={handleChange} required />
@@ -116,7 +107,7 @@ const RegisterForm = (props) => {
 
 				</> :
 				<>
-				{/* If user register himself at the first time */}
+					{/* If user register himself at the first time */}
 					<div className='border'>
 						<div className='center'>
 							<form onSubmit={handleSubmit}>
@@ -146,9 +137,9 @@ const RegisterForm = (props) => {
 										Sign Up
 									</button>
 								</div>
-									<p className='forgot-password text-right'>
-										Already registered ? <a href='/login'>Login</a>
-									</p>
+								<p className='forgot-password text-right'>
+									Already registered ? <a href='/login'>Login</a>
+								</p>
 							</form>
 						</div>
 					</div>

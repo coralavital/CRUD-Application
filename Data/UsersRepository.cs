@@ -71,6 +71,7 @@ namespace hometask.Data
 		public bool UpdateUser(User user, Address address)
 		{
 			_context.Addresses.Update(address);
+			_context.SaveChanges();
 			_context.Users.Update(user);
 			_context.SaveChanges();
 			return true;

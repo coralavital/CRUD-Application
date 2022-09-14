@@ -1,21 +1,48 @@
-import React, { Component, createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import { reducer } from "./store/reducer/app-reducer";
-
 import './custom.css'
 ;
+import Constants from './utilities/Constants';
 
 export const AuthContext = createContext();
 
 export default function App() {
-	const token = window.localStorage.getItem('user');
 	// Application state
 	const [state, dispatch] = useReducer(reducer, {
-		user: token ? token : undefined,
+		user: undefined,
 	});
 
+	const active_user_url = Constants.API_URL_GET_CURRENT_USER;
+
+	const headers = {
+		jwt: localStorage.getItem('jwt'),
+		'Content-Type': 'application/json'
+	}
+
+	useEffect (() => {
+		// Send a POST request
+		fetch(active_user_url, {
+			method: 'GET',
+			headers
+		})
+		.then(response => response.json())
+		.then(response => {
+			if(!response.user) {
+				throw new Error(response.message);
+			}
+			dispatch({
+				type: "GET_ACTIVE_USER",
+				payload: { ...response }
+			});
+		})
+		.catch((error) => {
+			console.log(error);
+			localStorage.removeItem('jwt')
+		})
+	}, [])
 	// Return Routes
 	return (
 		<AuthContext.Provider

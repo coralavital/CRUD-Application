@@ -13,6 +13,7 @@ namespace hometask.Controllers
 	{
 		private readonly IUserRepository _repository;
 		private readonly JwtService _jwtService;
+
 		public AuthController(IUserRepository repository, JwtService jwtService)
 		{
 			_repository = repository;
@@ -37,25 +38,34 @@ namespace hometask.Controllers
 					return BadRequest(error: new { message = "The email already exist", error = true });
 				}
 
-				var userToResponse = _repository.CreateUser(user);
+				var newUser = _repository.CreateUser(user);
 
-				if (userToResponse != null)
+				if (newUser != null)
 				{
 					var address = new Address
 					{
-						UserId = userToResponse.Id,
+						UserId = newUser.Id,
 						UserAddress = dto.UserAddress,
 					};
 					_repository.CreateAddress(address);
+					var jwt = _jwtService.Generate(newUser.Id);
+					Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
+					{
+						HttpOnly = true
+					});
+
+					return Ok(new
+					{
+						user = newUser,
+						jwt
+					});
 				}
 
-				return Ok(new
+				else
 				{
-					user = userToResponse,
-				});
-
+					return BadRequest(error: new { message = "Coldn't create new user", error = true });
+				}
 			}
-
 			catch (Exception ex)
 			{
 				return BadRequest(error: new { message = ex.Message, error = true });
@@ -89,6 +99,7 @@ namespace hometask.Controllers
 			return Ok(new
 			{
 				user,
+				jwt
 			});
 		}
 
@@ -98,22 +109,33 @@ namespace hometask.Controllers
 		{
 			try
 			{
-				var jwt = Request.Cookies["jwt"];
+				var jwt = Request.Headers["jwt"];
+				Console.WriteLine(jwt);
+				var decodedJwt = _jwtService.Verify(jwt);
+				Console.WriteLine(decodedJwt);
 
-				var token = _jwtService.Verify(jwt);
+				int userId = int.Parse(decodedJwt.Issuer);
 
-				int userId = int.Parse(token.Issuer);
+				if (decodedJwt.ValidTo > TimeZoneInfo.ConvertTimeToUtc(DateTime.Now))
+				{
+					var user = _repository.GetUserById(userId);
 
-				var user = _repository.GetUserById(userId);
-
-				return Ok(user);
+					return Ok(new
+					{
+						user,
+						jwt
+					});
+				}
+				else
+				{
+					return BadRequest(error: new { message = "Token expired", error = true });
+				}
 			}
 			catch (Exception)
 			{
 				return Unauthorized();
 			}
 		}
-
 		// Http GET request for get addresses list
 		[HttpGet("getAddresses")]
 		public IActionResult getAddresses()
@@ -156,20 +178,18 @@ namespace hometask.Controllers
 		[HttpPut("updateUser")]
 		public IActionResult UpdateUser(UpdateDto dto)
 		{
-			if (_repository.GetByEmail(dto.Email) != null)
-			{
-				return BadRequest(error: new { message = "The username already exist", error = true });
-			}
 			Address address = _repository.GetAddressById(dto.Id);
 			User user = _repository.GetUserById(dto.Id);
-			user.Email = dto.Email;
 			user.Username = dto.Username;
 			address.UserAddress = dto.UserAddress;
-			_repository.UpdateUser(user, address);
-			return Ok(new
+			if (_repository.UpdateUser(user, address))
 			{
-				message = "User updated"
-			});
+				return Ok(new
+				{
+					message = "User updated"
+				});
+			}
+			return BadRequest(error: new { message = "There is a problem to update", error = true });
 		}
 	}
 }

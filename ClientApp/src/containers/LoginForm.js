@@ -1,15 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
-
+import { LOGIN_USER } from '../api/backendRequests';
 // Login page
 const LoginForm = () => {
 	const { state, dispatch } = useContext(AuthContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [redirect, setRedirect] = useState(false);
-	
+
 	// Initial Form Data
 	const initialFormData = Object.freeze({
 		username: "",
@@ -31,24 +30,14 @@ const LoginForm = () => {
 	function handleSubmit(e) {
 		e.preventDefault();
 		// Automatically Login
-		const login_url = Constants.API_URL_LOGIN_USER;
 
 		const userToLogin = {
 			email: formData.email,
 			password: formData.password,
 		};
 
-		// Send a POST request for login user
-		fetch(login_url, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			// credentials: 'include',
-			body: JSON.stringify(userToLogin)
-		})
-			.then(response => response.json())
-			.then(response => {
+		LOGIN_USER({ userToLogin },
+			(response) => {
 				if (!response.user) {
 					throw new Error(response.message);
 				}
@@ -56,16 +45,14 @@ const LoginForm = () => {
 					type: "LOGIN",
 					payload: { ...response }
 				});
-				window.localStorage.setItem("user", {...response})
-
 				// Navigate to the home page as a logged in user
 				setRedirect(true);
-
-			})
-			.catch((error) => {
+			},
+			(error) => {
 				console.log(error);
 				alert(error);
-			});
+			})
+
 	}
 
 	// The user registered and transfer to the home page

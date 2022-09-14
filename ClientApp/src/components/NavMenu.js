@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import Constants from '../utilities/Constants';
+import { LOGOUT_USER } from '../api/backendRequests';
 import { AuthContext } from '../App';
 
 const Nav = () => {
@@ -8,25 +9,21 @@ const Nav = () => {
 	const { state, dispatch } = useContext(AuthContext);
 
 	// Log out function
-	const logout = async () => {
-		const logout_url = Constants.API_URL_LOGOUT_USER;
-		fetch(logout_url, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			credentials: 'include',
-		})
-			.then(response => response.json())
-			.then(responseFromServer => {
+	function logout() {
+		LOGOUT_USER({},
+			(response) => {
+				if (!response) {
+					throw new Error(response.message);
+				}
 				dispatch({
 					type: "LOGOUT",
 					payload: {}
 				});
-				
-			})
-			.catch((error) => {
+			},
+			(error) => {
 				console.log(error);
-			});
-			window.localStorage.removeItem("user");
+				alert(error);
+			})
 	}
 
 	let menu;

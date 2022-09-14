@@ -5,7 +5,7 @@ import { AuthContext } from '../App';
 const UpdateForm = (props) => {
 
 	const { state, dispatch } = useContext(AuthContext);
-	const { user, address, showUpdatesAlert } = props;
+	const { user, address, setShowUpdatedAlert, setShowDialog, setUpdatedUser } = props;
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
@@ -48,13 +48,17 @@ const UpdateForm = (props) => {
 			.then(response => {
 				if (!response) {
 					throw new Error(response.message);
-					props.setShowDialog(false)
 				}
-				showUpdatesAlert(true);
+				setShowDialog(false);
+				setShowUpdatedAlert(true);
 				dispatch({
 					type: "UPDATED",
 					payload: { ...response }
 				});
+				if(setUpdatedUser){
+					{setUpdatedUser(userToUpdate)}
+				}
+
 			})
 			.catch((error) => {
 				console.log(error);
@@ -71,15 +75,15 @@ const UpdateForm = (props) => {
 			</div>
 			<div className='mb-3'>
 				<label>User name</label>
-				<input type='text' name='username' className='form-control' value={user.username} onChange={handleChange} />
+				<input type='text' name='username' className='form-control' defaultValue={user.username} onChange={handleChange} />
 			</div>
 			<div className='mb-3'>
 				<label>Address</label>
-				<input type='text' name='userAddress' className='form-control' value={address.userAddress} onChange={handleChange} />
+				<input type='text' name='userAddress' className='form-control' defaultValue={address.userAddress} onChange={handleChange} />
 			</div>
 			<div className="col-md-12 text-center">
-				<button type='submit' className='btn btn-primary btn-lg btn-block d-grid mb-2 mx-auto' >Update User</button>
-				<button onClick={() => props.setShowDialog(false)} type='button' className='btn btn-primary btn-lg btn-block d-grid mx-auto'>Cancel</button>
+				<button type='submit' className='btn btn-primary btn-lg btn-block d-grid mb-2 mx-auto'>Update User</button>
+				<button onClick={() => setShowDialog(false)} type='button' className='btn btn-primary btn-lg btn-block d-grid mx-auto'>Cancel</button>
 			</div>
 		</form>
 
