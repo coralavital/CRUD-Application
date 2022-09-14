@@ -14,9 +14,9 @@ namespace hometask.Data.Migrations
 				name: "Users",
 				columns: table => new
 				{
-					Username = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
 					Id = table.Column<int>(type: "INTEGER", nullable: false).Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn).Annotation("Sqlite:Autoincrement", true),
 					Email = table.Column<string>(type: "TEXT", nullable: false),
+					Username = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
 					Password = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
 
 				},
@@ -29,13 +29,13 @@ namespace hometask.Data.Migrations
 				name: "IX_Users_Username",
 				table: "Users",
 				column: "Username",
-				unique: true);
+				unique: false);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_Users_Email",
 				table: "Users",
 				column: "Email",
-				unique: false);
+				unique: true);
 
 		}
 

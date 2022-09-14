@@ -35,9 +35,9 @@ namespace hometask.Data.Migrations
 						.HasMaxLength(20)
 						.HasColumnType("TEXT");
 
-					b.HasKey("Username");
+					b.HasKey("Email");
 
-					b.HasIndex("Username")
+					b.HasIndex("Email")
 						.IsUnique();
 
 					b.ToTable("Users");
@@ -45,11 +45,14 @@ namespace hometask.Data.Migrations
 
 				modelBuilder.Entity("hometask.Models.Address", b =>
 				{
-					b.Property<string>("UserAddress")
+					b.Property<string>("Address")
 						.IsRequired()
 						.HasColumnType("TEXT");
 						
 					b.Property<int>("Id")
+						.HasColumnType("INTEGER");
+					
+					b.Property<int>("UserId")
 						.HasColumnType("INTEGER");
 
 					b.ToTable("Addresses");

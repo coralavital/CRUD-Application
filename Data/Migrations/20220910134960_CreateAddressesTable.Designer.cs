@@ -20,13 +20,17 @@ namespace hometask.Data.Migrations
 
 			modelBuilder.Entity("hometask.Models.Address", b =>
 				{
-					b.Property<string>("UserAddress")
-						.IsRequired()
-						.HasColumnType("TEXT");
-
-					
 					b.Property<int>("Id")
+					.IsRequired()
 						.HasColumnType("INTEGER");
+
+					b.Property<int>("UserId")
+					.IsRequired()
+						.HasColumnType("INTEGER");
+
+					b.Property<string>("UserAddress")
+					.IsRequired()
+						.HasColumnType("TEXT");
 
 					b.ToTable("Addresses");
 				});

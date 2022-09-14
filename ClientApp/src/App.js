@@ -3,15 +3,17 @@ import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import { reducer } from "./store/reducer/app-reducer";
-import './custom.css'
 
+import './custom.css'
+;
 
 export const AuthContext = createContext();
 
 export default function App() {
+	const token = window.localStorage.getItem('user');
 	// Application state
 	const [state, dispatch] = useReducer(reducer, {
-		user: undefined,
+		user: token ? token : undefined,
 	});
 
 	// Return Routes

@@ -27,30 +27,31 @@ namespace hometask.Controllers
 			{
 				var user = new User
 				{
-					Username = dto.Username,
 					Email = dto.Email,
+					Username = dto.Username,
 					Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
 				};
 
-				if (_repository.GetByUsername(user.Username) != null)
+				if (_repository.GetByEmail(user.Email) != null)
 				{
-					return BadRequest(error: new { message = "The user already exist", error = true });
+					return BadRequest(error: new { message = "The email already exist", error = true });
 				}
 
-				var createResponse = _repository.CreateUser(user);
+				var userToResponse = _repository.CreateUser(user);
 
-				if (createResponse != null)
+				if (userToResponse != null)
 				{
 					var address = new Address
 					{
-						UserAddress = dto.UserAddress
+						UserId = userToResponse.Id,
+						UserAddress = dto.UserAddress,
 					};
 					_repository.CreateAddress(address);
 				}
 
 				return Ok(new
 				{
-					user = createResponse,
+					user = userToResponse,
 				});
 
 			}
@@ -66,7 +67,7 @@ namespace hometask.Controllers
 		[HttpPost("login")]
 		public IActionResult Login(LoginDto dto)
 		{
-			var user = _repository.GetByUsername(dto.Username);
+			var user = _repository.GetByEmail(dto.Email);
 
 			if (user == null)
 			{
@@ -155,14 +156,14 @@ namespace hometask.Controllers
 		[HttpPut("updateUser")]
 		public IActionResult UpdateUser(UpdateDto dto)
 		{
-			if (_repository.GetByUsername(dto.Username) != null)
+			if (_repository.GetByEmail(dto.Email) != null)
 			{
 				return BadRequest(error: new { message = "The username already exist", error = true });
 			}
 			Address address = _repository.GetAddressById(dto.Id);
 			User user = _repository.GetUserById(dto.Id);
-			user.Username = dto.Username;
 			user.Email = dto.Email;
+			user.Username = dto.Username;
 			address.UserAddress = dto.UserAddress;
 			_repository.UpdateUser(user, address);
 			return Ok(new

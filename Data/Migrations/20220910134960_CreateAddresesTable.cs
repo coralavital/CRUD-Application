@@ -15,12 +15,12 @@ namespace hometask.Data.Migrations
 				columns: table => new
 				{
 					Id = table.Column<int>(type: "INTEGER", nullable: false).Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn).Annotation("Sqlite:Autoincrement", true),
+					UserId = table.Column<int>(type: "INTEGER", nullable: false),
 					UserAddress = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-
 				},
 				constraints: table =>
 				{
-					table.PrimaryKey("PK_Users", x => x.Id);
+					table.PrimaryKey("PK_Addresses", x => x.Id);
 				});
 
 		}

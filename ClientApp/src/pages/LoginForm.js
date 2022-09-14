@@ -34,7 +34,7 @@ const LoginForm = () => {
 		const login_url = Constants.API_URL_LOGIN_USER;
 
 		const userToLogin = {
-			username: formData.username,
+			email: formData.email,
 			password: formData.password,
 		};
 
@@ -56,6 +56,8 @@ const LoginForm = () => {
 					type: "LOGIN",
 					payload: { ...response }
 				});
+				window.localStorage.setItem("user", {...response})
+
 				// Navigate to the home page as a logged in user
 				setRedirect(true);
 
@@ -78,8 +80,8 @@ const LoginForm = () => {
 				<form onSubmit={handleSubmit}>
 					<h3 className='signup-title'>Login</h3>
 					<div className='mb-3'>
-						<label>User Name</label>
-						<input type='text' name="username" className='form-control' placeholder='Enter User Name'
+						<label>Email</label>
+						<input type='email' name="email" className='form-control' placeholder='Enter Email'
 							onChange={handleChange} required />
 					</div>
 					<div className='mb-3'>
@@ -87,7 +89,7 @@ const LoginForm = () => {
 						<input type='password' name='password' className='form-control' placeholder='Enter Password'
 							onChange={handleChange} required minLength={6} maxLength={20} />
 					</div>
-					<div className='d-grid'>
+					<div className='d-grid mx-5'>
 						<button type='submit' className='btn btn-primary'>
 							Log in
 						</button>

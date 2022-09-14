@@ -10,7 +10,7 @@ namespace hometask.Data
 		// Create new address
 		Address CreateAddress(Address address);
 		// Get user by username
-		User GetByUsername(string username);
+		User GetByEmail(string email);
 		// Get user by id
 		User GetUserById(int id);
 		// Get address by id

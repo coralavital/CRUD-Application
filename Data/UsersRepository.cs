@@ -30,9 +30,9 @@ namespace hometask.Data
 		}
 
 		// Get user by username
-		public User GetByUsername(string username)
+		public User GetByEmail(string email)
 		{
-			return  _context.Users.FirstOrDefault(user => user.Username == username);
+			return  _context.Users.FirstOrDefault(user => user.Email == email);
 		}
 
 		// Get user by id

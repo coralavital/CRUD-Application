@@ -1,31 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from "react-router-dom";
 import Constants from '../utilities/Constants';
-import {AuthContext} from '../App';
+import { AuthContext } from '../App';
 
 const Nav = () => {
 	const [username, setUsername] = useState('');
-  const { state, dispatch } = useContext(AuthContext);
+	const { state, dispatch } = useContext(AuthContext);
 
 	// Log out function
 	const logout = async () => {
 		const logout_url = Constants.API_URL_LOGOUT_USER;
-    fetch(logout_url, {
-      method: 'POST',
+		fetch(logout_url, {
+			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			credentials: 'include',
 		})
 			.then(response => response.json())
 			.then(responseFromServer => {
-        dispatch({
-          type: "LOGOUT",
-          payload: {}
-        });
-
+				dispatch({
+					type: "LOGOUT",
+					payload: {}
+				});
+				
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+			window.localStorage.removeItem("user");
 	}
 
 	let menu;
