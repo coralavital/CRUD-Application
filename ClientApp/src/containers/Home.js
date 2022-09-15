@@ -90,7 +90,7 @@ const Home = () => {
 					maxHeight: 425, maxWidth: 900, minHeight: 425, minWidth: 900, margin: 'auto', marginBottom: 3, marginTop: 3, borderRadius: 6,
 					boxShadow: 10,
 					"&::-webkit-scrollbar": {
-						display: "none"
+						width: 5,
 					},
 
 					"&::-webkit-scrollbar-thumb": {
