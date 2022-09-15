@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
-import Constants from '../utilities/Constants';
 import { LOGOUT_USER } from '../api/backendRequests';
 import { AuthContext } from '../App';
 
 const Nav = () => {
-	const [username, setUsername] = useState('');
+
 	const { state, dispatch } = useContext(AuthContext);
 
 	// Log out function

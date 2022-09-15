@@ -79,7 +79,7 @@ const RegisterForm = (props) => {
 	return (
 		<>
 			{/* If some user register other user in add user dialog */}
-			{props.flag == true ?
+			{props.flag === true ?
 				<>
 					<form onSubmit={handleSubmit}>
 						<div className='mb-3'>

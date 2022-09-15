@@ -180,7 +180,7 @@ const Row = (props) => {
 								<DialogContent>
 									<DialogContentText id="alert-dialog-slide-description">
 										<>
-										{state.user.id != row.id ?
+										{state.user.id !== row.id ?
 										<>
 										Are you sure that you want to delete the user?
 										</> : <>

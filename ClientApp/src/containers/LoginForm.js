@@ -5,8 +5,6 @@ import { LOGIN_USER } from '../api/backendRequests';
 // Login page
 const LoginForm = () => {
 	const { state, dispatch } = useContext(AuthContext);
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
 	const [redirect, setRedirect] = useState(false);
 
 	// Initial Form Data

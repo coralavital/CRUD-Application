@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:44429",
+  "homepage": "https://coralavital.github.io/Commit-Task/",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -12,6 +13,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.1",
     "cors": "^2.8.5",
+    "gh-pages": "^4.0.0",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.0",
     "merge": "^2.1.1",
@@ -24,6 +26,7 @@
     "react-scripts": "^5.0.1",
     "reactstrap": "^9.0.2",
     "rimraf": "^3.0.2",
+    "save-dev": "^0.0.1-security",
     "web-vitals": "^2.1.4",
     "workbox-background-sync": "^6.5.3",
     "workbox-broadcast-update": "^6.5.3",
@@ -58,6 +61,8 @@
     "nth-check": "^3.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "cross-env BROWSER='msedge.exe' react-scripts start",
     "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
