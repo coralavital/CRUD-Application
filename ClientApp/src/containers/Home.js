@@ -122,7 +122,6 @@ const Home = () => {
 									address={addressesList.find((address) => { return address.userId === row.id })} />
 							))}
 						</TableBody>
-
 					</Table>
 				</TableContainer>
 				<>
@@ -138,7 +137,8 @@ const Home = () => {
 							}}>
 								<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Register User</DialogTitle>
 								<DialogContent>
-									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert} setShowDialog={setShowDialog} />
+									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert} 
+									setShowDialog={setShowDialog} />
 								</DialogContent>
 							</Dialog>
 						</> :
@@ -169,7 +169,8 @@ const Home = () => {
 						</>
 					}
 				</>
-				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1" >Add New User +</button>
+
+				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Add New User +</button>
 			</div>
 		)
 	}

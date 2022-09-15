@@ -175,11 +175,15 @@ namespace hometask.Controllers
 		public IActionResult DeleteUser(int id)
 
 		{
-			_repository.DeleteUser(id);
-			return Ok(new
+			if (_repository.DeleteUser(id) == false)
 			{
-				message = "User deleted"
-			});
+
+				return Ok(new
+				{
+					message = "User deleted"
+				});
+			}
+			return BadRequest(error: new { message = "There is a problem to delete", error = true });
 		}
 
 		// Http PUT request for update user data

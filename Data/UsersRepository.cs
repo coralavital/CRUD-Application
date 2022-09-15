@@ -62,7 +62,6 @@ namespace hometask.Data
 
 			User user = GetUserById(id);
 			_context.Users.Remove(user);
-
 			_context.SaveChanges();
 			return true;
 		}

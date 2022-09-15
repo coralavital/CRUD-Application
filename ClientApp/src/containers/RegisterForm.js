@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { REGISTER_USER } from '../api/backendRequests';
+import CustomizedSnackbar from '../components/Alert';
 import { AuthContext } from '../App';
 
 // Register page
@@ -8,6 +9,8 @@ const RegisterForm = (props) => {
 
 	const [redirect, setRedirect] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
+	const [showCreateErrorAlert, setShowCreateErrorAlert] = useState(false);
+
 	const { setShowDialog, setAddedUser, setShowCreatedAlert } = props;
 
 	// Initial Form Data
@@ -27,6 +30,7 @@ const RegisterForm = (props) => {
 			...formData,
 			[e.target.name]: e.target.value,
 		});
+		setShowCreateErrorAlert(false);
 	};
 
 	// Handle submit - POST request
@@ -51,18 +55,18 @@ const RegisterForm = (props) => {
 					setShowCreatedAlert(true);
 					setAddedUser(userToCreate)
 				}
-
-				dispatch({
-					type: "REGISTER",
-					payload: { ...response }
-				});
+				else {
+					dispatch({
+						type: "REGISTER",
+						payload: { ...response }
+					});
+				}
 
 				// Navigate to the home page as a logged in user
 				setRedirect(true);
 			},
 			(error) => {
-				console.log(error);
-				alert(error);
+				setShowCreateErrorAlert(true);
 			})
 	};
 
@@ -145,6 +149,14 @@ const RegisterForm = (props) => {
 					</div>
 				</>
 			}
+							<>
+					{showCreateErrorAlert ?
+						<>
+							<CustomizedSnackbar message={"The email already exist"} type={"error"} />
+						</> : <>
+						</>
+					}
+				</>
 		</>
 	);
 }

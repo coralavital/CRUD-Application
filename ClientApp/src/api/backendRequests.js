@@ -83,5 +83,20 @@ const GET_ALL_USERS = (data, onSuccess, onError) => {
 		});
 }
 
+const DELETE_USER = (data, onSuccess, onError) => {
+	const delete_url = `${Constants.API_URL_DELETE_USER}?id=${data.row.id}`;
+	fetch(delete_url, {
+		method: 'DELETE'
+	})
+		.then(response => response.json())
+		.then(response => {
+			onSuccess(response);
+		})
+		.catch((error) => {
+			onError(error);
+		});
 
-export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS }
+}
+
+
+export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS, DELETE_USER }

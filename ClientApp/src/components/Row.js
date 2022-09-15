@@ -1,7 +1,10 @@
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
+import DialogContentText from '@mui/material/DialogContentText';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { DELETE_USER } from '../api/backendRequests';
 import DialogTitle from '@mui/material/DialogTitle';
 import React, { useContext, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,10 +14,10 @@ import UpdateForm from '../containers/UpdateForm';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
-import Constants from '../utilities/Constants';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Table from '@mui/material/Table';
 import { AuthContext } from '../App';
@@ -27,55 +30,55 @@ import '../custom.css';
 const Row = (props) => {
 	const { address, row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
 	const [open, setOpen] = useState(false);
-	const [showDialog, setShowDialog] = useState(false);
+	const [showUpdateDialog, setShowUpdateDialog] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
+	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
 	// Handle dialog open
-	const handleClickOpen = () => {
-		setShowDialog(true);
+	const handleUpdateOpen = () => {
+		setShowUpdateDialog(true);
 	};
 
 	// Handle dialog close
-	const handleClose = () => {
-		setShowDialog(false);
+	const handleUpdateClose = () => {
+		setShowUpdateDialog(false);
+	};
+
+	const handleDeleteOpen = () => {
+		setShowDeleteDialog(true);
+	};
+	// Handle dialog close
+	const handleDeleteClose = () => {
+		setShowDeleteDialog(false);
 	};
 
 
 
 	// Delete user function - DELETE request
-	function deleteUser(id) {
-		const url = `${Constants.API_URL_DELETE_USER}?id=${id}`;
-
-		fetch(url, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		})
-			.then(response => response.json())
-			.then(response => {
+	function handleDelete() {
+		DELETE_USER({ row },
+			(response) => {
 				if (!response.message) {
 					throw new Error(response);
 				}
-				onDeleteUser(id);
-
-				setShowDeletedAlert(true);
-				if (id === state.user.id) {
+				onDeleteUser(row.id);
+				if (row.id === state.user.id) {
 					dispatch({
 						type: "LOGOUT",
 						payload: {}
 					});
 				}
-			})
-			.catch((error) => {
+				setShowDeletedAlert(true);
+			},
+			(error) => {
 				console.log(error);
 				alert(error);
-			});
+			})
 	}
 
 	// Return user row with option to open dialog for update user as a logged in user
 	return (
-		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none"}} >
+		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none" }} >
 			<TableRow sx={{
 				'& > *': { borderBottom: 'unset' },
 				"& td": {
@@ -104,8 +107,8 @@ const Row = (props) => {
 			}}>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0, }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 4, backgroundColor: "silver", borderRadius: 2}}>
-							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder' }}>
+						<Box sx={{ margin: 4, backgroundColor: "silver", borderRadius: 2 }}>
+							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder', textAlign: 'center', }}>
 								User Details
 							</Typography>
 							<Table size="small" aria-label="purchases">
@@ -126,33 +129,16 @@ const Row = (props) => {
 										<TableCell>{row.username}</TableCell>
 										<TableCell>{address.userAddress}</TableCell>
 										<TableCell align='right'>
-											{state.user.id != row.id ?
-												<>
-													<Tooltip title="Update user details">
-														<IconButton>
-															<BorderColorIcon onClick={handleClickOpen} />
-														</IconButton>
-													</Tooltip>
-													{/*<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>*/}
-													<Tooltip title="Delete user">
-														<IconButton>
-															<DeleteIcon onClick={() => { if (window.confirm(`Are you sure you want to delete the user "${row.username}"?`)) deleteUser(row.id); onDeleteUser(row.id) }} />
-														</IconButton>
-													</Tooltip>
-
-												</> : <>
-													<Tooltip title="Update user details">
-														<IconButton>
-															<BorderColorIcon onClick={handleClickOpen} />
-														</IconButton>
-													</Tooltip>
-													{/*<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Update</button>*/}
-													<Tooltip title="Delete" onClick={() => { if (window.confirm(`Are you sure you want to delete your user?\nAfter deleted you automatically logged out`)) deleteUser(row.id) }} >
-														<IconButton >
-															<DeleteIcon />
-														</IconButton>
-													</Tooltip>
-												</>}
+											<Tooltip title="Update user details">
+												<IconButton>
+													<BorderColorIcon onClick={handleUpdateOpen} />
+												</IconButton>
+											</Tooltip>
+											<Tooltip title="Delete user" >
+												<IconButton >
+													<DeleteIcon onClick={handleDeleteOpen} />
+												</IconButton>
+											</Tooltip>
 										</TableCell>
 									</TableRow>
 								</TableBody>
@@ -163,21 +149,57 @@ const Row = (props) => {
 			</TableRow>
 			<>
 				{/* Dialog for Add user as a logged in user */}
-				{showDialog ?
+				{showUpdateDialog ?
 					<>
-						<Dialog open={showDialog} onClose={handleClose} PaperProps={{
+						<Dialog open={showUpdateDialog} onClose={handleUpdateClose} PaperProps={{
 							style: {
 								minHeight: 300,
 								minWidth: 400,
 							},
 						}}>
-							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold'}}>Update User Details</DialogTitle>
+							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setShowDialog={setShowDialog} setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
+								<UpdateForm setShowDialog={setShowUpdateDialog} setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>
 				}
+			</>
+			<>
+				{/* Dialog for Add user as a logged in user */}
+				{showDeleteDialog ?
+					<>
+						<Dialog open={showDeleteDialog} onClose={handleDeleteClose} PaperProps={{
+							style: {
+								minHeight: 100,
+								minWidth: 100,
+							},
+						}}>
+							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Delete User</DialogTitle>
+							<DialogContent>
+								<DialogContent>
+									<DialogContentText id="alert-dialog-slide-description">
+										<>
+										{state.user.id != row.id ?
+										<>
+										Are you sure that you want to delete the user?
+										</> : <>
+										Are you sure that you want to delete the your user?
+										After deleted you automatically logged out
+										</>
+										}
+										</>
+									</DialogContentText>
+								</DialogContent>
+								<DialogActions>
+									<Button onClick={handleDeleteClose}>Disagree</Button>
+									<Button onClick={handleDelete}>Agree</Button>
+								</DialogActions>
+							</DialogContent>
+						</Dialog>
+					</> : <> </>
+				}
+
 			</>
 		</React.Fragment>
 	);
