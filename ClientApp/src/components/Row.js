@@ -10,7 +10,8 @@ import React, { useContext, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import UpdateForm from '../containers/UpdateForm';
+import UpdateForm from '../containers/UpdateUser';
+import CloseIcon from '@mui/icons-material/Close';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
@@ -79,7 +80,7 @@ const Row = (props) => {
 	// Return user row with option to open dialog for update user as a logged in user
 	return (
 		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none" }} >
-			<TableRow sx={{
+			<TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{
 				'& > *': { borderBottom: 'unset' },
 				"& td": {
 					fontSize: "1.3rem",
@@ -102,13 +103,12 @@ const Row = (props) => {
 				"& th": {
 					fontSize: "1.2rem",
 					fontWeight: "bolder",
-					color: "rgba(96, 96, 96)"
 				},
 			}}>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0, }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 4, backgroundColor: "silver", borderRadius: 2 }}>
-							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder', textAlign: 'center', }}>
+						<Box sx={{ margin: 4, borderRadius: 2, backgroundColor: "#d6d1d1" }}>
+							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder', textAlign: 'center', paddingTop: 2 }}>
 								User Details
 							</Typography>
 							<Table size="small" aria-label="purchases">
@@ -157,9 +157,17 @@ const Row = (props) => {
 								minWidth: 400,
 							},
 						}}>
-							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Update User Details</DialogTitle>
+							<IconButton sx={{ marginLeft: 'auto', marginTop: 1, }}
+								edge="start"
+								color="inherit"
+								onClick={() => setShowUpdateDialog(false)}
+								aria-label="close"
+							>
+								<CloseIcon />
+							</IconButton>
+							<DialogTitle sx={{ fontSize: 20, padding: 1, textAlign: 'center', fontWeight: 'bold' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setShowDialog={setShowUpdateDialog} setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
+								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>
@@ -175,25 +183,33 @@ const Row = (props) => {
 								minWidth: 100,
 							},
 						}}>
-							<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Delete User</DialogTitle>
+							<IconButton sx={{ marginLeft: 'auto', marginTop: 1, marginRight: 1, marginBottom: 'auto' }}
+								edge="start"
+								color="inherit"
+								onClick={handleDeleteClose}
+								aria-label="close"
+							>
+								<CloseIcon />
+							</IconButton>
+							<DialogTitle sx={{ fontSize: 20, padding: 0, fontWeight: 'bold' }}>Delete User</DialogTitle>
 							<DialogContent>
 								<DialogContent>
 									<DialogContentText id="alert-dialog-slide-description">
 										<>
-										{state.user.id !== row.id ?
-										<>
-										Are you sure that you want to delete the user?
-										</> : <>
-										Are you sure that you want to delete the your user?
-										After deleted you automatically logged out
-										</>
-										}
+											{state.user.id !== row.id ?
+												<>
+													Are you sure that you want to delete the user?
+												</> : <>
+													Are you sure that you want to delete the your user?
+													After deleted you automatically logged out
+												</>
+											}
 										</>
 									</DialogContentText>
 								</DialogContent>
 								<DialogActions>
-									<Button onClick={handleDeleteClose}>Disagree</Button>
-									<Button onClick={handleDelete}>Agree</Button>
+
+									<Button onClick={handleDelete}>Confirm</Button>
 								</DialogActions>
 							</DialogContent>
 						</Dialog>

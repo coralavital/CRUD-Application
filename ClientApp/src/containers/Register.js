@@ -1,7 +1,7 @@
+import { REGISTER_USER } from '../api/backendRequests';
+import CustomizedSnackbar from '../components/CustomizedSnackbar';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { REGISTER_USER } from '../api/backendRequests';
-import CustomizedSnackbar from '../components/Alert';
 import { AuthContext } from '../App';
 
 // Register page
@@ -30,6 +30,10 @@ const RegisterForm = (props) => {
 			...formData,
 			[e.target.name]: e.target.value,
 		});
+		setShowCreateErrorAlert(false);
+	};
+
+	const handleCloseCreateErrorAlert = () => {
 		setShowCreateErrorAlert(false);
 	};
 
@@ -72,7 +76,6 @@ const RegisterForm = (props) => {
 
 	// The user registered and transfer to the home page
 	if (redirect) {
-		console.log(`User successfully created and login automatically`);
 		return <Navigate to={"/"} />
 	}
 
@@ -84,31 +87,29 @@ const RegisterForm = (props) => {
 					<form onSubmit={handleSubmit}>
 						<div className='mb-3'>
 							<label>Email</label>
-							<input type='email' name='email' className='form-control' placeholder='Enter Email'
+							<input type='email' name='email' className='form-control' placeholder='Please enter email'
 								onChange={handleChange} required />
 						</div>
 						<div className='mb-3'>
 							<label>User Name</label>
-							<input type='text' name="username" className='form-control' placeholder='Enter User Name'
+							<input type='text' name="username" className='form-control' placeholder='Please enter username'
 								onChange={handleChange} required />
 						</div>
 
 						<div className='mb-3'>
 							<label>Password</label>
-							<input type='password' name='password' className='form-control' placeholder='Enter Password'
+							<input type='password' name='password' className='form-control' placeholder='Please enter password'
 								onChange={handleChange} required minLength={6} maxLength={20} />
 						</div>
 						<div className='mb-3'>
 							<label>Address</label>
-							<input type='text' name='userAddress' className='form-control' placeholder='Enter Address'
+							<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
 								onChange={handleChange} required />
 						</div>
 						<div className="col-md-12 text-center">
-							<button type='submit' className='btn btn-primary btn-lg btn-block d-grid mb-2 mx-auto' >Add User</button>
-							<button onClick={() => props.setShowDialog(false)} type='button' className='btn btn-primary btn-lg btn-block d-grid mx-auto'>Cancel</button>
+							<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-1 mx-auto">Add</button>
 						</div>
 					</form>
-
 				</> :
 				<>
 					{/* If user register himself at the first time */}
@@ -118,45 +119,43 @@ const RegisterForm = (props) => {
 								<h3 className='signup-title'>Sign Up</h3>
 								<div className='mb-3'>
 									<label>Email</label>
-									<input type='email' name='email' className='form-control' placeholder='Enter Email'
+									<input type='email' name='email' className='form-control' placeholder='Please enter email'
 										onChange={handleChange} required />
 								</div>
 								<div className='mb-3'>
 									<label>User Name</label>
-									<input type='text' name="username" className='form-control' placeholder='Enter User Name'
+									<input type='text' name="username" className='form-control' placeholder='Please enter username'
 										onChange={handleChange} required />
 								</div>
 								<div className='mb-3'>
 									<label>Password</label>
-									<input type='password' name='password' className='form-control' placeholder='Enter Password'
+									<input type='password' name='password' className='form-control' placeholder='Please enter password'
 										onChange={handleChange} required minLength={6} maxLength={20} />
 								</div>
 								<div className='mb-3'>
 									<label>Address</label>
-									<input type='text' name='userAddress' className='form-control' placeholder='Enter Address'
+									<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
 										onChange={handleChange} required />
 								</div>
-								<div className='d-grid mx-5 mb-2 '>
-									<button type='submit' className='btn btn-primary'>
-										Sign Up
-									</button>
+								<div className='d-grid mx-5 mb-2'>
+									<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg mx-1 my-1 ">Sign Up</button>
 								</div>
-								<p className='forgot-password text-right'>
-									Already registered ? <a href='/login'>Login</a>
+								<p className='already-registered mx-auto text-left'>
+									Have an account ? <a href='/login'>Sign In</a>
 								</p>
 							</form>
 						</div>
 					</div>
 				</>
 			}
-							<>
-					{showCreateErrorAlert ?
-						<>
-							<CustomizedSnackbar message={"The email already exist"} type={"error"} />
-						</> : <>
-						</>
-					}
-				</>
+			<>
+				{showCreateErrorAlert ?
+					<>
+						<CustomizedSnackbar message={"The email already exist"} type={"error"} />
+					</> : <>
+					</>
+				}
+			</>
 		</>
 	);
 }

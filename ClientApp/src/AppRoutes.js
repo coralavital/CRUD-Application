@@ -1,20 +1,24 @@
-import LoginForm from "./containers/LoginForm";
+import Register from './containers/Register';
+import NotFound from './components/NotFound';
+import Login from "./containers/Login";
 import Home from "./containers/Home";
-import RegisterForm from './containers/RegisterForm';
-import NotFound from './components/NotFound'
 
 const AppRoutes = [
 	  {
 	    index: true,
 	    element: <Home />
 	  },
-	{
+	  {
+		path: '/',
+		element: <Home />
+	  },
+	  {
 		path: '/login',
-		element: <LoginForm />
+		element: <Login />
 	  },
 	{
 		path: '/register',
-		element: <RegisterForm />
+		element: <Register />
 	},
 	{
 		path: '*',

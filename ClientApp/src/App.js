@@ -45,6 +45,7 @@ export default function App() {
 	}, [])
 	// Return Routes
 	return (
+
 		<AuthContext.Provider
 			value={{
 				state,

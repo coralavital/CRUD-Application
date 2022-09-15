@@ -1,12 +1,19 @@
-import React, { useContext } from 'react';
-import { Link } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { LOGOUT_USER } from '../api/backendRequests';
+import Typography from '@mui/material/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import React, { useContext } from 'react';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 import { AuthContext } from '../App';
 
-const Nav = () => {
 
+
+
+export default function Nav() {
 	const { state, dispatch } = useContext(AuthContext);
-
 	// Log out function
 	function logout() {
 		LOGOUT_USER({},
@@ -26,38 +33,36 @@ const Nav = () => {
 	}
 
 	let menu;
-
 	if (!state.user) {
 		menu = (
-			<ul className="navbar-nav me-auto mb-2 mb-md-0">
-				<li className="nav-item active">
-					<Link to="/login" className="nav-link">Login</Link>
-				</li>
-				<li className="nav-item active">
-					<Link to="/register" className="nav-link">Register</Link>
-				</li>
-			</ul>
+			<>
+				<Stack spacing={2} direction="row">
+					<Link href={"/login"} underline="none">Login</Link>
+				</Stack>
+			</>
 		)
 	} else {
 		menu = (
-			<ul className="navbar-nav me-auto mb-2 mb-md-0">
-				<li className="nav-item active">
-					<Link to="/" className="nav-link" onClick={logout}>Logout</Link>
-				</li>
-			</ul>
+			<Link href={"/"} onClick={logout} underline="none">Log Out</Link>
 		)
 	}
-
 	return (
-		<nav className="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-			<div className="container-fluid">
-				<Link to="/" className="navbar-brand">Home</Link>
-				<div>
-					{menu}
-				</div>
-			</div>
-		</nav>
+		<ThemeProvider theme={darkTheme}>
+			<AppBar position="static">
+				<Toolbar>
+					<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+						<Link to={"/"} underline="none">Home</Link>
+					</Typography>
+					<Button color="inherit">{menu}</Button>
+				</Toolbar>
+			</AppBar>
+		</ThemeProvider>
 	);
-};
+}
 
-export default Nav;
+const darkTheme = createTheme({
+	palette: {
+		mode: 'dark',
+
+	},
+});

@@ -1,11 +1,13 @@
+import CustomizedSnackbar from '../components/CustomizedSnackbar';
+import { LOGIN_USER } from '../api/backendRequests';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../App';
-import { LOGIN_USER } from '../api/backendRequests';
 // Login page
 const LoginForm = () => {
 	const { state, dispatch } = useContext(AuthContext);
 	const [redirect, setRedirect] = useState(false);
+	const [showLoginErrorAlert, setShowLoginErrorAlert] = useState(false);
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
@@ -22,7 +24,13 @@ const LoginForm = () => {
 			...formData,
 			[e.target.name]: e.target.value,
 		});
+		setShowLoginErrorAlert(false);
 	};
+
+	const handleCloseLoginErrorAlert = () => {
+		setShowLoginErrorAlert(false);
+	};
+
 
 	// Handle submit - POST request
 	function handleSubmit(e) {
@@ -47,8 +55,7 @@ const LoginForm = () => {
 				setRedirect(true);
 			},
 			(error) => {
-				console.log(error);
-				alert(error);
+				setShowLoginErrorAlert(true);
 			})
 
 	}
@@ -75,12 +82,21 @@ const LoginForm = () => {
 							onChange={handleChange} required minLength={6} maxLength={20} />
 					</div>
 					<div className='d-grid mx-5'>
-						<button type='submit' className='btn btn-primary'>
-							Log in
-						</button>
+						<button type='submit' onClick={handleCloseLoginErrorAlert} className="btn btn-dark btn-lg mx-1 my-1">Sign In</button>
 					</div>
 				</form>
+				<p className='already-registered mx-auto text-left'>
+					Not a user ? <a href='/register'>Sign Up</a>
+				</p>
 			</div>
+			<>
+				{showLoginErrorAlert ?
+					<>
+						<CustomizedSnackbar message={"Incorrect email or password"} type={"error"} />
+					</> : <>
+					</>
+				}
+			</>
 		</div>
 	);
 }

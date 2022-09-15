@@ -1,24 +1,38 @@
+import { GET_ALL_ADDRESSES, GET_ALL_USERS } from '../api/backendRequests';
 import React, { useContext, useEffect, useState } from 'react';
-import Table from '@mui/material/Table';
+import TablePagination from '@mui/material/TablePagination';
+import TableContainer from '@mui/material/TableContainer';
+import DialogContent from '@mui/material/DialogContent';
+import CustomizedSnackbar from '../components/CustomizedSnackbar';
+import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Tabs from '@mui/material/Tabs';
-import '../custom.css';
-import { AuthContext } from '../App';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import RegisterForm from './RegisterForm';
-import CustomizedSnackbar from '../components/Alert';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import RegisterForm from './Register';
+import { AuthContext } from '../App';
 import Row from '../components/Row';
-import { GET_ALL_ADDRESSES, GET_ALL_USERS } from '../api/backendRequests';
+import '../custom.css';
+
 
 // Home page - for a logged in user 
 const Home = () => {
+	const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
 
 	const [users, setUsers] = useState([]);
 	const { state, dispatch } = useContext(AuthContext);
@@ -86,60 +100,66 @@ const Home = () => {
 		return (
 			<div className='main'>
 				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
-				<TableContainer component={Paper} sx={{
-					maxHeight: 425, maxWidth: 900, minHeight: 425, minWidth: 900, margin: 'auto', marginBottom: 3, marginTop: 3, borderRadius: 6,
-					boxShadow: 10,
-					"&::-webkit-scrollbar": {
-						width: 5,
-					},
-
-					"&::-webkit-scrollbar-thumb": {
-						backgroundColor: "silver",
-						borderRadius: 10
-					},
-					
-
-				}} >
-					<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
-						<TableHead sx={{ borderBottom: "1px solid black", }}>
-							<TableRow sx={{
-								"& th": {
-									backgroundColor: "silver",
-									fontSize: "1.3rem",
-									fontWeight: "bolder",
-									color: "rgba(96, 96, 96)",
-								},
-								width: 100
-							}} >
-								<TableCell />
-								<TableCell align="center">Email</TableCell>
-								<TableCell align="center">User Name</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{rows.map((row) => (
-								<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
-									row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
-									address={addressesList.find((address) => { return address.userId === row.id })} />
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+				<Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: 6, marginTop: 3 }}>
+					<TableContainer  >
+						<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
+							<TableHead>
+								<TableRow sx={{
+									"& th": {
+										backgroundColor: "#d6d1d1",
+										fontSize: "1.3rem",
+										fontWeight: "bolder",
+										color: "rgba(96, 96, 96)",
+									},
+								}} >
+									<TableCell />
+									<TableCell align="center">Email</TableCell>
+									<TableCell align="center">User Name</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((row) => (
+										<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
+											row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
+											address={addressesList.find((address) => { return address.userId === row.id })} />
+									))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					<TablePagination
+						component="div"
+						count={rows.length}
+						rowsPerPage={rowsPerPage}
+						rowsPerPageOptions={5}
+						page={page}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+					/>
+				</Paper>
 				<>
 					{showDialog ?
 						<>
 							<Dialog open={showDialog} onClose={handleClose} PaperProps={{
 								style: {
-									minHeight: 400,
+									minHeight: 300,
 									maxHeight: 400,
 									minWidth: 400,
 									maxWidth: 400,
 								},
 							}}>
-								<DialogTitle sx={{ fontSize: 20, margin: 'auto', fontWeight: 'bold' }}>Register User</DialogTitle>
+								<IconButton sx={{ marginLeft: 'auto', marginTop: 1, marginRight: 1, marginBottom: 'auto' }}
+									edge="start"
+									color="inherit"
+									onClick={handleClose}
+									aria-label="close"
+								>
+									<CloseIcon />
+								</IconButton>
+								<DialogTitle sx={{ fontSize: 20, textAlign: 'center', padding: 1, fontWeight: 'bold', }}>Add New User</DialogTitle>
 								<DialogContent>
-									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert} 
-									setShowDialog={setShowDialog} />
+									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert}
+										setShowDialog={setShowDialog} />
 								</DialogContent>
 							</Dialog>
 						</> :
@@ -170,7 +190,6 @@ const Home = () => {
 						</>
 					}
 				</>
-
 				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Add New User +</button>
 			</div>
 		)

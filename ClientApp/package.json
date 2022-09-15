@@ -9,6 +9,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/lab": "^5.0.0-alpha.98",
     "@mui/material": "^5.10.4",
+    "@mui/x-data-grid": "^5.17.2",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.1",
     "cors": "^2.8.5",

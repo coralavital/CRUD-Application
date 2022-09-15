@@ -15,15 +15,15 @@ export default function CustomizedSnackbar(props) {
 		if (reason === 'clickaway') {
 			return;
 		}
-
 		setOpen(false);
 	};
 
 
 
 	return (
-		<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-			<Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+		<Snackbar open={open} autoHideDuration={6000} onClose={handleClose} sx={{marginTop: 3}} anchorOrigin={{vertical: 'top',
+		horizontal: 'center'}}>
+			<Alert onClose={handleClose} severity={type} sx={{ width: '100%',}}>
 				{message}
 			</Alert>
 		</Snackbar>

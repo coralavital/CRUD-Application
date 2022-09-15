@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
 
-const UpdateForm = (props) => {
+const UpdateUser = (props) => {
 
 	const { state, dispatch } = useContext(AuthContext);
 	const { user, address, setShowUpdatedAlert, setShowDialog, setUpdatedUser } = props;
@@ -23,6 +23,10 @@ const UpdateForm = (props) => {
 			...formData,
 			[e.target.name]: e.target.value,
 		});
+	};
+
+	const handleUpdateAlert = () => {
+		setShowUpdatedAlert(false);
 	};
 
 	// Handle submit - PUT request
@@ -55,8 +59,8 @@ const UpdateForm = (props) => {
 					type: "UPDATED",
 					payload: { ...response }
 				});
-				if(setUpdatedUser){
-					{setUpdatedUser(userToUpdate)}
+				if (setUpdatedUser) {
+					{ setUpdatedUser(userToUpdate) }
 				}
 
 			})
@@ -82,12 +86,11 @@ const UpdateForm = (props) => {
 				<input type='text' name='userAddress' className='form-control' defaultValue={address.userAddress} onChange={handleChange} />
 			</div>
 			<div className="col-md-12 text-center">
-				<button type='submit' className='btn btn-primary btn-lg btn-block d-grid mb-2 mx-auto'>Update User</button>
-				<button onClick={() => setShowDialog(false)} type='button' className='btn btn-primary btn-lg btn-block d-grid mx-auto'>Cancel</button>
+				<button type='submit' onClick={handleUpdateAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-2 mx-auto">Update User</button>
 			</div>
 		</form>
 
 	);
 }
 
-export default UpdateForm;
+export default UpdateUser;
