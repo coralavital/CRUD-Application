@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Tabs from '@mui/material/Tabs';
 import '../custom.css';
 import { AuthContext } from '../App';
 import Dialog from '@mui/material/Dialog';
@@ -89,16 +90,16 @@ const Home = () => {
 					maxHeight: 425, maxWidth: 900, minHeight: 425, minWidth: 900, margin: 'auto', marginBottom: 3, marginTop: 3, borderRadius: 6,
 					boxShadow: 10,
 					"&::-webkit-scrollbar": {
-						width: 7, height: 2
+						display: "none"
 					},
 
 					"&::-webkit-scrollbar-thumb": {
 						backgroundColor: "silver",
 						borderRadius: 10
 					},
-
 					
-				}}>
+
+				}} >
 					<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
 						<TableHead sx={{ borderBottom: "1px solid black", }}>
 							<TableRow sx={{
