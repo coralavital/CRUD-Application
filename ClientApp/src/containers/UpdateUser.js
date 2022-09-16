@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { UPDATE_USER } from '../api/backendRequests';
 import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
 
@@ -39,17 +40,8 @@ const UpdateUser = (props) => {
 			userAddress: formData.userAddress ? formData.userAddress : address.userAddress
 		};
 
-
-		const url = Constants.API_URL_UPDATE_USER;
-		fetch(url, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(userToUpdate)
-		})
-			.then(response => response.json())
-			.then(response => {
+		UPDATE_USER( { userToUpdate },
+			(response) => {
 				if (!response) {
 					throw new Error(response.message);
 				}
@@ -62,12 +54,10 @@ const UpdateUser = (props) => {
 				if (setUpdatedUser) {
 					{ setUpdatedUser(userToUpdate) }
 				}
-
-			})
-			.catch((error) => {
+			}, (error) => {
 				console.log(error);
 				alert(error);
-			});
+			})
 	};
 
 	return (

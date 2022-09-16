@@ -2,6 +2,8 @@ import CustomizedSnackbar from '../components/CustomizedSnackbar';
 import { LOGIN_USER } from '../api/backendRequests';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { Link } from "react-router-dom"; 
 import { AuthContext } from '../App';
 // Login page
 const LoginForm = () => {
@@ -70,7 +72,7 @@ const LoginForm = () => {
 		<div className='border'>
 			<div className='center'>
 				<form onSubmit={handleSubmit}>
-					<h3 className='signup-title'>Login</h3>
+					<h3 className='signup-title'>Sign In</h3>
 					<div className='mb-3'>
 						<label>Email</label>
 						<input type='email' name="email" className='form-control' placeholder='Enter Email'
@@ -85,9 +87,15 @@ const LoginForm = () => {
 						<button type='submit' onClick={handleCloseLoginErrorAlert} className="btn btn-dark btn-lg mx-1 my-1">Sign In</button>
 					</div>
 				</form>
-				<p className='already-registered mx-auto text-left'>
-					Not a user ? <a href='/register'>Sign Up</a>
-				</p>
+				<span className='already-registered mx-auto text-right'>
+					Not a user ? <Button component={Link} to='/register' border='none' sx={{border: 'none',
+							color: {
+								"&:hover": {
+									color: "#90caf9"
+								}
+							}
+						}}  underline="none">Sign Up</Button>
+				</span>
 			</div>
 			<>
 				{showLoginErrorAlert ?

@@ -2,6 +2,8 @@ import { REGISTER_USER } from '../api/backendRequests';
 import CustomizedSnackbar from '../components/CustomizedSnackbar';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 import { AuthContext } from '../App';
 
 // Register page
@@ -141,7 +143,15 @@ const RegisterForm = (props) => {
 									<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg mx-1 my-1 ">Sign Up</button>
 								</div>
 								<p className='already-registered mx-auto text-left'>
-									Have an account ? <a href='/login'>Sign In</a>
+									Have an account ?
+									<Button component={Link} to='/login' border='none' sx={{
+										border: 'none',
+										color: {
+											"&:hover": {
+												color: "#90caf9"
+											}
+										}
+									}} underline="none">Sign In</Button>
 								</p>
 							</form>
 						</div>

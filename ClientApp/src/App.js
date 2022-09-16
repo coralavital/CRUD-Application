@@ -4,10 +4,15 @@ import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import { reducer } from "./store/reducer/app-reducer";
 import './custom.css'
-;
+	;
 import Constants from './utilities/Constants';
 
 export const AuthContext = createContext();
+
+const styles = {
+	fontFamily: '"Segoe UI"',
+	TextDecoder: 'none'
+  };
 
 export default function App() {
 	// Application state
@@ -22,30 +27,30 @@ export default function App() {
 		'Content-Type': 'application/json'
 	}
 
-	useEffect (() => {
+	useEffect(() => {
 		// Send a POST request
 		fetch(active_user_url, {
 			method: 'GET',
 			headers
 		})
-		.then(response => response.json())
-		.then(response => {
-			if(!response.user) {
-				throw new Error(response.message);
-			}
-			dispatch({
-				type: "GET_ACTIVE_USER",
-				payload: { ...response }
-			});
-		})
-		.catch((error) => {
-			console.log(error);
-			localStorage.removeItem('jwt')
-		})
+			.then(response => response.json())
+			.then(response => {
+				if (!response.user) {
+					throw new Error(response.message);
+				}
+				dispatch({
+					type: "GET_ACTIVE_USER",
+					payload: { ...response }
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+				localStorage.removeItem('jwt')
+			})
 	}, [])
 	// Return Routes
 	return (
-
+		<div style={styles}>
 		<AuthContext.Provider
 			value={{
 				state,
@@ -61,5 +66,6 @@ export default function App() {
 				</Routes>
 			</Layout>
 		</AuthContext.Provider>
+		</div>
 	);
 }

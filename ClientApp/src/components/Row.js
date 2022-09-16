@@ -80,7 +80,7 @@ const Row = (props) => {
 	// Return user row with option to open dialog for update user as a logged in user
 	return (
 		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none" }} >
-			<TableRow hover role="checkbox" tabIndex={-1} key={row.code} sx={{
+			<TableRow role="checkbox" tabIndex={-1} key={row.code} sx={{
 				'& > *': { borderBottom: 'unset' },
 				"& td": {
 					fontSize: "1.3rem",

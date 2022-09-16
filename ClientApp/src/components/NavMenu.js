@@ -5,10 +5,13 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 import { AuthContext } from '../App';
 
 
+
 export default function Nav() {
+
 	const { state, dispatch } = useContext(AuthContext);
 	// Log out function
 	function logout() {
@@ -32,22 +35,38 @@ export default function Nav() {
 	if (!state.user) {
 		menu = (
 			<>
-				<Button sx={{'&:hover': {
-						color:"secondary"
-					},}} color={"secondary"} href={"/login"} underline="none">Login</Button>
+				<Button sx={{
+							color: {
+								"&:hover": {
+									color: "#90caf9"
+								}
+							}
+						}} component={Link} to='/login' underline="none">Sign In</Button>
 			</>
 		)
 	} else {
 		menu = (
-			<Button color={"secondary"} href={"/"} onClick={logout} underline="none">Logout</Button>
+			<Button sx={{
+				color: {
+					"&:hover": {
+						color: "secondary"
+					}
+				}
+			}} component={Link} to='/' onClick={logout} underline="none">Logout</Button>
 		)
 	}
 	return (
-		<ThemeProvider theme={darkTheme}>
-			<AppBar position="static">
+		<ThemeProvider theme={darkTheme} >
+			<AppBar position="sticky" >
 				<Toolbar>
 					<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						<Button color={"secondary"} to={"/"} underline="none">Home</Button>
+						<Button sx={{
+							color: {
+								"&:hover": {
+									color: "#90caf9"
+								}
+							}
+						}} component={Link} to='/' underline="none">Home</Button>
 					</Typography>
 					{menu}
 				</Toolbar>

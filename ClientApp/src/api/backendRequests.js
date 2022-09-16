@@ -98,5 +98,23 @@ const DELETE_USER = (data, onSuccess, onError) => {
 
 }
 
+const UPDATE_USER = (data, onSuccess, onError) => {
+	const url = Constants.API_URL_UPDATE_USER;
+	fetch(url, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data.userToUpdate)
+	})
+	.then(response => response.json())
+	.then(response => {
+		onSuccess(response);
+	})
+	.catch((error) => {
+		onError(error);
+	});
+}
 
-export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS, DELETE_USER }
+
+export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS, DELETE_USER, UPDATE_USER }
