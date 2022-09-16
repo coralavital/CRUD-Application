@@ -113,8 +113,8 @@ const Home = () => {
 				>
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
 				</Box>
-
-				<Paper sx={{ width: '100%',  borderRadius: 6, marginTop: 1, }}>
+				<Box sx={{ paddingBottom: '10%'}}>
+				<Paper sx={{ height:'100%' ,width: '100%',  borderRadius: 6, marginTop: 1, }}>
 					<TableContainer sx={{marginBottom: 2, borderRadius: 7 }}>
 						<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
 							<TableHead>
@@ -151,6 +151,7 @@ const Home = () => {
 						onRowsPerPageChange={handleChangeRowsPerPage}
 					/>
 				</Paper>
+				</Box>
 				<>
 					{showDialog ?
 						<>

@@ -49,7 +49,7 @@ export default function Nav() {
 			<Button sx={{
 				color: {
 					"&:hover": {
-						color: "secondary"
+						color: "#90caf9"
 					}
 				}
 			}} component={Link} to='/' onClick={logout} underline="none">Logout</Button>
@@ -57,7 +57,7 @@ export default function Nav() {
 	}
 	return (
 		<ThemeProvider theme={darkTheme} >
-			<AppBar position="sticky" >
+			<AppBar position="sticky" style={{  boxShadow: 'none'}}>
 				<Toolbar>
 					<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						<Button sx={{
