@@ -14,9 +14,12 @@ import TableRow from '@mui/material/TableRow';
 import Dialog from '@mui/material/Dialog';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
+import Button from '@mui/material/Button';
 import RegisterForm from './Register';
 import { AuthContext } from '../App';
 import Row from '../components/Row';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import '../custom.css';
 
 
@@ -99,9 +102,21 @@ const Home = () => {
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>
-				{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
-				<Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: 6, marginTop: 3 }}>
-					<TableContainer  >
+				<Typography color={"black"} variant="h6" component="div" sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', flexGrow: 1 }}>
+					{state.newUser ? `Welcome, ${state.user.username}` : `Welcome back, ${state.user.username}`}
+				</Typography>
+				<Box
+					m={1}
+					//margin
+					display="flex"
+					justifyContent="flex-end"
+					alignItems="flex-end"	
+				>
+					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg  btn-lg btn-block d-grid ">Add User</button>
+				</Box>
+
+				<Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: 6, marginTop: 3,  }}>
+					<TableContainer>
 						<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
 							<TableHead>
 								<TableRow sx={{
@@ -110,6 +125,7 @@ const Home = () => {
 										fontSize: "1.3rem",
 										fontWeight: "bolder",
 										color: "rgba(96, 96, 96)",
+										fontFamily: '"Segoe UI"',
 									},
 								}} >
 									<TableCell />
@@ -146,6 +162,7 @@ const Home = () => {
 									maxHeight: 400,
 									minWidth: 400,
 									maxWidth: 400,
+									fontFamily: '"Segoe UI"',
 								},
 							}}>
 								<IconButton sx={{ marginLeft: 'auto', marginTop: 1, marginRight: 1, marginBottom: 'auto' }}
@@ -156,7 +173,7 @@ const Home = () => {
 								>
 									<CloseIcon />
 								</IconButton>
-								<DialogTitle sx={{ fontSize: 20, textAlign: 'center', padding: 1, fontWeight: 'bold', }}>Add New User</DialogTitle>
+								<DialogTitle sx={{ fontSize: 'xx-large', fontWeight: 'bolder', textAlign: 'center', padding: 1 }}>Add User</DialogTitle>
 								<DialogContent>
 									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert}
 										setShowDialog={setShowDialog} />
@@ -190,7 +207,6 @@ const Home = () => {
 						</>
 					}
 				</>
-				<button onClick={handleClickOpen} className="btn btn-dark btn-lg mx-1 my-1">Add New User +</button>
 			</div>
 		)
 	}

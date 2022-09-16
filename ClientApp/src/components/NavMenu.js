@@ -5,11 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 import { AuthContext } from '../App';
-
-
 
 
 export default function Nav() {
@@ -36,14 +32,14 @@ export default function Nav() {
 	if (!state.user) {
 		menu = (
 			<>
-				<Stack spacing={2} direction="row">
-					<Link href={"/login"} underline="none">Login</Link>
-				</Stack>
+				<Button sx={{'&:hover': {
+						color:"secondary"
+					},}} color={"secondary"} href={"/login"} underline="none">Login</Button>
 			</>
 		)
 	} else {
 		menu = (
-			<Link href={"/"} onClick={logout} underline="none">Log Out</Link>
+			<Button color={"secondary"} href={"/"} onClick={logout} underline="none">Logout</Button>
 		)
 	}
 	return (
@@ -51,9 +47,9 @@ export default function Nav() {
 			<AppBar position="static">
 				<Toolbar>
 					<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						<Link to={"/"} underline="none">Home</Link>
+						<Button color={"secondary"} to={"/"} underline="none">Home</Button>
 					</Typography>
-					<Button color="inherit">{menu}</Button>
+					{menu}
 				</Toolbar>
 			</AppBar>
 		</ThemeProvider>

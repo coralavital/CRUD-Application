@@ -12,9 +12,9 @@ body {
   background-position: 50% 0;
   font-family: sans-serif;
   opacity: 0.9 !important;
-  
-  
+  font-family: "Segoe UI" !important;
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 12px;

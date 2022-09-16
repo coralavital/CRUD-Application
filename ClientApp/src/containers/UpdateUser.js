@@ -5,7 +5,7 @@ import { AuthContext } from '../App';
 const UpdateUser = (props) => {
 
 	const { state, dispatch } = useContext(AuthContext);
-	const { user, address, setShowUpdatedAlert, setShowDialog, setUpdatedUser } = props;
+	const { user, address, setShowUpdatedAlert, setShowUpdateDialog, setUpdatedUser } = props;
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
@@ -53,7 +53,7 @@ const UpdateUser = (props) => {
 				if (!response) {
 					throw new Error(response.message);
 				}
-				setShowDialog(false);
+				setShowUpdateDialog(false);
 				setShowUpdatedAlert(true);
 				dispatch({
 					type: "UPDATED",
@@ -86,7 +86,7 @@ const UpdateUser = (props) => {
 				<input type='text' name='userAddress' className='form-control' defaultValue={address.userAddress} onChange={handleChange} />
 			</div>
 			<div className="col-md-12 text-center">
-				<button type='submit' onClick={handleUpdateAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-2 mx-auto">Update User</button>
+				<button type='submit' onClick={handleUpdateAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-2 mx-auto">Update</button>
 			</div>
 		</form>
 

@@ -84,6 +84,7 @@ const Row = (props) => {
 				'& > *': { borderBottom: 'unset' },
 				"& td": {
 					fontSize: "1.3rem",
+					fontFamily: '"Segoe UI"'
 				},
 			}}>
 				<TableCell>
@@ -103,12 +104,15 @@ const Row = (props) => {
 				"& th": {
 					fontSize: "1.2rem",
 					fontWeight: "bolder",
+					fontFamily: '"Segoe UI"'
 				},
 			}}>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0, }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 4, borderRadius: 2, backgroundColor: "#d6d1d1" }}>
-							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder', textAlign: 'center', paddingTop: 2 }}>
+						<Box sx={{ margin: 4, borderRadius: 2, backgroundColor: "#d6d1d1", }}>
+							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder',
+							 textAlign: 'center', paddingTop: 2,
+							 fontFamily: '"Segoe UI"' }}>
 								User Details
 							</Typography>
 							<Table size="small" aria-label="purchases">
@@ -123,6 +127,7 @@ const Row = (props) => {
 									<TableRow sx={{
 										"& td": {
 											fontSize: "1.1rem",
+											fontFamily: '"Segoe UI"'
 										},
 									}}>
 										<TableCell>{row.email}</TableCell>
@@ -155,6 +160,7 @@ const Row = (props) => {
 							style: {
 								minHeight: 300,
 								minWidth: 400,
+								fontFamily: '"Segoe UI"',
 							},
 						}}>
 							<IconButton sx={{ marginLeft: 'auto', marginTop: 1, }}
@@ -165,9 +171,9 @@ const Row = (props) => {
 							>
 								<CloseIcon />
 							</IconButton>
-							<DialogTitle sx={{ fontSize: 20, padding: 1, textAlign: 'center', fontWeight: 'bold' }}>Update User Details</DialogTitle>
+							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} user={row} address={address} />
+								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} address={address} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>
