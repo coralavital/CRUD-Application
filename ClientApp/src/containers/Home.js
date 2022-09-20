@@ -109,48 +109,48 @@ const Home = () => {
 					//margin
 					display="flex"
 					justifyContent="flex-end"
-					alignItems="flex-end"	
+					alignItems="flex-end"
 				>
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
 				</Box>
-				<Box sx={{ paddingBottom: '10%'}}>
-				<Paper sx={{ height:'100%' ,width: '100%',  borderRadius: 6, marginTop: 1, }}>
-					<TableContainer sx={{marginBottom: 2, borderRadius: 7 }}>
-						<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
-							<TableHead>
-								<TableRow sx={{
-									"& th": {
-										backgroundColor: "#d6d1d1",
-										fontSize: "1.3rem",
-										fontWeight: "bolder",
-										color: "rgba(96, 96, 96)",
-									},
-								}} >
-									<TableCell />
-									<TableCell align="center">Email</TableCell>
-									<TableCell align="center">User Name</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((row) => (
-										<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
-											row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
-											address={addressesList.find((address) => { return address.userId === row.id })} />
-									))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					<TablePagination
-						component="div"
-						count={rows.length}
-						rowsPerPage={rowsPerPage}
-						rowsPerPageOptions={5}
-						page={page}
-						onPageChange={handleChangePage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
-				</Paper>
+				<Box sx={{ paddingBottom: '10%' }}>
+					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }}>
+						<TableContainer sx={{ marginBottom: 2, borderRadius: 7 }}>
+							<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
+								<TableHead>
+									<TableRow sx={{
+										"& th": {
+											backgroundColor: "#d6d1d1",
+											fontSize: "1.3rem",
+											fontWeight: "bolder",
+											color: "rgba(96, 96, 96)",
+										},
+									}} >
+										<TableCell />
+										<TableCell align="center">Email</TableCell>
+										<TableCell align="center">User Name</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row) => (
+											<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
+												row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
+												address={addressesList.find((address) => { return address.userId === row.id })} />
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							component="div"
+							count={rows.length}
+							rowsPerPage={rowsPerPage}
+							rowsPerPageOptions={5}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</Paper>
 				</Box>
 				<>
 					{showDialog ?
@@ -213,8 +213,8 @@ const Home = () => {
 		<div className='main'>
 			<div>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 'xx-large', fontWeight: 'bolder', flexGrow: 1 }}>
-				Hey there,
-				login or register to see more
+					Hey there,
+					login or register to see more
 				</Typography>
 			</div>
 

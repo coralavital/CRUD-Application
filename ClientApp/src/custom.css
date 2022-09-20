@@ -2,7 +2,7 @@
 
 body {
   width: 100%;
-  background:linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.4)), url("./img/19362653.jpg") no-repeat center center fixed !important;
+  background:linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url("./img/19362653.jpg") no-repeat center center fixed !important;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

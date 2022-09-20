@@ -29,13 +29,46 @@ namespace hometask.Data.Migrations
 				name: "IX_Users_Username",
 				table: "Users",
 				column: "Username",
-				unique: false);
+				unique: false
+			);
 
 			migrationBuilder.CreateIndex(
 				name: "IX_Users_Email",
 				table: "Users",
 				column: "Email",
-				unique: true);
+				unique: true
+			);
+
+			// Seeding data for Users table
+			migrationBuilder.InsertData(
+				table: "Users",
+				columns: new[] { "Id", "Email", "Username", "Password" },
+				values: new object[] { 1, "coral@gmail.com", "coral", BCrypt.Net.BCrypt.HashPassword("123456") }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Users",
+				columns: new[] { "Id", "Email", "Username", "Password" },
+				values: new object[] { 2, "adir@gmail.com", "adir", BCrypt.Net.BCrypt.HashPassword("123456") }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Users",
+				columns: new[] { "Id", "Email", "Username", "Password" },
+				values: new object[] { 3, "bar@gmail.com", "bar", BCrypt.Net.BCrypt.HashPassword("123456") }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Users",
+				columns: new[] { "Id", "Email", "Username", "Password" },
+				values: new object[] { 4, "rinat@gmail.com", "rinat", BCrypt.Net.BCrypt.HashPassword("123456") }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Users",
+				columns: new[] { "Id", "Email", "Username", "Password" },
+				values: new object[] { 5, "ido@gmail.com", "ido", BCrypt.Net.BCrypt.HashPassword("123456") }
+			);
 
 		}
 

@@ -22,7 +22,44 @@ namespace hometask.Data.Migrations
 				{
 					table.PrimaryKey("PK_Addresses", x => x.Id);
 				});
+			
+			migrationBuilder.CreateIndex(
+				name: "IX_Addresses_UserId",
+				table: "Addresses",
+				column: "UserId",
+				unique: true
+			);
 
+			// Seeding data for Addresses table
+			migrationBuilder.InsertData(
+				table: "Addresses",
+				columns: new[] { "Id", "UserId", "UserAddress" },
+				values: new object[] { 1, 1, "Ashdod" }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Addresses",
+				columns: new[] { "Id", "UserId", "UserAddress" },
+				values: new object[] { 2, 2, "Tel Aviv" }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Addresses",
+				columns: new[] { "Id", "UserId", "UserAddress" },
+				values: new object[] { 3, 3, "Haifa" }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Addresses",
+				columns: new[] { "Id", "UserId", "UserAddress" },
+				values: new object[] { 4, 4, "Ashdod" }
+			);
+
+			migrationBuilder.InsertData(
+				table: "Addresses",
+				columns: new[] { "Id", "UserId", "UserAddress" },
+				values: new object[] { 5, 5, "Tel Aviv" }
+			);
 		}
 
 		protected override void Down(MigrationBuilder migrationBuilder)

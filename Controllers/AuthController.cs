@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using hometask.Helpers;
+using hometask.Models;
 using hometask.Data;
 using hometask.Dtos;
-using hometask.Models;
-using hometask.Helpers;
-using System.Diagnostics;
 
 namespace hometask.Controllers
 {
@@ -73,7 +72,7 @@ namespace hometask.Controllers
 
 		}
 
-		// Http POST request for login a uaer
+		// Http POST request for login a user
 		[HttpPost("login")]
 		public IActionResult Login(LoginDto dto)
 		{

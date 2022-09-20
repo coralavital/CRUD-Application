@@ -15,7 +15,6 @@ namespace hometask.Helpers
 			var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
 			var header = new JwtHeader(credentials);
 
-
 			var payload = new JwtPayload(id.ToString(), null, null, null, TimeZoneInfo.ConvertTimeToUtc(DateTime.Now.AddHours(3)));
 			var securityToken = new JwtSecurityToken(header, payload);
 

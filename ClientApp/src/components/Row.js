@@ -110,9 +110,11 @@ const Row = (props) => {
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0, }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<Box sx={{ margin: 4, borderRadius: 2, backgroundColor: "#d6d1d1", }}>
-							<Typography gutterBottom component="div" sx={{ fontSize: 'h5.fontSize', fontWeight: 'bolder',
-							 textAlign: 'center', paddingTop: 2,
-							 fontFamily: '"Segoe UI"' }}>
+							<Typography gutterBottom component="div" sx={{
+								fontSize: 'h5.fontSize', fontWeight: 'bolder',
+								textAlign: 'center', paddingTop: 2,
+								fontFamily: '"Segoe UI"'
+							}}>
 								User Details
 							</Typography>
 							<Table size="small" aria-label="purchases">
@@ -197,10 +199,10 @@ const Row = (props) => {
 							>
 								<CloseIcon />
 							</IconButton>
-							<DialogTitle sx={{ fontSize: 20, padding: 0, fontWeight: 'bold' }}>Delete User</DialogTitle>
+							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Delete User</DialogTitle>
 							<DialogContent>
 								<DialogContent>
-									<DialogContentText id="alert-dialog-slide-description">
+									<DialogContentText sx={{ fontSize: 16, }} id="alert-dialog-slide-description">
 										<>
 											{state.user.id !== row.id ?
 												<>
@@ -214,8 +216,9 @@ const Row = (props) => {
 									</DialogContentText>
 								</DialogContent>
 								<DialogActions>
-
-									<Button onClick={handleDelete}>Confirm</Button>
+									<div className="col-md-7 text-center">
+										<button onClick={handleDelete} className="btn btn-dark btn-lg btn-block d-grid ">Confirm</button>
+									</div>
 								</DialogActions>
 							</DialogContent>
 						</Dialog>

@@ -4,10 +4,10 @@ using hometask.Models;
 
 namespace hometask.Data
 {
-    public class AppDBContext : DbContext
-    {
+	public class AppDBContext : DbContext
+	{
 		// Users table
-        public DbSet<User> Users { get; set; }
+		public DbSet<User> Users { get; set; }
 
 		// Address table
 		public DbSet<Address> Addresses { get; set; }
@@ -21,10 +21,9 @@ namespace hometask.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			// Build User entity with automatic increscent id
-      		modelBuilder.Entity<User>().Property(t => t.Id).ValueGeneratedOnAdd().HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+			modelBuilder.Entity<User>().Property(t => t.Id).ValueGeneratedOnAdd().HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 			// Build Address entity with automatic increscent id
 			modelBuilder.Entity<Address>().Property(t => t.Id).ValueGeneratedOnAdd().HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
 		}
-    }
+	}
 }
