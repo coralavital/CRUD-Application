@@ -2,14 +2,14 @@
 export const reducer = (state, action) => {
 	switch (action.type) {
 	  case "LOGIN": {
-		localStorage.setItem("jwt", action.payload.jwt);
+		localStorage.setItem("jwt", action.payload.token);
 		return {
 		  ...state,
 		  user: action.payload.user
 		};
 	  }
 	  case "REGISTER": {
-		localStorage.setItem("jwt", action.payload.jwt);
+		localStorage.setItem("jwt", action.payload.token);
 		  return {
 		  ...state,
 		  user: action.payload.user,

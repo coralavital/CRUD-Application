@@ -1,7 +1,7 @@
-using hometask.Models;
+
 namespace hometask.Dtos
 {
-	// RegisterDto model to get from the frontend the register user details
+	// RegisterDto
 	public class RegisterDto
 	{
 		public string Username { get; set; }

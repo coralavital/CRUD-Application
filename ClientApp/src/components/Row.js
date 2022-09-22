@@ -68,8 +68,8 @@ const Row = (props) => {
 						type: "LOGOUT",
 						payload: {}
 					});
+					setShowDeletedAlert(true);
 				}
-				setShowDeletedAlert(true);
 			},
 			(error) => {
 				console.log(error);
@@ -98,7 +98,7 @@ const Row = (props) => {
 				</TableCell>
 
 				<TableCell align="center">{row.email}</TableCell>
-				<TableCell align="center">{row.username}</TableCell>
+				<TableCell align="center">{row.userName}</TableCell>
 			</TableRow>
 			<TableRow sx={{
 				"& th": {
@@ -133,7 +133,7 @@ const Row = (props) => {
 										},
 									}}>
 										<TableCell>{row.email}</TableCell>
-										<TableCell>{row.username}</TableCell>
+										<TableCell>{row.userName}</TableCell>
 										<TableCell>{address.userAddress}</TableCell>
 										<TableCell align='right'>
 											<Tooltip title="Update user details">
@@ -204,7 +204,7 @@ const Row = (props) => {
 								<DialogContent>
 									<DialogContentText sx={{ fontSize: 16, }} id="alert-dialog-slide-description">
 										<>
-											{state.user.id !== row.id ?
+											{state.user.Id !== row.id ?
 												<>
 													Are you sure that you want to delete the user?
 												</> : <>

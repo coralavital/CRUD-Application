@@ -1,206 +1,202 @@
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using hometask.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using hometask.Models;
 using hometask.Data;
 using hometask.Dtos;
+using System.Text;
 
 namespace hometask.Controllers
 {
 	[Route(template: "api")]
 	[ApiController]
-	public class AuthController : Controller
+	public class AuthController : ControllerBase
 	{
-		private readonly IUserRepository _repository;
-		private readonly JwtService _jwtService;
+		public readonly AppDBContext _context;
+		private SignInManager<IdentityUser> _signManager;
+		private readonly UserManager<IdentityUser> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
+		private readonly IConfiguration _configuration;
 
-		public AuthController(IUserRepository repository, JwtService jwtService)
+		public AuthController(UserManager<IdentityUser> userManager,
+			RoleManager<IdentityRole> roleManager,
+			IConfiguration configuration,
+			AppDBContext context,
+			SignInManager<IdentityUser> signManager)
 		{
-			_repository = repository;
-			_jwtService = jwtService;
+			_userManager = userManager;
+			_roleManager = roleManager;
+			_configuration = configuration;
+			_context = context;
+			_signManager = signManager;
 		}
 		// Http POST request for register a uaer
 		[HttpPost("register")]
-		public IActionResult Register(RegisterDto dto)
+		public async Task<IActionResult> Register(RegisterDto dto)
 		{
-
-			try
+			var userExists = await _userManager.FindByEmailAsync(dto.Email);
+			if (userExists != null)
 			{
-				var user = new User
+				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+			}
+			IdentityUser user = new()
+			{
+				Email = dto.Email,
+				SecurityStamp = Guid.NewGuid().ToString(),
+				UserName = dto.Username,
+			};
+			Address address = new()
+			{
+				UserId = user.Id,
+				UserAddress = dto.UserAddress
+			};
+			_context.Addresses.Add(address);
+			_context.SaveChanges();
+			var result = await _userManager.CreateAsync(user, dto.Password);
+			if (result.Succeeded)
+			{
+				await _signManager.SignInAsync(user, isPersistent: false);
+				return Ok(new { user });
+			}
+			return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+		}
+
+		//Http POST request for login a user
+		[HttpPost("login")]
+		public async Task<IActionResult> Login(LoginDto dto)
+		{
+			var user = await _userManager.FindByEmailAsync(dto.Email);
+			if (user != null && await _userManager.CheckPasswordAsync(user, dto.Password))
+			{
+				var userRoles = await _userManager.GetRolesAsync(user);
+
+				var authClaims = new List<Claim>
 				{
-					Email = dto.Email,
-					Username = dto.Username,
-					Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+					new Claim(ClaimTypes.Name, user.UserName),
+					new Claim(ClaimTypes.Email, user.Email),
+					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
 
-				if (_repository.GetByEmail(user.Email) != null)
+				foreach (var userRole in userRoles)
 				{
-					return BadRequest(error: new { message = "The email already exist", error = true });
+					authClaims.Add(new Claim(ClaimTypes.Role, userRole));
 				}
 
-				var newUser = _repository.CreateUser(user);
-
-				if (newUser != null)
+				var token = GetToken(authClaims);
+				await _signManager.SignInAsync(user, isPersistent: false);
+				return Ok(new
 				{
-					var address = new Address
-					{
-						UserId = newUser.Id,
-						UserAddress = dto.UserAddress,
-					};
-					_repository.CreateAddress(address);
-					var jwt = _jwtService.Generate(newUser.Id);
-					Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
-					{
-						HttpOnly = true
-					});
-
-					return Ok(new
-					{
-						user = newUser,
-						jwt
-					});
-				}
-
-				else
-				{
-					return BadRequest(error: new { message = "Coldn't create new user", error = true });
-				}
+					user,
+					token = new JwtSecurityTokenHandler().WriteToken(token),
+					expiration = token.ValidTo
+				});
 			}
-			catch (Exception ex)
-			{
-				return BadRequest(error: new { message = ex.Message, error = true });
-			}
-
-		}
-
-		// Http POST request for login a user
-		[HttpPost("login")]
-		public IActionResult Login(LoginDto dto)
-		{
-			var user = _repository.GetByEmail(dto.Email);
-
-			if (user == null)
-			{
-				return BadRequest(error: new { message = "Invalid Username or Password", error = true });
-			}
-
-			if (!BCrypt.Net.BCrypt.Verify(text: dto.Password, hash: user.Password))
-			{
-				return BadRequest(error: new { message = "Invalid Username or Password", error = true });
-			}
-
-			var jwt = _jwtService.Generate(user.Id);
-
-			Response.Cookies.Append(key: "jwt", value: jwt, new CookieOptions
-			{
-				HttpOnly = true
-			});
-
-			return Ok(new
-			{
-				user,
-				jwt
-			});
-		}
-
-		// Http GST request to get the current user
-		[HttpGet("currentUser")]
-		public IActionResult currentUser()
-		{
-			try
-			{
-				var jwt = Request.Headers["jwt"];
-				Console.WriteLine(jwt);
-				var decodedJwt = _jwtService.Verify(jwt);
-				Console.WriteLine(decodedJwt);
-
-				int userId = int.Parse(decodedJwt.Issuer);
-
-				if (decodedJwt.ValidTo > TimeZoneInfo.ConvertTimeToUtc(DateTime.Now))
-				{
-					var user = _repository.GetUserById(userId);
-
-					return Ok(new
-					{
-						user,
-						jwt
-					});
-				}
-				else
-				{
-					return BadRequest(error: new { message = "Token expired", error = true });
-				}
-			}
-			catch (Exception)
-			{
-				return Unauthorized();
-			}
-		}
-		// Http GET request for get addresses list
-		[HttpGet("getAddresses")]
-		public IActionResult getAddresses()
-		{
-			var addresses = _repository.GetAllAddresses();
-			if (addresses == null)
-			{
-				return BadRequest(error: new { message = "Error", error = true });
-			}
-			return Ok(addresses);
+			return Unauthorized();
 		}
 
 		// Http POST request for logout user
 		[HttpPost("logout")]
-		public IActionResult Logout()
+		public async Task<IActionResult> Logout()
 		{
-			Response.Cookies.Delete("jwt");
+			await _signManager.SignOutAsync();
 			return Ok(new
 			{
 				message = "User logged out"
 			});
 		}
 
+		// Http GST request to get the current user
+		[HttpGet("currentUser")]
+		public async Task<IActionResult> getCurrentUser()
+		{
+			var user = _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+			if (user == null)
+				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User founded failed!" });
+			return Ok(new { user});
+		}
+
+
+
+		// Http GET request for get addresses list
+		[HttpGet("getAddresses")]
+		public IActionResult getAddresses()
+		{
+			var addresses = _context.Addresses.ToList();
+			if (addresses == null)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Addresses list founded failed!" });
+			}
+			return Ok(addresses);
+		}
+
 		// Http GET request for get users list
 		[HttpGet("getAllUsers")]
 		public IActionResult GetAllUsers()
 		{
-			var users = _repository.GetAllUsers();
+			var users = _context.Users.ToList();
 			if (users == null)
 			{
-				return BadRequest(error: new { message = "Error", error = true });
+				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
 			}
 			return Ok(users);
 		}
 
+
+		//[Authorize(Roles = "Admin")]
 		[HttpDelete("deleteUser")]
-		public IActionResult DeleteUser(int id)
-
+		public async Task<IActionResult> DeleteUser(string id)
 		{
-			if (_repository.DeleteUser(id) == false)
+			var user = await _userManager.FindByIdAsync(id);
+			Address address = _context.Addresses.FirstOrDefault(address => address.UserId == id);
+			_context.Addresses.Remove(address);
+			_context.SaveChanges();
+			var result = await _userManager.DeleteAsync(user);
+			if (result == null)
+				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
+			return Ok(new
 			{
-
-				return Ok(new
-				{
-					message = "User deleted"
-				});
-			}
-			return BadRequest(error: new { message = "There is a problem to delete", error = true });
+				message = "User deleted successfully"
+			});
 		}
 
+		//[Authorize(Roles = "Admin")]
 		// Http PUT request for update user data
 		[HttpPut("updateUser")]
-		public IActionResult UpdateUser(UpdateDto dto)
+		public async Task<IActionResult> UpdateUser(UpdateDto dto)
 		{
-			Address address = _repository.GetAddressById(dto.Id);
-			User user = _repository.GetUserById(dto.Id);
-			user.Username = dto.Username;
+			Address address = _context.Addresses.FirstOrDefault(address => address.UserId == dto.Id);
+			IdentityUser user = await _userManager.FindByIdAsync(dto.Id);
+			user.UserName = dto.UserName;
 			address.UserAddress = dto.UserAddress;
-			if (_repository.UpdateUser(user, address))
+			if (user != null)
 			{
+				_context.Addresses.Update(address);
+				_context.Users.Update(user);
+				_context.SaveChanges();
 				return Ok(new
 				{
 					message = "User updated"
 				});
 			}
 			return BadRequest(error: new { message = "There is a problem to update", error = true });
+		}
+
+		private JwtSecurityToken GetToken(List<Claim> authClaims)
+		{
+			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+			var token = new JwtSecurityToken(
+				issuer: _configuration["JWT:ValidIssuer"],
+				audience: _configuration["JWT:ValidAudience"],
+				expires: DateTime.Now.AddHours(3),
+				claims: authClaims,
+				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+				);
+
+			return token;
 		}
 	}
 }

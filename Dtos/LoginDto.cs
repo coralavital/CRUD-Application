@@ -1,6 +1,6 @@
 namespace hometask.Dtos
 {
-	// LoginDto model to get from the frontend the login user details
+	// LoginDto
 	public class LoginDto
 	{
 		public string Email { get; set; }

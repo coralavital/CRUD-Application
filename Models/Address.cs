@@ -9,8 +9,8 @@ namespace hometask.Models
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-		[Required]
-		public int UserId{ get; set; }
+		[ForeignKey("Id")]
+		public string UserId{ get; set; }  = string.Empty;
 		[Required]
 		public string UserAddress{ get; set; } = string.Empty;
 	}

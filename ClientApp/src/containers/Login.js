@@ -13,7 +13,7 @@ const LoginForm = () => {
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
-		username: "",
+		email: "",
 		password: ""
 	});
 
@@ -47,7 +47,7 @@ const LoginForm = () => {
 		LOGIN_USER({ userToLogin },
 			(response) => {
 				if (!response.user) {
-					throw new Error(response.message);
+					throw new Error(response);
 				}
 				dispatch({
 					type: "LOGIN",

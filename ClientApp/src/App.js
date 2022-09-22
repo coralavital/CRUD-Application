@@ -31,7 +31,7 @@ export default function App() {
 		// Send a POST request
 		fetch(active_user_url, {
 			method: 'GET',
-			headers
+			'Content-Type': 'application/json'
 		})
 			.then(response => response.json())
 			.then(response => {

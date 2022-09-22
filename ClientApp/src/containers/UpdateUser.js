@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { UPDATE_USER } from '../api/backendRequests';
-import Constants from '../utilities/Constants';
 import { AuthContext } from '../App';
 
 const UpdateUser = (props) => {
@@ -10,7 +9,7 @@ const UpdateUser = (props) => {
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
-		username: "",
+		userName: "",
 		email: "",
 		userAddress: ""
 	});
@@ -35,7 +34,7 @@ const UpdateUser = (props) => {
 		e.preventDefault();
 		const userToUpdate = {
 			id: user.id,
-			username: formData.username ? formData.username : user.username,
+			userName: formData.userName ? formData.userName : user.userName,
 			email: user.email,
 			userAddress: formData.userAddress ? formData.userAddress : address.userAddress
 		};
@@ -69,7 +68,7 @@ const UpdateUser = (props) => {
 			</div>
 			<div className='mb-3'>
 				<label>User name</label>
-				<input type='text' name='username' className='form-control' defaultValue={user.username} onChange={handleChange} />
+				<input type='text' name='userName' className='form-control' defaultValue={user.userName} onChange={handleChange} />
 			</div>
 			<div className='mb-3'>
 				<label>Address</label>
