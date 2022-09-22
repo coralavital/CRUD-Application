@@ -2,6 +2,7 @@
 export const reducer = (state, action) => {
 	switch (action.type) {
 	  case "LOGIN": {
+
 		return {
 		  ...state,
 		  user: action.payload.user,
@@ -9,6 +10,7 @@ export const reducer = (state, action) => {
 		};
 	  }
 	  case "REGISTER": {
+
 		  return {
 		  ...state,
 		  user: action.payload.user,
@@ -16,6 +18,7 @@ export const reducer = (state, action) => {
 		};
 	  }
 	  case "LOGOUT": {
+
 		  return {
 		  ...state,
 		  user: undefined

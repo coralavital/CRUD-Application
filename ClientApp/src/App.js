@@ -23,7 +23,6 @@ export default function App() {
 	const active_user_url = Constants.API_URL_GET_CURRENT_USER;
 
 	const headers = {
-
 		'Content-Type': 'application/json'
 	}
 

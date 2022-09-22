@@ -97,16 +97,18 @@ const Home = () => {
 	};
 
 
-	// Rows for showing table - contain users list
+	// Users list
 	const rows = [...users];
+	// Addresses list
 	const addressesList = [...addresses];
+
 	rows.forEach(user => {
 		var address = addressesList.find((address) => { return address.userId === user.id });
 		if (address != undefined) {
 			user.userAddress = address.userAddress;
 		}
 	});
-	console.log(parseJwt('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjb3JhbEBnbWFpbC5jb20iLCJqdGkiOiJlMDlhMTgwNy03MWEyLTRjZDItYmM5ZS02MDEzYWIxMWQzYjciLCJleHAiOjE2NjM4Nzc0MzcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzAwNyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQ0MjkifQ.sqYgBhMYVwsPxsbsCfFuP7-lxmo24vtjCoYHkHxiMu4'));
+
 	var token = parseJwt(state.token);
 	// If user logged in display users table
 	if (state.user && users && addresses.length > 0) {
@@ -114,7 +116,7 @@ const Home = () => {
 		return (
 			<div className='main'>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 'xx-large', fontWeight: 'bolder' }}>
-					{state.newUser ? `Welcome, ${state.token.name}` : `Welcome back, ${state.token.name}`}
+					{state.newUser ? `Welcome, ${token.name}` : `Welcome back, ${token.name}`}
 				</Typography>
 				<Box
 					m={1}

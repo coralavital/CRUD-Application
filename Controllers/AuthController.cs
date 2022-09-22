@@ -142,7 +142,7 @@ namespace hometask.Controllers
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
 			}
-			return Ok(new {users, addresses});
+			return Ok(new { users, addresses });
 		}
 
 
