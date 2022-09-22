@@ -2,15 +2,14 @@
 export const reducer = (state, action) => {
 	switch (action.type) {
 	  case "LOGIN": {
-
+		localStorage.setItem("jwt", action.payload.jwt);
 		return {
 		  ...state,
-		  user: action.payload.user,
-		  token: action.payload.token
+		  user: action.payload.user
 		};
 	  }
 	  case "REGISTER": {
-
+		localStorage.setItem("jwt", action.payload.jwt);
 		  return {
 		  ...state,
 		  user: action.payload.user,
@@ -18,7 +17,7 @@ export const reducer = (state, action) => {
 		};
 	  }
 	  case "LOGOUT": {
-
+		localStorage.removeItem("jwt");
 		  return {
 		  ...state,
 		  user: undefined

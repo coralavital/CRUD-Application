@@ -23,6 +23,7 @@ export default function App() {
 	const active_user_url = Constants.API_URL_GET_CURRENT_USER;
 
 	const headers = {
+		jwt: localStorage.getItem('jwt'),
 		'Content-Type': 'application/json'
 	}
 
@@ -44,7 +45,7 @@ export default function App() {
 			})
 			.catch((error) => {
 				console.log(error);
-	
+				localStorage.removeItem('jwt')
 			})
 	}, [])
 	// Return Routes

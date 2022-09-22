@@ -1,6 +1,7 @@
 import Constants from '../utilities/Constants';
 
 const headers = {
+	jwt: localStorage.getItem('jwt'),
 	'Content-Type': 'application/json'
 }
 
@@ -101,7 +102,9 @@ const UPDATE_USER = (data, onSuccess, onError) => {
 	const url = Constants.API_URL_UPDATE_USER;
 	fetch(url, {
 		method: 'PUT',
-		headers,
+		headers: {
+			'Content-Type': 'application/json'
+		},
 		body: JSON.stringify(data.userToUpdate)
 	})
 	.then(response => response.json())

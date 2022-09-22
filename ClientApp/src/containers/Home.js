@@ -97,11 +97,9 @@ const Home = () => {
 	};
 
 
-	// Users list
+	// Rows for showing table - contain users list
 	const rows = [...users];
-	// Addresses list
 	const addressesList = [...addresses];
-
 	rows.forEach(user => {
 		var address = addressesList.find((address) => { return address.userId === user.id });
 		if (address != undefined) {
@@ -109,14 +107,16 @@ const Home = () => {
 		}
 	});
 
-	var token = parseJwt(state.token);
+	// Rows for showing table - contain addresses list
+	//const addressesList = [...addresses]
+
 	// If user logged in display users table
 	if (state.user && users && addresses.length > 0) {
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 'xx-large', fontWeight: 'bolder' }}>
-					{state.newUser ? `Welcome, ${token.name}` : `Welcome back, ${token.name}`}
+					{state.newUser ? `Welcome, ${state.user.userName}` : `Welcome back, ${state.user.userName}`}
 				</Typography>
 				<Box
 					m={1}
