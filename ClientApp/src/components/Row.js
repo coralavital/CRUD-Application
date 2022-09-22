@@ -29,7 +29,7 @@ import '../custom.css';
 
 // For every user create a row with the user details
 const Row = (props) => {
-	const { address, row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
+	const {  row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
 	const [open, setOpen] = useState(false);
 	const [showUpdateDialog, setShowUpdateDialog] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
@@ -134,7 +134,7 @@ const Row = (props) => {
 									}}>
 										<TableCell>{row.email}</TableCell>
 										<TableCell>{row.userName}</TableCell>
-										<TableCell>{address.userAddress}</TableCell>
+										<TableCell>{row.userAddress}</TableCell>
 										<TableCell align='right'>
 											<Tooltip title="Update user details">
 												<IconButton>
@@ -175,7 +175,7 @@ const Row = (props) => {
 							</IconButton>
 							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} address={address} />
+								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} address={row.userAddress} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>

@@ -13,7 +13,7 @@ const RegisterForm = (props) => {
 	const { state, dispatch } = useContext(AuthContext);
 	const [showCreateErrorAlert, setShowCreateErrorAlert] = useState(false);
 
-	const { setShowDialog, setAddedUser, setShowCreatedAlert } = props;
+	const { setShowRegisterDialog, setAddedUser, setShowCreatedAlert } = props;
 
 	// Initial Form Data
 	const initialFormData = Object.freeze({
@@ -56,8 +56,8 @@ const RegisterForm = (props) => {
 					throw new Error(response.message);
 				}
 
-				if (setShowDialog) {
-					setShowDialog(false);
+				if (setShowRegisterDialog) {
+					setShowRegisterDialog(false);
 					setShowCreatedAlert(true);
 					setAddedUser(userToCreate)
 				}

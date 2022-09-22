@@ -75,8 +75,8 @@ namespace hometask.Controllers
 
 				var authClaims = new List<Claim>
 				{
-					new Claim(ClaimTypes.Name, user.UserName),
 					new Claim(ClaimTypes.Email, user.Email),
+					new Claim(ClaimTypes.Name, user.UserName),
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
 
@@ -120,28 +120,29 @@ namespace hometask.Controllers
 
 
 
-		// Http GET request for get addresses list
-		[HttpGet("getAddresses")]
-		public IActionResult getAddresses()
-		{
-			var addresses = _context.Addresses.ToList();
-			if (addresses == null)
-			{
-				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Addresses list founded failed!" });
-			}
-			return Ok(addresses);
-		}
+		//// Http GET request for get addresses list
+		//[HttpGet("getAddresses")]
+		//public IActionResult getAddresses()
+		//{
+		//	var addresses = _context.Addresses.ToList();
+		//	if (addresses == null)
+		//	{
+		//		return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Addresses list founded failed!" });
+		//	}
+		//	return Ok(addresses);
+		//}
 
 		// Http GET request for get users list
 		[HttpGet("getAllUsers")]
 		public IActionResult GetAllUsers()
 		{
 			var users = _context.Users.ToList();
-			if (users == null)
+			var addresses = _context.Addresses.ToList();
+			if (users == null || addresses == null)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
 			}
-			return Ok(users);
+			return Ok(new {users, addresses});
 		}
 
 
@@ -184,6 +185,7 @@ namespace hometask.Controllers
 			return BadRequest(error: new { message = "There is a problem to update", error = true });
 		}
 
+		// GetToken of logged in user
 		private JwtSecurityToken GetToken(List<Claim> authClaims)
 		{
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));

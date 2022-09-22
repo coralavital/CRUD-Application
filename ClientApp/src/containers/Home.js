@@ -25,21 +25,20 @@ import { auto } from '@popperjs/core';
 
 // Home page - for a logged in user 
 const Home = () => {
+
+	// For Table Pagination
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
-
-	const [users, setUsers] = useState([]);
+	// Keep update on the state changes
 	const { state, dispatch } = useContext(AuthContext);
-	const [showDialog, setShowDialog] = useState(false);
+
+	// A list that will hold all users
+	const [users, setUsers] = useState([]);
+
+	// Flag for open/close register dialog when logged in user create a new user
+	const [showRegisterDialog, setShowRegisterDialog] = useState(false);
+
 	const [addresses, setAddresses] = useState([]);
 	const [addedUser, setAddedUser] = useState([]);
 	const [updatedUser, setUpdatedUser] = useState([]);
@@ -49,25 +48,22 @@ const Home = () => {
 	const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
 	const [showCreatedAlert, setShowCreatedAlert] = useState(false);
 
+	function parseJwt(token) {
+		if (!token) { return; }
+		const base64Url = token.split('.')[1];
+		const base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse(window.atob(base64));
+	}
+	// UseEffect keep the users and addresses list updated
 	useEffect(() => {
-		GET_ALL_ADDRESSES({},
-			(response) => {
-				if (!response) {
-					throw new Error(response.message);
-				}
-				setAddresses(response);
-			},
-			(error) => {
-				console.log(error);
-				alert(error);
-			})
 
 		GET_ALL_USERS({},
 			(response) => {
 				if (!response) {
 					throw new Error(response.message);
 				}
-				setUsers(response);
+				setAddresses(response.addresses);
+				setUsers(response.users);
 			},
 			(error) => {
 				console.log(error);
@@ -75,34 +71,50 @@ const Home = () => {
 			})
 	}, [addedUser, updatedUser])
 
+	// Handle with change page
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
+
+
 	function onDeleteUser(id) {
 		setUsers(users.filter(user => user.id !== id));
 	}
 
 	// Handle dialog open
 	const handleClickOpen = () => {
-		setShowDialog(true);
+		setShowRegisterDialog(true);
 	};
 
 	// Handle dialog close
 	const handleClose = () => {
-		setShowDialog(false);
+		setShowRegisterDialog(false);
 	};
 
 
 	// Rows for showing table - contain users list
 	const rows = [...users];
-	
-	// Rows for showing table - contain addresses list
-	const addressesList = [...addresses]
-
+	const addressesList = [...addresses];
+	rows.forEach(user => {
+		var address = addressesList.find((address) => { return address.userId === user.id });
+		if (address != undefined) {
+			user.userAddress = address.userAddress;
+		}
+	});
+	console.log(parseJwt('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjb3JhbEBnbWFpbC5jb20iLCJqdGkiOiJlMDlhMTgwNy03MWEyLTRjZDItYmM5ZS02MDEzYWIxMWQzYjciLCJleHAiOjE2NjM4Nzc0MzcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NzAwNyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQ0MjkifQ.sqYgBhMYVwsPxsbsCfFuP7-lxmo24vtjCoYHkHxiMu4'));
+	var token = parseJwt(state.token);
 	// If user logged in display users table
 	if (state.user && users && addresses.length > 0) {
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 'xx-large', fontWeight: 'bolder' }}>
-					{state.newUser ? `Welcome, ${state.user.userName}` : `Welcome back, ${state.user.userName}`}
+					{state.newUser ? `Welcome, ${state.token.name}` : `Welcome back, ${state.token.name}`}
 				</Typography>
 				<Box
 					m={1}
@@ -114,7 +126,7 @@ const Home = () => {
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
 				</Box>
 				<Box sx={{ paddingBottom: '10%' }}>
-					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1,  }} >
+					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }} >
 						<TableContainer sx={{ marginBottom: 1, borderRadius: 7, }}>
 							<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
 								<TableHead>
@@ -135,8 +147,7 @@ const Home = () => {
 									{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((row) => (
 											<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
-												row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}
-												address={addressesList.find((address) => { return address.userId === row.id })} />
+												row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser} />
 										))}
 								</TableBody>
 							</Table>
@@ -155,9 +166,9 @@ const Home = () => {
 					</Paper>
 				</Box>
 				<>
-					{showDialog ?
+					{showRegisterDialog ?
 						<>
-							<Dialog open={showDialog} onClose={handleClose} PaperProps={{
+							<Dialog open={showRegisterDialog} onClose={handleClose} PaperProps={{
 								style: {
 									minHeight: 300,
 									maxHeight: 400,
@@ -176,7 +187,7 @@ const Home = () => {
 								<DialogTitle sx={{ fontSize: 'xx-large', fontWeight: 'bolder', textAlign: 'center', padding: 1 }}>Add User</DialogTitle>
 								<DialogContent>
 									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert}
-										setShowDialog={setShowDialog} />
+										setShowRegisterDialog={setShowRegisterDialog} />
 								</DialogContent>
 							</Dialog>
 						</> :
