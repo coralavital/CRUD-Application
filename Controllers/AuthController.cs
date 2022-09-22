@@ -110,13 +110,13 @@ namespace hometask.Controllers
 
 		// Http GST request to get the current user
 		[HttpGet("currentUser")]
-		public async Task<IActionResult> getCurrentUser()
-		{
-			var user = _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
-			if (user == null)
-				return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User founded failed!" });
-			return Ok(new { user});
-		}
+		//public async Task<IActionResult> getCurrentUser()
+		//{
+		//	var user = _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+		//	if (user == null)
+		//		return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User founded failed!" });
+		//	return Ok(new { user});
+		//}
 
 
 

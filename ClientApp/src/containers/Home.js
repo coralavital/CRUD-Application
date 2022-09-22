@@ -20,6 +20,7 @@ import { AuthContext } from '../App';
 import Row from '../components/Row';
 import Box from '@mui/material/Box';
 import '../custom.css';
+import { auto } from '@popperjs/core';
 
 
 // Home page - for a logged in user 
@@ -113,9 +114,9 @@ const Home = () => {
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
 				</Box>
 				<Box sx={{ paddingBottom: '10%' }}>
-					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }}>
-						<TableContainer sx={{ marginBottom: 2, borderRadius: 7 }}>
-							<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none", maxHeight: 300 }}>
+					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1,  }} >
+						<TableContainer sx={{ marginBottom: 1, borderRadius: 7, }}>
+							<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
 								<TableHead>
 									<TableRow sx={{
 										"& th": {
@@ -140,6 +141,7 @@ const Home = () => {
 								</TableBody>
 							</Table>
 						</TableContainer>
+
 						<TablePagination
 							component="div"
 							count={rows.length}
@@ -149,6 +151,7 @@ const Home = () => {
 							onPageChange={handleChangePage}
 							onRowsPerPageChange={handleChangeRowsPerPage}
 						/>
+
 					</Paper>
 				</Box>
 				<>

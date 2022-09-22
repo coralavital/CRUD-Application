@@ -93,7 +93,7 @@ const Row = (props) => {
 						size="small"
 						onClick={() => setOpen(!open)}
 					>
-						{open ? <ArrowCircleUpOutlinedIcon /> : <ArrowCircleDownOutlinedIcon />}
+						{open ? <ArrowCircleUpOutlinedIcon sx={{color:'black'}} /> : <ArrowCircleDownOutlinedIcon />}
 					</IconButton>
 				</TableCell>
 
