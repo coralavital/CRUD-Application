@@ -35,7 +35,7 @@ const LoginForm = () => {
 
 
 	// Handle submit - POST request
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		// Automatically Login
 
@@ -44,21 +44,25 @@ const LoginForm = () => {
 			password: formData.password,
 		};
 
-		LOGIN_USER({ userToLogin },
-			(response) => {
-				if (!response.user) {
-					throw new Error(response);
-				}
-				dispatch({
-					type: "LOGIN",
-					payload: { ...response }
-				});
-				// Navigate to the home page as a logged in user
-				setRedirect(true);
-			},
-			(error) => {
-				setShowLoginErrorAlert(true);
-			})
+    await new Promise((resolve, reject) => {
+      LOGIN_USER({ userToLogin },
+        (response) => {
+          if (!response.user) {
+            throw new Error(response);
+          }
+          dispatch({
+            type: "LOGIN",
+            payload: { ...response }
+          });
+          // Navigate to the home page as a logged in user
+          setRedirect(true);
+          resolve()
+        },
+        (error) => {
+          setShowLoginErrorAlert(true);
+          reject(error);
+        })
+    })
 
 	}
 

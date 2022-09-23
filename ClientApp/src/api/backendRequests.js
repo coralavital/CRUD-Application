@@ -1,9 +1,13 @@
 import Constants from '../utilities/Constants';
 
-const headers = {
-	'Authorization': 'Bearer ' + localStorage.getItem("Authorization"),
-	'Content-Type': 'application/json'
-}
+const defaultOptions = () => {
+  return ({
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem("Authorization"),
+      'Content-Type': 'application/json'
+    }
+  })
+};
 
 const LOGIN_USER = (data, onSuccess, onError) => {
 	const login_url = Constants.API_URL_LOGIN_USER;
@@ -11,8 +15,8 @@ const LOGIN_USER = (data, onSuccess, onError) => {
 	fetch(login_url, {
 		method: 'POST',
 		credentials: 'include',
-		headers,
-		body: JSON.stringify(data.userToLogin)
+		body: JSON.stringify(data.userToLogin),
+    ...defaultOptions(),
 	})
 		.then(response => response.json())
 		.then(response => {
@@ -28,7 +32,7 @@ const REGISTER_USER = (data, onSuccess, onError) => {
 	// Send a POST request for login user
 	fetch(register_url, {
 		method: 'POST',
-		headers,
+		...defaultOptions(),
 		credentials: 'include',
 		body: JSON.stringify(data.userToCreate)
 	})
@@ -57,12 +61,13 @@ const LOGOUT_USER = (data, onSuccess, onError) => {
 }
 
 const GET_ALL_USERS = (data, onSuccess, onError) => {
+  console.log(defaultOptions())
 	const url = Constants.API_URL_GET_USERS;
 		fetch(url, {
 			method: 'GET',
 			withCredentials: true,
 			credentials: 'include',
-			headers,
+			...defaultOptions(),
 		})
 			.then(response => response.json())
 			.then(response => {
@@ -79,7 +84,7 @@ const DELETE_USER = (data, onSuccess, onError) => {
 		method: 'DELETE',
 		withCredentials: true,
 		credentials: 'include',
-		headers,
+		...defaultOptions(),
 	})
 		.then(response => response.json())
 		.then(response => {
@@ -97,7 +102,7 @@ const UPDATE_USER = (data, onSuccess, onError) => {
 		method: 'PUT',
 		withCredentials: true,
 		credentials: 'include',
-		headers,
+		...defaultOptions(),
 		body: JSON.stringify(data.userToUpdate)
 	})
 		.then(response => response.json())

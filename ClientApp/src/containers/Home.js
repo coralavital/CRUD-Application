@@ -51,7 +51,6 @@ const Home = () => {
 
 	useEffect(() => {
 		if(state.user) {
-
 			GET_ALL_USERS({},
 				(response) => {
 					if (!response.users) {
@@ -62,10 +61,10 @@ const Home = () => {
 				},
 				(error) => {
 					console.log(error);
-					alert(error);
+					alert(error.message);
 				})
 		}
-	},[addedUser, updatedUser])
+	},[addedUser, updatedUser, state])
 
 
 	// Handle with change page
