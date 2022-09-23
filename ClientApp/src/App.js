@@ -37,11 +37,11 @@ export default function App() {
         if (!response.user) {
           throw new Error(response.message);
         }
+		setIsAuthenticating(false);
         dispatch({
           type: "GET_ACTIVE_USER",
           payload: { ...response }
         });
-        setIsAuthenticating(false);
       })
       .catch((error) => {
         console.log(error);

@@ -1,7 +1,7 @@
 import Constants from '../utilities/Constants';
 
 const headers = {
-    'Authorization': 'Bearer ' + localStorage.getItem("Authorization"),
+	'Authorization': 'Bearer ' + localStorage.getItem("Authorization"),
 	'Content-Type': 'application/json'
 }
 
@@ -58,19 +58,19 @@ const LOGOUT_USER = (data, onSuccess, onError) => {
 
 const GET_ALL_USERS = (data, onSuccess, onError) => {
 	const url = Constants.API_URL_GET_USERS;
-	fetch(url, {
-		method: 'GET',
-		withCredentials: true,
-		credentials: 'include',
-		headers,
-	})
-		.then(response => response.json())
-		.then(response => {
-			onSuccess(response);
+		fetch(url, {
+			method: 'GET',
+			withCredentials: true,
+			credentials: 'include',
+			headers,
 		})
-		.catch((error) => {
-			onError(error);
-		});
+			.then(response => response.json())
+			.then(response => {
+				onSuccess(response);
+			})
+			.catch((error) => {
+				onError(error);
+			});
 }
 
 const DELETE_USER = (data, onSuccess, onError) => {

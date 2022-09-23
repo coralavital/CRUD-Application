@@ -34,11 +34,11 @@ const Home = () => {
 
 	// A list that will hold all users
 	const [users, setUsers] = useState([]);
+	const [addresses, setAddresses] = useState([]);
 
 	// Flag for open/close register dialog when logged in user create a new user
 	const [showRegisterDialog, setShowRegisterDialog] = useState(false);
 
-	const [addresses, setAddresses] = useState([]);
 	const [addedUser, setAddedUser] = useState([]);
 	const [updatedUser, setUpdatedUser] = useState([]);
 
@@ -48,11 +48,11 @@ const Home = () => {
 	const [showCreatedAlert, setShowCreatedAlert] = useState(false);
 
 	// UseEffect keep the users and addresses list updated
-	useEffect(() => {
 
+	useEffect(() => {
 		GET_ALL_USERS({},
 			(response) => {
-				if (!response) {
+				if (!response.users) {
 					throw new Error(response.message);
 				}
 				setAddresses(response.addresses);
@@ -62,7 +62,8 @@ const Home = () => {
 				console.log(error);
 				alert(error);
 			})
-	}, [addedUser, updatedUser])
+	},[localStorage.getItem('Authorization'),addedUser, updatedUser])
+
 
 	// Handle with change page
 	const handleChangePage = (event, newPage) => {
@@ -105,9 +106,9 @@ const Home = () => {
 
 	// If user logged in display users table
 	if (state.user) {
-    if(users.length === 0 || addresses.length === 0) {
-      return <Spinner />
-    }
+		if (users.length === 0 || addresses.length === 0) {
+			return <Spinner />
+		}
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>

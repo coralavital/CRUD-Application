@@ -132,7 +132,7 @@ namespace hometask.Controllers
 		[HttpGet("currentUser")]
 		public async Task<IActionResult> getCurrentUser()
 		{
-			var token = Request.Headers["token"];
+			var token = Request.Headers["Authorization"];
 
 			var handler = new JwtSecurityTokenHandler();
 
@@ -155,7 +155,10 @@ namespace hometask.Controllers
 			}
 			else
 			{
-				return BadRequest(error: new { message = "gggggggggggd", error = true });
+				return Ok(new
+					{
+						noCurrentMessage = "There is no token available"
+					});
 			}
 		}
 
