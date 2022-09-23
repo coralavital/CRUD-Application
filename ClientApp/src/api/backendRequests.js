@@ -1,7 +1,7 @@
 import Constants from '../utilities/Constants';
 
 const headers = {
-	jwt: localStorage.getItem('jwt'),
+    'Authorization': 'Bearer ' + localStorage.getItem("Authorization"),
 	'Content-Type': 'application/json'
 }
 
@@ -10,6 +10,7 @@ const LOGIN_USER = (data, onSuccess, onError) => {
 	// Send a POST request for login user
 	fetch(login_url, {
 		method: 'POST',
+		credentials: 'include',
 		headers,
 		body: JSON.stringify(data.userToLogin)
 	})
@@ -28,6 +29,7 @@ const REGISTER_USER = (data, onSuccess, onError) => {
 	fetch(register_url, {
 		method: 'POST',
 		headers,
+		credentials: 'include',
 		body: JSON.stringify(data.userToCreate)
 	})
 		.then(response => response.json())
@@ -44,21 +46,6 @@ const LOGOUT_USER = (data, onSuccess, onError) => {
 	const logout_url = Constants.API_URL_LOGOUT_USER;
 	fetch(logout_url, {
 		method: 'POST',
-		headers,
-	})
-		.then(response => response.json())
-		.then(response => {
-			onSuccess(response);
-		})
-		.catch((error) => {
-			onError(error);;
-		});
-}
-
-const GET_ALL_ADDRESSES = (data, onSuccess, onError) => {
-	const url = Constants.API_URL_GET_ADDRESSES;
-	fetch(url, {
-		method: 'GET'
 	})
 		.then(response => response.json())
 		.then(response => {
@@ -72,7 +59,10 @@ const GET_ALL_ADDRESSES = (data, onSuccess, onError) => {
 const GET_ALL_USERS = (data, onSuccess, onError) => {
 	const url = Constants.API_URL_GET_USERS;
 	fetch(url, {
-		method: 'GET'
+		method: 'GET',
+		withCredentials: true,
+		credentials: 'include',
+		headers,
 	})
 		.then(response => response.json())
 		.then(response => {
@@ -86,7 +76,10 @@ const GET_ALL_USERS = (data, onSuccess, onError) => {
 const DELETE_USER = (data, onSuccess, onError) => {
 	const delete_url = `${Constants.API_URL_DELETE_USER}?id=${data.row.id}`;
 	fetch(delete_url, {
-		method: 'DELETE'
+		method: 'DELETE',
+		withCredentials: true,
+		credentials: 'include',
+		headers,
 	})
 		.then(response => response.json())
 		.then(response => {
@@ -102,19 +95,19 @@ const UPDATE_USER = (data, onSuccess, onError) => {
 	const url = Constants.API_URL_UPDATE_USER;
 	fetch(url, {
 		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json'
-		},
+		withCredentials: true,
+		credentials: 'include',
+		headers,
 		body: JSON.stringify(data.userToUpdate)
 	})
-	.then(response => response.json())
-	.then(response => {
-		onSuccess(response);
-	})
-	.catch((error) => {
-		onError(error);
-	});
+		.then(response => response.json())
+		.then(response => {
+			onSuccess(response);
+		})
+		.catch((error) => {
+			onError(error);
+		});
 }
 
 
-export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_ADDRESSES, GET_ALL_USERS, DELETE_USER, UPDATE_USER }
+export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_USERS, DELETE_USER, UPDATE_USER }

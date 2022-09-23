@@ -12,23 +12,22 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Spinner from '../components/Spinner';
 import Dialog from '@mui/material/Dialog';
-import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
+import Paper from '@mui/material/Paper';
 import RegisterForm from './Register';
 import { AuthContext } from '../App';
 import Row from '../components/Row';
 import Box from '@mui/material/Box';
 import '../custom.css';
-import { auto } from '@popperjs/core';
-
 
 // Home page - for a logged in user 
 const Home = () => {
 
 	// For Table Pagination
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
 
 	// Keep update on the state changes
 	const { state, dispatch } = useContext(AuthContext);
@@ -48,12 +47,6 @@ const Home = () => {
 	const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
 	const [showCreatedAlert, setShowCreatedAlert] = useState(false);
 
-	function parseJwt(token) {
-		if (!token) { return; }
-		const base64Url = token.split('.')[1];
-		const base64 = base64Url.replace('-', '+').replace('_', '/');
-		return JSON.parse(window.atob(base64));
-	}
 	// UseEffect keep the users and addresses list updated
 	useEffect(() => {
 
@@ -111,7 +104,10 @@ const Home = () => {
 	//const addressesList = [...addresses]
 
 	// If user logged in display users table
-	if (state.user && users && addresses.length > 0) {
+	if (state.user) {
+    if(users.length === 0 || addresses.length === 0) {
+      return <Spinner />
+    }
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
 			<div className='main'>

@@ -18,13 +18,11 @@ import TableHead from '@mui/material/TableHead';
 import Collapse from '@mui/material/Collapse';
 import TableRow from '@mui/material/TableRow';
 import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Table from '@mui/material/Table';
 import { AuthContext } from '../App';
 import Box from '@mui/material/Box';
 import '../custom.css';
-
 
 
 // For every user create a row with the user details
@@ -79,7 +77,7 @@ const Row = (props) => {
 
 	// Return user row with option to open dialog for update user as a logged in user
 	return (
-		<React.Fragment style={{ paddingBottom: 0, paddingTop: 100, borderBottom: "none" }} >
+		<React.Fragment>
 			<TableRow role="checkbox" tabIndex={-1} key={row.code} sx={{
 				'& > *': { borderBottom: 'unset' },
 				"& td": {
@@ -175,7 +173,7 @@ const Row = (props) => {
 							</IconButton>
 							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} address={row.userAddress} />
+								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} />
 							</DialogContent>
 						</Dialog>
 					</> : <> </>

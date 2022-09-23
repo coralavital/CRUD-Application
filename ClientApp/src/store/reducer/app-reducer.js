@@ -1,15 +1,14 @@
-// Reducer for keep app state
 export const reducer = (state, action) => {
 	switch (action.type) {
 	  case "LOGIN": {
-		localStorage.setItem("jwt", action.payload.jwt);
+		localStorage.setItem("Authorization", action.payload.token);
 		return {
 		  ...state,
 		  user: action.payload.user
 		};
 	  }
 	  case "REGISTER": {
-		localStorage.setItem("jwt", action.payload.jwt);
+		localStorage.setItem("Authorization", action.payload.token);
 		  return {
 		  ...state,
 		  user: action.payload.user,
@@ -17,7 +16,7 @@ export const reducer = (state, action) => {
 		};
 	  }
 	  case "LOGOUT": {
-		localStorage.removeItem("jwt");
+		localStorage.removeItem("Authorization");
 		  return {
 		  ...state,
 		  user: undefined
