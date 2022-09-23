@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
 import { UPDATE_USER } from '../api/backendRequests';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../App';
 
 const UpdateUser = (props) => {

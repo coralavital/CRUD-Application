@@ -1,9 +1,9 @@
-using hometask.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using hometask.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

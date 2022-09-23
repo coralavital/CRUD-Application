@@ -1,4 +1,3 @@
-
 namespace hometask.Dtos
 {
 	// RegisterDto

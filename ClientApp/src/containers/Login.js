@@ -50,6 +50,8 @@ const LoginForm = () => {
           if (!response.user) {
             throw new Error(response);
           }
+          console.log(response)
+          localStorage.setItem("Authorization", response.token);
           dispatch({
             type: "LOGIN",
             payload: { ...response }

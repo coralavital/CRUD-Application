@@ -1,5 +1,5 @@
-import { REGISTER_USER } from '../api/backendRequests';
 import CustomizedSnackbar from '../components/CustomizedSnackbar';
+import { REGISTER_USER } from '../api/backendRequests';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';

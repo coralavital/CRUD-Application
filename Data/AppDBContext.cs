@@ -1,7 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using hometask.Models;
 
@@ -22,17 +21,18 @@ namespace hometask.Data
 			modelBuilder.Entity<Address>().Property(t => t.Id).ValueGeneratedOnAdd().HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 			// Seeding data
-			string[] names = { "coral", "rinat", "bar", "adir", "amit" };
-			string[] addresses = { "Tel Aviv", "Haifa", "Ashdod", "Tel Aviv", "Ramat Gan" };
-			IdentityUser[] usersToSeed = new IdentityUser[5];
-			Address[] addressesToSeed = new Address[5];
+			string[] names = { "Coral Avital", "Rinat Atias", "Bar Avital", "Adir Alfasi", "Amit Avital", "Tali Levi", "Tami Vanunu", "Eli Dahan", "Iris Avital", "Shir Levi" };
+			string[] emails = { "coral", "rinat", "bar", "adir", "amit", "tali", "tami", "eli", "iris", "shir" };
+			string[] addresses = { "Tel Aviv", "Haifa", "Ashdod", "Tel Aviv", "Ramat Gan", "Tel Aviv", "Haifa", "Ashdod", "Tel Aviv", "Ramat Gan" };
+			IdentityUser[] usersToSeed = new IdentityUser[10];
+			Address[] addressesToSeed = new Address[10];
 
-			for (int i = 1; i <= 5; i++)
+			for (int i = 1; i <= 10; i++)
 			{
 				var user = new IdentityUser
 				{
-					Email = $"{names[i - 1]}@gmail.com",
-					NormalizedEmail = $"{names[i - 1]}@gmail.com".ToUpper(),
+					Email = $"{emails[i - 1]}@gmail.com",
+					NormalizedEmail = $"{emails[i - 1]}@gmail.com".ToUpper(),
 					SecurityStamp = Guid.NewGuid().ToString(),
 					UserName = $"{names[i - 1]}",
 					NormalizedUserName = $"{names[i - 1]}".ToUpper(),

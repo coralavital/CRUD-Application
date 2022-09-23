@@ -9,6 +9,7 @@ const defaultOptions = () => {
   })
 };
 
+// POST logged in user
 const LOGIN_USER = (data, onSuccess, onError) => {
 	const login_url = Constants.API_URL_LOGIN_USER;
 	// Send a POST request for login user
@@ -27,9 +28,9 @@ const LOGIN_USER = (data, onSuccess, onError) => {
 		});
 }
 
+// POST registered user
 const REGISTER_USER = (data, onSuccess, onError) => {
 	const register_url = Constants.API_URL_REGISTER_USER;
-	// Send a POST request for login user
 	fetch(register_url, {
 		method: 'POST',
 		...defaultOptions(),
@@ -45,8 +46,8 @@ const REGISTER_USER = (data, onSuccess, onError) => {
 		});
 }
 
+// POST logged out user
 const LOGOUT_USER = (data, onSuccess, onError) => {
-	// Get all addresses - GET request
 	const logout_url = Constants.API_URL_LOGOUT_USER;
 	fetch(logout_url, {
 		method: 'POST',
@@ -60,6 +61,23 @@ const LOGOUT_USER = (data, onSuccess, onError) => {
 		});
 }
 
+// GET current user
+const CURRENT_USER = (data, onSuccess, onError) => {
+	const active_user_url = Constants.API_URL_GET_CURRENT_USER;
+	fetch(active_user_url, {
+		method: 'GET',
+		headers: data.headers
+	})
+		.then(response => response.json())
+		.then(response => {
+			onSuccess(response);
+		})
+		.catch((error) => {
+			onError(error);
+		});
+}
+
+// GET users and adrresses list
 const GET_ALL_USERS = (data, onSuccess, onError) => {
   console.log(defaultOptions())
 	const url = Constants.API_URL_GET_USERS;
@@ -78,6 +96,7 @@ const GET_ALL_USERS = (data, onSuccess, onError) => {
 			});
 }
 
+// DELETE user
 const DELETE_USER = (data, onSuccess, onError) => {
 	const delete_url = `${Constants.API_URL_DELETE_USER}?id=${data.row.id}`;
 	fetch(delete_url, {
@@ -96,6 +115,7 @@ const DELETE_USER = (data, onSuccess, onError) => {
 
 }
 
+// PUT user
 const UPDATE_USER = (data, onSuccess, onError) => {
 	const url = Constants.API_URL_UPDATE_USER;
 	fetch(url, {
@@ -115,4 +135,4 @@ const UPDATE_USER = (data, onSuccess, onError) => {
 }
 
 
-export { LOGIN_USER, REGISTER_USER, LOGOUT_USER, GET_ALL_USERS, DELETE_USER, UPDATE_USER }
+export { LOGIN_USER, REGISTER_USER, CURRENT_USER, LOGOUT_USER, GET_ALL_USERS, DELETE_USER, UPDATE_USER }

@@ -1,7 +1,7 @@
-import React, { memo } from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
-import styled from 'styled-components';
 import { makeStyles } from '@mui/styles';
+import styled from 'styled-components';
+import React, { memo } from 'react'
 
 const SpinnerContainer = styled.div`
   position: relative;

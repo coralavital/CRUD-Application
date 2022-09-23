@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
@@ -19,17 +18,14 @@ namespace hometask.Controllers
 		public readonly AppDBContext _context;
 		private SignInManager<IdentityUser> _signManager;
 		private readonly UserManager<IdentityUser> _userManager;
-		private readonly RoleManager<IdentityRole> _roleManager;
+		//private readonly RoleManager<IdentityRole> _roleManager;
 		private readonly IConfiguration _configuration;
-
 		public AuthController(UserManager<IdentityUser> userManager,
-		  RoleManager<IdentityRole> roleManager,
 		  IConfiguration configuration,
 		  AppDBContext context,
 		  SignInManager<IdentityUser> signManager)
 		{
 			_userManager = userManager;
-			_roleManager = roleManager;
 			_configuration = configuration;
 			_context = context;
 			_signManager = signManager;
@@ -59,19 +55,12 @@ namespace hometask.Controllers
 			var result = await _userManager.CreateAsync(user, dto.Password);
 			if (result.Succeeded)
 			{	
-				var userRoles = await _userManager.GetRolesAsync(user);
-
 				var authClaims = new List<Claim>
 				{
-		  			new Claim(ClaimTypes.Name, user.UserName),
+		  			new Claim(ClaimTypes.Email, user.Email),
 					
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
-
-				foreach (var userRole in userRoles)
-				{
-					authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-				}
 
 				var token = GetToken(authClaims);
 
@@ -93,18 +82,11 @@ namespace hometask.Controllers
 			var user = await _userManager.FindByEmailAsync(dto.Email);
 			if (user != null && await _userManager.CheckPasswordAsync(user, dto.Password))
 			{
-				var userRoles = await _userManager.GetRolesAsync(user);
-
 				var authClaims = new List<Claim>
 				{
-		  			new Claim(ClaimTypes.Name, user.UserName),
+		  			new Claim(ClaimTypes.Email, user.Email),
 					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				};
-
-				foreach (var userRole in userRoles)
-				{
-					authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-				}
 
 				var token = GetToken(authClaims);
 				return Ok(new
@@ -143,8 +125,8 @@ namespace hometask.Controllers
 
 				if (decodedJwt.ValidTo > TimeZoneInfo.ConvertTimeToUtc(DateTime.Now))
 				{
-					var name = decodedJwt.Claims.Single(x => x.Type == ClaimTypes.Name).Value;
-					var user = await _userManager.FindByNameAsync(name);
+					var email = decodedJwt.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
+					var user = await _userManager.FindByEmailAsync(email);
 
 					return Ok(new
 					{
@@ -161,60 +143,6 @@ namespace hometask.Controllers
 					});
 			}
 		}
-
-
-		//// Http GET request for get users list
-		//[HttpGet("getAllUsers")]
-		//public IActionResult GetAllUsers()
-		//{
-		//	var users = _context.Users.ToList();
-		//	var addresses = _context.Addresses.ToList();
-		//	if (users == null || addresses == null)
-		//	{
-		//		return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
-		//	}
-		//	return Ok(new { users, addresses });
-		//}
-
-
-		////[Authorize(Roles = "Admin")]
-		//[HttpDelete("deleteUser")]
-		//public async Task<IActionResult> DeleteUser(string id)
-		//{
-		//	var user = await _userManager.FindByIdAsync(id);
-		//	Address address = _context.Addresses.FirstOrDefault(address => address.UserId == id);
-		//	_context.Addresses.Remove(address);
-		//	_context.SaveChanges();
-		//	var result = await _userManager.DeleteAsync(user);
-		//	if (result == null)
-		//		return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Users list founded failed!" });
-		//	return Ok(new
-		//	{
-		//		message = "User deleted successfully"
-		//	});
-		//}
-
-		////[Authorize(Roles = "Admin")]
-		//// Http PUT request for update user data
-		//[HttpPut("updateUser")]
-		//public async Task<IActionResult> UpdateUser(UpdateDto dto)
-		//{
-		//	Address address = _context.Addresses.FirstOrDefault(address => address.UserId == dto.Id);
-		//	IdentityUser user = await _userManager.FindByIdAsync(dto.Id);
-		//	user.UserName = dto.UserName;
-		//	address.UserAddress = dto.UserAddress;
-		//	if (user != null)
-		//	{
-		//		_context.Addresses.Update(address);
-		//		_context.Users.Update(user);
-		//		_context.SaveChanges();
-		//		return Ok(new
-		//		{
-		//			message = "User updated"
-		//		});
-		//	}
-		//	return BadRequest(error: new { message = "There is a problem to update", error = true });
-		//}
 
 		// GetToken of logged in user
 		private JwtSecurityToken GetToken(List<Claim> authClaims)
