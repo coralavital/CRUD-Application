@@ -50,19 +50,22 @@ const Home = () => {
 	// UseEffect keep the users and addresses list updated
 
 	useEffect(() => {
-		GET_ALL_USERS({},
-			(response) => {
-				if (!response.users) {
-					throw new Error(response.message);
-				}
-				setAddresses(response.addresses);
-				setUsers(response.users);
-			},
-			(error) => {
-				console.log(error);
-				alert(error);
-			})
-	},[localStorage.getItem('Authorization'),addedUser, updatedUser])
+		if(state.user) {
+
+			GET_ALL_USERS({},
+				(response) => {
+					if (!response.users) {
+						throw new Error(response.message);
+					}
+					setAddresses(response.addresses);
+					setUsers(response.users);
+				},
+				(error) => {
+					console.log(error);
+					alert(error);
+				})
+		}
+	},[addedUser, updatedUser])
 
 
 	// Handle with change page
