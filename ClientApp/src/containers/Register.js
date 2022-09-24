@@ -90,23 +90,23 @@ const RegisterForm = (props) => {
 						<div className='mb-3'>
 							<label>Email</label>
 							<input type='email' name='email' className='form-control' placeholder='Please enter email'
-								onChange={handleChange} required />
+								onChange={handleChange} required maxLength={25} />
 						</div>
 						<div className='mb-3'>
 							<label>User Name</label>
 							<input type='text' name="username" className='form-control' placeholder='Please enter username'
-								onChange={handleChange} required />
+								onChange={handleChange} required maxLength={25}/>
 						</div>
 
 						<div className='mb-3'>
 							<label>Password</label>
 							<input type='password' name='password' className='form-control' placeholder='Please enter password'
-								onChange={handleChange} required minLength={6} maxLength={20} />
+								onChange={handleChange} required minLength={6} maxLength={25} />
 						</div>
 						<div className='mb-3'>
 							<label>Address</label>
 							<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
-								onChange={handleChange} required />
+								onChange={handleChange} required maxLength={25} />
 						</div>
 						<div className="col-md-12 text-center">
 							<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-1 mx-auto">Add</button>
@@ -122,22 +122,22 @@ const RegisterForm = (props) => {
 								<div className='mb-3'>
 									<label>Email</label>
 									<input type='email' name='email' className='form-control' placeholder='Please enter email'
-										onChange={handleChange} required />
+										onChange={handleChange} required maxLength={25} />
 								</div>
 								<div className='mb-3'>
 									<label>User Name</label>
 									<input type='text' name="username" className='form-control' placeholder='Please enter username'
-										onChange={handleChange} required />
+										onChange={handleChange} required maxLength={25} />
 								</div>
 								<div className='mb-3'>
 									<label>Password</label>
 									<input type='password' name='password' className='form-control' placeholder='Please enter password'
-										onChange={handleChange} required minLength={6} maxLength={20} />
+										onChange={handleChange} required minLength={6} maxLength={25} />
 								</div>
 								<div className='mb-3'>
 									<label>Address</label>
 									<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
-										onChange={handleChange} required />
+										onChange={handleChange} required maxLength={25} />
 								</div>
 								<div className='d-grid mx-5 mb-2'>
 									<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg mx-1 my-1 ">Sign Up</button>

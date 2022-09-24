@@ -68,11 +68,11 @@ const UpdateUser = (props) => {
 			</div>
 			<div className='mb-3'>
 				<label>User name</label>
-				<input type='text' name='userName' className='form-control' defaultValue={user.userName} onChange={handleChange} />
+				<input type='text' name='userName' maxLength={25} className='form-control' defaultValue={user.userName} onChange={handleChange} />
 			</div>
 			<div className='mb-3'>
 				<label>Address</label>
-				<input type='text' name='userAddress' className='form-control' defaultValue={user.userAddress} onChange={handleChange} />
+				<input type='text' name='userAddress' maxLength={25} className='form-control' defaultValue={user.userAddress} onChange={handleChange} />
 			</div>
 			<div className="col-md-12 text-center">
 				<button type='submit' onClick={handleUpdateAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-2 mx-auto">Update</button>

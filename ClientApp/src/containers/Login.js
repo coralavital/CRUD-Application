@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom"; 
 import { AuthContext } from '../App';
+
 // Login page
 const LoginForm = () => {
 	const { state, dispatch } = useContext(AuthContext);
@@ -32,7 +33,6 @@ const LoginForm = () => {
 	const handleCloseLoginErrorAlert = () => {
 		setShowLoginErrorAlert(false);
 	};
-
 
 	// Handle submit - POST request
 	async function handleSubmit(e) {

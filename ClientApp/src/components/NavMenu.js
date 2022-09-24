@@ -35,6 +35,15 @@ export default function Nav() {
 	if (!state.user) {
 		menu = (
 			<>
+			<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+						<Button sx={{
+							color: {
+								"&:hover": {
+									color: "#90caf9"
+								}
+							}
+						}} component={Link} to='/' underline="none">Home</Button>
+					</Typography>
 				<Button sx={{
 							color: {
 								"&:hover": {
@@ -51,7 +60,8 @@ export default function Nav() {
 					"&:hover": {
 						color: "#90caf9"
 					}
-				}
+				},
+				marginLeft: "auto"
 			}} component={Link} to='/' onClick={logout} underline="none">Logout</Button>
 		)
 	}
@@ -59,15 +69,6 @@ export default function Nav() {
 		<ThemeProvider theme={darkTheme} >
 			<AppBar position="sticky" style={{  boxShadow: 'none'}}>
 				<Toolbar>
-					<Typography color={"secondary"} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						<Button sx={{
-							color: {
-								"&:hover": {
-									color: "#90caf9"
-								}
-							}
-						}} component={Link} to='/' underline="none">Home</Button>
-					</Typography>
 					{menu}
 				</Toolbar>
 			</AppBar>

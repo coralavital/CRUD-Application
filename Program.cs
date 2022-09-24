@@ -12,6 +12,7 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.Configure<IdentityOptions>(options =>
 {
+	options.User.AllowedUserNameCharacters = " !@#$%^&*()*+,-./abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 6;
     options.Password.RequireLowercase = false;

@@ -50,7 +50,7 @@ const Home = () => {
 	// UseEffect keep the users and addresses list updated
 
 	useEffect(() => {
-		if(state.user) {
+		if (state.user) {
 			GET_ALL_USERS({},
 				(response) => {
 					if (!response.users) {
@@ -64,7 +64,7 @@ const Home = () => {
 					alert(error.message);
 				})
 		}
-	},[addedUser, updatedUser, state])
+	}, [addedUser, updatedUser, state])
 
 
 	// Handle with change page
@@ -153,7 +153,6 @@ const Home = () => {
 								</TableBody>
 							</Table>
 						</TableContainer>
-
 						<TablePagination
 							component="div"
 							count={rows.length}
@@ -163,7 +162,6 @@ const Home = () => {
 							onPageChange={handleChangePage}
 							onRowsPerPageChange={handleChangeRowsPerPage}
 						/>
-
 					</Paper>
 				</Box>
 				<>
@@ -225,13 +223,15 @@ const Home = () => {
 	// If user not logged in display welcome page
 	return (
 		<div className='main'>
-			<div>
-				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 'xx-large', fontWeight: 'bolder', flexGrow: 1 }}>
-					Hey there,
-					login or register to see more
+				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 50, fontWeight: 'bolder', flexGrow: 1 }}>
+					Hey there
 				</Typography>
-			</div>
-
+				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 40, fontWeight: 'bolder', flexGrow: 1 }}>
+					Welcome to my home task
+				</Typography>
+				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 40, fontWeight: 'bolder', flexGrow: 1 }}>
+					Sign in or register to see more
+				</Typography>
 		</div>
 	)
 }

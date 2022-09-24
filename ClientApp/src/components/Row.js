@@ -27,7 +27,7 @@ import '../custom.css';
 
 // For every user create a row with the user details
 const Row = (props) => {
-	const {  row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
+	const { row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
 	const [open, setOpen] = useState(false);
 	const [showUpdateDialog, setShowUpdateDialog] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
@@ -50,8 +50,6 @@ const Row = (props) => {
 	const handleDeleteClose = () => {
 		setShowDeleteDialog(false);
 	};
-
-
 
 	// Delete user function - DELETE request
 	function handleDelete() {
@@ -83,18 +81,16 @@ const Row = (props) => {
 				"& td": {
 					fontSize: "1.3rem",
 					fontFamily: '"Segoe UI"'
-				},
+				}
 			}}>
 				<TableCell>
 					<IconButton
 						aria-label="expand row"
 						size="small"
-						onClick={() => setOpen(!open)}
-					>
-						{open ? <ArrowCircleUpOutlinedIcon sx={{color:'black'}} /> : <ArrowCircleDownOutlinedIcon />}
+						onClick={() => setOpen(!open)}>
+						{open ? <ArrowCircleUpOutlinedIcon sx={{ color: 'black' }} /> : <ArrowCircleDownOutlinedIcon />}
 					</IconButton>
 				</TableCell>
-
 				<TableCell align="center">{row.email}</TableCell>
 				<TableCell align="center">{row.userName}</TableCell>
 			</TableRow>
@@ -128,7 +124,7 @@ const Row = (props) => {
 										"& td": {
 											fontSize: "1.1rem",
 											fontFamily: '"Segoe UI"'
-										},
+										}
 									}}>
 										<TableCell>{row.email}</TableCell>
 										<TableCell>{row.userName}</TableCell>
@@ -200,14 +196,20 @@ const Row = (props) => {
 							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Delete User</DialogTitle>
 							<DialogContent>
 								<DialogContent>
-									<DialogContentText sx={{ fontSize: 16, }} id="alert-dialog-slide-description">
+									<DialogContentText id="alert-dialog-slide-description">
 										<>
-											{state.user.Id !== row.id ?
+											{state.user.id !== row.id ?
 												<>
-													Are you sure that you want to delete the user?
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+														Are you sure that you want to delete the user?
+													</Typography>
 												</> : <>
-													Are you sure that you want to delete the your user?
-													After deleted you automatically logged out
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+														Are you sure you want to delete your user?
+													</Typography>
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+														After deletion, you will be logged out automatically
+													</Typography>
 												</>
 											}
 										</>
@@ -215,18 +217,16 @@ const Row = (props) => {
 								</DialogContent>
 								<DialogActions>
 									<div className="col-md-7 text-center">
-										<button onClick={handleDelete} className="btn btn-dark btn-lg btn-block d-grid ">Confirm</button>
+										<button onClick={handleDelete} className="btn btn-dark btn-lg btn-block d-grid ">Delete</button>
 									</div>
 								</DialogActions>
 							</DialogContent>
 						</Dialog>
 					</> : <> </>
 				}
-
 			</>
 		</React.Fragment>
 	);
-
 }
 
 export default Row;

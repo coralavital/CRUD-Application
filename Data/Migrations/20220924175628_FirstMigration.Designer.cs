@@ -12,7 +12,7 @@ using hometask.Data;
 namespace hometask.Data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220923172002_FirstMigration")]
+    [Migration("20220924175628_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,61 +44,61 @@ namespace hometask.Data.Migrations
                         {
                             Id = 1,
                             UserAddress = "Tel Aviv",
-                            UserId = "386cac82-6654-4562-a452-bf780a904839"
+                            UserId = "4e492d27-6e67-4125-a003-4c6869f9d002"
                         },
                         new
                         {
                             Id = 2,
                             UserAddress = "Haifa",
-                            UserId = "c4e268cc-8e77-440e-a51e-b88b0a77d0ee"
+                            UserId = "246475f6-52fe-4e5e-844f-148abe1469db"
                         },
                         new
                         {
                             Id = 3,
                             UserAddress = "Ashdod",
-                            UserId = "84728a5e-c0b5-4467-8f6e-af884aa62bf8"
+                            UserId = "d14bad1f-3d13-4323-8fc5-757ad491b1fd"
                         },
                         new
                         {
                             Id = 4,
                             UserAddress = "Tel Aviv",
-                            UserId = "1dff4738-47d1-4c38-83f4-0993c0ed5875"
+                            UserId = "4ad889fd-426d-4507-9f7b-cee94e347b80"
                         },
                         new
                         {
                             Id = 5,
                             UserAddress = "Ramat Gan",
-                            UserId = "3cfd81f3-caae-4732-8645-3d76bdbd0beb"
+                            UserId = "2da2b428-bc36-49e9-b532-2d6f5bbbf72d"
                         },
                         new
                         {
                             Id = 6,
                             UserAddress = "Tel Aviv",
-                            UserId = "f342113b-67df-4299-818d-5114eb969ccb"
+                            UserId = "c8de0e79-cee5-43aa-8bef-3deb75895f33"
                         },
                         new
                         {
                             Id = 7,
                             UserAddress = "Haifa",
-                            UserId = "09c4ea61-97ed-4225-b5c9-052655690450"
+                            UserId = "8135b464-55d7-4121-82cb-716e7ef12204"
                         },
                         new
                         {
                             Id = 8,
                             UserAddress = "Ashdod",
-                            UserId = "ed7ff641-a42a-420a-a85b-bd8f15ba822b"
+                            UserId = "66b2e64b-94ae-4ee6-bc04-5da919b0e02b"
                         },
                         new
                         {
                             Id = 9,
                             UserAddress = "Tel Aviv",
-                            UserId = "a088d96e-18f6-4064-934f-dc9daa009a8d"
+                            UserId = "55d2df88-b2d8-4817-b6f2-71aabf528215"
                         },
                         new
                         {
                             Id = 10,
                             UserAddress = "Ramat Gan",
-                            UserId = "ec7ab351-1b41-4099-8290-99b0a1ab661c"
+                            UserId = "caad0356-1e37-4c7f-b320-7254ee074f02"
                         });
                 });
 
@@ -217,161 +217,161 @@ namespace hometask.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "386cac82-6654-4562-a452-bf780a904839",
+                            Id = "4e492d27-6e67-4125-a003-4c6869f9d002",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c21e8af9-9e67-4e38-9e34-c8eeb5c2595e",
+                            ConcurrencyStamp = "d9137042-732a-4e4a-b55c-f9468198c181",
                             Email = "coral@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "CORAL@GMAIL.COM",
                             NormalizedUserName = "CORAL AVITAL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHbMdIq9FTEjxKXU7ZCApEzJvZMWgFEPJWSX6l5uyJyGusJ2qg8NTYzS/VZqhCIluA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN408GU5lB6NOq+nEZich1kSr8hHooCRsijSmceGKOcjQwuykNR20H9KmhyBo1bKkw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "558096db-55ed-4084-b422-e45d58bc9a9a",
+                            SecurityStamp = "a4ffb620-3cd8-4fd0-a732-bcaf8d2f4c8b",
                             TwoFactorEnabled = false,
                             UserName = "Coral Avital"
                         },
                         new
                         {
-                            Id = "c4e268cc-8e77-440e-a51e-b88b0a77d0ee",
+                            Id = "246475f6-52fe-4e5e-844f-148abe1469db",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9434510-a0ff-4583-882d-f4d2987f3874",
+                            ConcurrencyStamp = "af952e07-119e-449d-99c9-4d6cd45fc454",
                             Email = "rinat@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "RINAT@GMAIL.COM",
                             NormalizedUserName = "RINAT ATIAS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEo+M98k5IuSAIOqK3uC6EWeSnqWE+U8VWAYSPkoQYrjJK1W/iQpglcP0gK5B84OlQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELh+9IQXeHWOXxjHye3GDk9atqka+cDmjLCY8V/MQ/+7Yxy8JsD2GCntbcYUiTC1tw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "33226bf8-8396-45ee-8b3c-9261ba31168f",
+                            SecurityStamp = "e29af502-9131-4626-9fa0-1c1f1c7f7258",
                             TwoFactorEnabled = false,
                             UserName = "Rinat Atias"
                         },
                         new
                         {
-                            Id = "84728a5e-c0b5-4467-8f6e-af884aa62bf8",
+                            Id = "d14bad1f-3d13-4323-8fc5-757ad491b1fd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "23685f6c-f5c4-4a1d-bd1d-a1a086b3eafe",
+                            ConcurrencyStamp = "05ce7d9e-cb58-4bd1-8d96-60de1a990ec8",
                             Email = "bar@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "BAR@GMAIL.COM",
                             NormalizedUserName = "BAR AVITAL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIrLG5gvj2x69IwFT4pfnpH9tbZ2Q4T33c+V7w8szYaYOFfUwP+8Icsaw2+yI20EFw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFd10jPVNzUNj9rztjHNK1somnyIwdlSWKbMaG0acEWFFHG6tuNPt1gYVU9JquTHHQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7287f2dc-8f83-48a1-ae65-df8c6520e463",
+                            SecurityStamp = "8d43ae57-0fc8-430a-85aa-19128200643a",
                             TwoFactorEnabled = false,
                             UserName = "Bar Avital"
                         },
                         new
                         {
-                            Id = "1dff4738-47d1-4c38-83f4-0993c0ed5875",
+                            Id = "4ad889fd-426d-4507-9f7b-cee94e347b80",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f677935b-8762-470a-aae7-7942bd9df034",
+                            ConcurrencyStamp = "ea064713-ce31-477c-a083-e2e393f590f5",
                             Email = "adir@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADIR@GMAIL.COM",
                             NormalizedUserName = "ADIR ALFASI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIg3O+XAoECoUNL38Bq9MvhKHOgaWKCqEV88b9ngqqzcmS16T30pYJBs8TeuH+s90g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC27UsOYM8I8NtUZ1L9oDv52wUfPCMaLe4bxX16UwjJMGIiN40lC99wQDwRsxC2dGA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e304077c-ceb6-4064-bcdd-917e6e66db9b",
+                            SecurityStamp = "98050e26-fc3d-4a48-9870-8562070e9cbc",
                             TwoFactorEnabled = false,
                             UserName = "Adir Alfasi"
                         },
                         new
                         {
-                            Id = "3cfd81f3-caae-4732-8645-3d76bdbd0beb",
+                            Id = "2da2b428-bc36-49e9-b532-2d6f5bbbf72d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb89ac61-35f1-43a6-865e-412ac35c860a",
+                            ConcurrencyStamp = "b120beda-704b-42cb-9bad-beb634ef66cf",
                             Email = "amit@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "AMIT@GMAIL.COM",
                             NormalizedUserName = "AMIT AVITAL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDDohHmT5vONlev3Xkgp8B2Ura1IGzOodU+vQv8F0HBS2iFhRExntUg3hdpA04Wl1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKOHL6qFUC3ahzhk6VeaK5DkAkgXFoGVgHXywwApjyrJ84krBgVmIdDGZ+FOql3h0Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0403d7d6-75bf-4834-b29a-baefb3fcf519",
+                            SecurityStamp = "9d0e29a0-7f48-4765-a6ca-fc6f22b0054d",
                             TwoFactorEnabled = false,
                             UserName = "Amit Avital"
                         },
                         new
                         {
-                            Id = "f342113b-67df-4299-818d-5114eb969ccb",
+                            Id = "c8de0e79-cee5-43aa-8bef-3deb75895f33",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f4e60cf1-ed6d-4844-84ea-b890b7ed684f",
+                            ConcurrencyStamp = "44216919-161f-4bd8-8d9c-d855f9f33b05",
                             Email = "tali@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "TALI@GMAIL.COM",
                             NormalizedUserName = "TALI LEVI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP9ehwPqPrM6s0EQo4Bv7dVzducd/txuMkKXQHJ3Wgz9VYVqOePPuBaxN1vCxBkXsQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIFL5XFeFAhemVR1cI9zkbbZn1U2EBrM0modPQrtzVMLvVY+7iR8FWj3DzN6RvcoqA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "70704568-f30c-4642-9847-ced9f7f4adcc",
+                            SecurityStamp = "fe0cbc71-869c-41ab-8ece-ccd7eb3444fd",
                             TwoFactorEnabled = false,
                             UserName = "Tali Levi"
                         },
                         new
                         {
-                            Id = "09c4ea61-97ed-4225-b5c9-052655690450",
+                            Id = "8135b464-55d7-4121-82cb-716e7ef12204",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c49a9298-407d-41fb-933f-39b70c589957",
+                            ConcurrencyStamp = "7543d889-d517-4663-a8ae-d96e422fa302",
                             Email = "tami@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "TAMI@GMAIL.COM",
                             NormalizedUserName = "TAMI VANUNU",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO+hpbVcfZcK6tYcNSzo7cdUTkEQN9pO4QRJZoju/zw0IbJ9sXrhU0EordoeI83ByA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMEGSLC+GMt7G5tOsG0RfosWxjUDcsMJrw52PoIExCsl02tonOLKT25ZyYoNjUZNDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "97486803-f083-4312-8aaa-8672243627f3",
+                            SecurityStamp = "f229258d-c52d-4722-8672-ec094359cdb0",
                             TwoFactorEnabled = false,
                             UserName = "Tami Vanunu"
                         },
                         new
                         {
-                            Id = "ed7ff641-a42a-420a-a85b-bd8f15ba822b",
+                            Id = "66b2e64b-94ae-4ee6-bc04-5da919b0e02b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "89c29935-d36b-4437-ac5c-94c70721bad9",
+                            ConcurrencyStamp = "8fc51ddd-850f-4abc-9830-149fe9f203ac",
                             Email = "eli@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "ELI@GMAIL.COM",
                             NormalizedUserName = "ELI DAHAN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJhu9Qeb6CHNtYkbkygwMtUb49+Lt/5jWeNeHrKhegkTMdZIpepToZavmQLrlqKfyw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM0XI0tyI2akfdEKBwl4IzqIxw6zaFb3NBo2HOSE24HsaiJff3TUydF6nZMeiWDFNw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c1dd07be-0ab1-4d92-b90f-018be1197810",
+                            SecurityStamp = "d5b840b4-6894-438e-b7f7-0224ed96bbfe",
                             TwoFactorEnabled = false,
                             UserName = "Eli Dahan"
                         },
                         new
                         {
-                            Id = "a088d96e-18f6-4064-934f-dc9daa009a8d",
+                            Id = "55d2df88-b2d8-4817-b6f2-71aabf528215",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2bfc98dc-870a-4bcf-a886-b854aa8a57a6",
+                            ConcurrencyStamp = "b6b8cc1f-b4cc-42c9-9c33-6766a27cc200",
                             Email = "iris@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "IRIS@GMAIL.COM",
                             NormalizedUserName = "IRIS AVITAL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA7noejwuK+QVjsamFT13r+mtmb1tsuS1Xgig96TaHKsY+FegEYj+h5LE6a/m4LwUg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC7jYGdrRYVNXHREs4oZXBGvXaNZoKd/FT9dDqeMv0ETWPjWY3AWszasPmIhwxOEVQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d85060d7-48a4-4a88-9c2c-53fbb0888355",
+                            SecurityStamp = "872d83a8-5601-479d-9975-784bb8cfa9fe",
                             TwoFactorEnabled = false,
                             UserName = "Iris Avital"
                         },
                         new
                         {
-                            Id = "ec7ab351-1b41-4099-8290-99b0a1ab661c",
+                            Id = "caad0356-1e37-4c7f-b320-7254ee074f02",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "abc6a85a-0a91-493c-abf5-4dedb8fa84ca",
+                            ConcurrencyStamp = "430d802b-26f6-423b-a309-ba59891eaa6d",
                             Email = "shir@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "SHIR@GMAIL.COM",
                             NormalizedUserName = "SHIR LEVI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKgHqWCdjWFKaNmrrjnQOzM0o0kqMukFnw+IPFScJw+1V9yme7sev1eLYeXvs/SUig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECY9w3HGMyqO9hNcLqRytLYETlSabDyFVCB2tpma4EizKIJhBwZicH2pc3L4+Bqjzg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8f066c5b-9c80-4461-b177-190b453051ec",
+                            SecurityStamp = "4fd26653-3f08-4e54-9ec0-ed136b05197f",
                             TwoFactorEnabled = false,
                             UserName = "Shir Levi"
                         });
