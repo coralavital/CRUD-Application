@@ -2,7 +2,7 @@ import { UPDATE_USER } from '../api/backendRequests';
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../App';
 
-const UpdateUser = (props) => {
+const UpdateUser = (props) =>{
 
 	const { state, dispatch } = useContext(AuthContext);
 	const { user, setShowUpdatedAlert, setShowUpdateDialog, setUpdatedUser } = props;
@@ -18,14 +18,14 @@ const UpdateUser = (props) => {
 	const [formData, setFormData] = useState(initialFormData);
 
 	// Handle change form data
-	const handleChange = (e) => {
+	const handleChange = (e) =>{
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
 		});
 	};
 
-	const handleUpdateAlert = () => {
+	const handleUpdateAlert = () =>{
 		setShowUpdatedAlert(false);
 	};
 
@@ -40,7 +40,7 @@ const UpdateUser = (props) => {
 		};
 
 		UPDATE_USER( { userToUpdate },
-			(response) => {
+			(response) =>{
 				if (!response) {
 					throw new Error(response.message);
 				}
@@ -53,7 +53,7 @@ const UpdateUser = (props) => {
 				if (setUpdatedUser) {
 					{ setUpdatedUser(userToUpdate) }
 				}
-			}, (error) => {
+			}, (error) =>{
 				console.log(error);
 				alert(error);
 			})
@@ -64,15 +64,15 @@ const UpdateUser = (props) => {
 		<form onSubmit={handleSubmit}>
 			<div className='mb-3'>
 				<label>Email</label>
-				<input type='email' name='email' className='form-control' disabled value={user.email} onChange={handleChange} />
+				<input type='email' name='email' className='form-control' disabled value={user.email} onChange={handleChange}/>
 			</div>
 			<div className='mb-3'>
 				<label>User name</label>
-				<input type='text' name='userName' maxLength={25} className='form-control' defaultValue={user.userName} onChange={handleChange} />
+				<input type='text' name='userName' maxLength={25} className='form-control' defaultValue={user.userName} onChange={handleChange}/>
 			</div>
 			<div className='mb-3'>
 				<label>Address</label>
-				<input type='text' name='userAddress' maxLength={25} className='form-control' defaultValue={user.userAddress} onChange={handleChange} />
+				<input type='text' name='userAddress' maxLength={25} className='form-control' defaultValue={user.userAddress} onChange={handleChange}/>
 			</div>
 			<div className="col-md-12 text-center">
 				<button type='submit' onClick={handleUpdateAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-2 mx-auto">Update</button>

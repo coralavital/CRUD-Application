@@ -27,7 +27,7 @@ function Spinner() {
 
   return (
     <SpinnerContainer className={classes.container}>
-      <CircularProgress />
+      <CircularProgress/>
     </SpinnerContainer>
   )
 };

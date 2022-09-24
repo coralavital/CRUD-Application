@@ -16,7 +16,7 @@ export default function Nav() {
 	// Log out function
 	function logout() {
 		LOGOUT_USER({},
-			(response) => {
+			(response) =>{
 				if (!response) {
 					throw new Error(response.message);
 				}
@@ -25,7 +25,7 @@ export default function Nav() {
 					payload: {}
 				});
 			},
-			(error) => {
+			(error) =>{
 				console.log(error);
 				alert(error);
 			})
@@ -66,7 +66,7 @@ export default function Nav() {
 		)
 	}
 	return (
-		<ThemeProvider theme={darkTheme} >
+		<ThemeProvider theme={darkTheme}>
 			<AppBar position="sticky" style={{  boxShadow: 'none'}}>
 				<Toolbar>
 					{menu}

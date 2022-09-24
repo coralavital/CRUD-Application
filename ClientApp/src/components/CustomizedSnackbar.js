@@ -3,7 +3,7 @@ import MuiAlert from '@mui/material/Alert';
 import React, { useState } from 'react';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props}/>;
 });
 
 export default function CustomizedSnackbar(props) {
@@ -11,7 +11,7 @@ export default function CustomizedSnackbar(props) {
 	const { message, type } = props;
 
 
-	const handleClose = (event, reason) => {
+	const handleClose = (event, reason) =>{
 		if (reason === 'clickaway') {
 			return;
 		}

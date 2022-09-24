@@ -26,7 +26,7 @@ import '../custom.css';
 
 
 // For every user create a row with the user details
-const Row = (props) => {
+const Row = (props) =>{
 	const { row, onDeleteUser, setShowDeletedAlert, setShowUpdatedAlert, setUpdatedUser } = props;
 	const [open, setOpen] = useState(false);
 	const [showUpdateDialog, setShowUpdateDialog] = useState(false);
@@ -34,27 +34,27 @@ const Row = (props) => {
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
 	// Handle dialog open
-	const handleUpdateOpen = () => {
+	const handleUpdateOpen = () =>{
 		setShowUpdateDialog(true);
 	};
 
 	// Handle dialog close
-	const handleUpdateClose = () => {
+	const handleUpdateClose = () =>{
 		setShowUpdateDialog(false);
 	};
 
-	const handleDeleteOpen = () => {
+	const handleDeleteOpen = () =>{
 		setShowDeleteDialog(true);
 	};
 	// Handle dialog close
-	const handleDeleteClose = () => {
+	const handleDeleteClose = () =>{
 		setShowDeleteDialog(false);
 	};
 
 	// Delete user function - DELETE request
 	function handleDelete() {
 		DELETE_USER({ row },
-			(response) => {
+			(response) =>{
 				if (!response.message) {
 					throw new Error(response);
 				}
@@ -67,7 +67,7 @@ const Row = (props) => {
 					setShowDeletedAlert(true);
 				}
 			},
-			(error) => {
+			(error) =>{
 				console.log(error);
 				alert(error);
 			})
@@ -88,7 +88,7 @@ const Row = (props) => {
 						aria-label="expand row"
 						size="small"
 						onClick={() => setOpen(!open)}>
-						{open ? <ArrowCircleUpOutlinedIcon sx={{ color: 'black' }} /> : <ArrowCircleDownOutlinedIcon />}
+						{open ? <ArrowCircleUpOutlinedIcon sx={{ color: 'black' }}/> : <ArrowCircleDownOutlinedIcon/>}
 					</IconButton>
 				</TableCell>
 				<TableCell align="center">{row.email}</TableCell>
@@ -124,20 +124,19 @@ const Row = (props) => {
 										"& td": {
 											fontSize: "1.1rem",
 											fontFamily: '"Segoe UI"'
-										}
-									}}>
+										}}}>
 										<TableCell>{row.email}</TableCell>
 										<TableCell>{row.userName}</TableCell>
 										<TableCell>{row.userAddress}</TableCell>
 										<TableCell align='right'>
 											<Tooltip title="Update user details">
 												<IconButton>
-													<BorderColorIcon onClick={handleUpdateOpen} />
+													<BorderColorIcon onClick={handleUpdateOpen}/>
 												</IconButton>
 											</Tooltip>
-											<Tooltip title="Delete user" >
-												<IconButton >
-													<DeleteIcon onClick={handleDeleteOpen} />
+											<Tooltip title="Delete user">
+												<IconButton>
+													<DeleteIcon onClick={handleDeleteOpen}/>
 												</IconButton>
 											</Tooltip>
 										</TableCell>
@@ -157,19 +156,18 @@ const Row = (props) => {
 								minHeight: 300,
 								minWidth: 400,
 								fontFamily: '"Segoe UI"',
-							},
-						}}>
+							}}}>
 							<IconButton sx={{ marginLeft: 'auto', marginTop: 1, }}
 								edge="start"
 								color="inherit"
 								onClick={() => setShowUpdateDialog(false)}
 								aria-label="close"
 							>
-								<CloseIcon />
+								<CloseIcon/>
 							</IconButton>
 							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Update User Details</DialogTitle>
 							<DialogContent>
-								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row} />
+								<UpdateForm setUpdatedUser={setUpdatedUser} setShowUpdatedAlert={setShowUpdatedAlert} setShowUpdateDialog={setShowUpdateDialog} user={row}/>
 							</DialogContent>
 						</Dialog>
 					</> : <> </>
@@ -191,7 +189,7 @@ const Row = (props) => {
 								onClick={handleDeleteClose}
 								aria-label="close"
 							>
-								<CloseIcon />
+								<CloseIcon/>
 							</IconButton>
 							<DialogTitle sx={{ fontFamily: '"Segoe UI"', fontSize: 'xx-large', fontWeight: 'bolder', padding: 1, textAlign: 'center' }}>Delete User</DialogTitle>
 							<DialogContent>
@@ -200,14 +198,14 @@ const Row = (props) => {
 										<>
 											{state.user.id !== row.id ?
 												<>
-													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}}>
 														Are you sure that you want to delete the user?
 													</Typography>
 												</> : <>
-													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}}>
 														Are you sure you want to delete your user?
 													</Typography>
-													<Typography sx={{ fontSize: 16, textAlign: 'center'}} >
+													<Typography sx={{ fontSize: 16, textAlign: 'center'}}>
 														After deletion, you will be logged out automatically
 													</Typography>
 												</>

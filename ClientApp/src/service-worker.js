@@ -27,7 +27,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
 registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
-  ({ request, url }) => {
+  ({ request, url }) =>{
     // If this isn't a navigation, skip.
     if (request.mode !== 'navigate') {
       return false;
@@ -63,7 +63,7 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
+self.addEventListener('message', (event) =>{
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }

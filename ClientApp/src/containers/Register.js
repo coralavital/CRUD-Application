@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from '../App';
 
 // Register page
-const RegisterForm = (props) => {
+const RegisterForm = (props) =>{
 
 	const [redirect, setRedirect] = useState(false);
 	const { state, dispatch } = useContext(AuthContext);
@@ -27,7 +27,7 @@ const RegisterForm = (props) => {
 	const [formData, setFormData] = useState(initialFormData);
 
 	// Handle change form data
-	const handleChange = (e) => {
+	const handleChange = (e) =>{
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
@@ -35,7 +35,7 @@ const RegisterForm = (props) => {
 		setShowCreateErrorAlert(false);
 	};
 
-	const handleCloseCreateErrorAlert = () => {
+	const handleCloseCreateErrorAlert = () =>{
 		setShowCreateErrorAlert(false);
 	};
 
@@ -51,7 +51,7 @@ const RegisterForm = (props) => {
 		};
 
 		REGISTER_USER({ userToCreate },
-			(response) => {
+			(response) =>{
 				if (!response.user) {
 					throw new Error(response.message);
 				}
@@ -71,14 +71,14 @@ const RegisterForm = (props) => {
 				// Navigate to the home page as a logged in user
 				setRedirect(true);
 			},
-			(error) => {
+			(error) =>{
 				setShowCreateErrorAlert(true);
 			})
 	};
 
 	// The user registered and transfer to the home page
 	if (redirect) {
-		return <Navigate to={"/"} />
+		return <Navigate to={"/"}/>
 	}
 
 	return (
@@ -92,23 +92,23 @@ const RegisterForm = (props) => {
 							<input type='email' name='email'
 								className='form-control' placeholder='Please enter email'
 								pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
-								onChange={handleChange} required maxLength={25} />
+								onChange={handleChange} required maxLength={25}/>
 						</div>
 						<div className='mb-3'>
 							<label>User Name</label>
 							<input type='text' name="username" className='form-control' placeholder='Please enter username'
-								onChange={handleChange} required maxLength={25} />
+								onChange={handleChange} required maxLength={25}/>
 						</div>
 
 						<div className='mb-3'>
 							<label>Password</label>
 							<input type='password' name='password' className='form-control' placeholder='Please enter password'
-								onChange={handleChange} required minLength={6} maxLength={25} />
+								onChange={handleChange} required minLength={6} maxLength={25}/>
 						</div>
 						<div className='mb-3'>
 							<label>Address</label>
 							<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
-								onChange={handleChange} required maxLength={25} />
+								onChange={handleChange} required maxLength={25}/>
 						</div>
 						<div className="col-md-12 text-center">
 							<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg  btn-lg btn-block d-grid mb-1 mx-auto">Add</button>
@@ -125,22 +125,22 @@ const RegisterForm = (props) => {
 									<label>Email</label>
 									<input type='email' name='email' className='form-control' placeholder='Please enter email'
 										pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
-										onChange={handleChange} required maxLength={25} />
+										onChange={handleChange} required maxLength={25}/>
 								</div>
 								<div className='mb-3'>
 									<label>User Name</label>
 									<input type='text' name="username" className='form-control' placeholder='Please enter username'
-										onChange={handleChange} required maxLength={25} />
+										onChange={handleChange} required maxLength={25}/>
 								</div>
 								<div className='mb-3'>
 									<label>Password</label>
 									<input type='password' name='password' className='form-control' placeholder='Please enter password'
-										onChange={handleChange} required minLength={6} maxLength={25} />
+										onChange={handleChange} required minLength={6} maxLength={25}/>
 								</div>
 								<div className='mb-3'>
 									<label>Address</label>
 									<input type='text' name='userAddress' className='form-control' placeholder='Please enter address'
-										onChange={handleChange} required maxLength={25} />
+										onChange={handleChange} required maxLength={25}/>
 								</div>
 								<div className='d-grid mx-5 mb-2'>
 									<button type='submit' onClick={handleCloseCreateErrorAlert} className="btn btn-dark btn-lg mx-1 my-1 ">Sign Up</button>
@@ -164,7 +164,7 @@ const RegisterForm = (props) => {
 			<>
 				{showCreateErrorAlert ?
 					<>
-						<CustomizedSnackbar message={"The email or username already exist"} type={"error"} />
+						<CustomizedSnackbar message={"The email or username already exist"} type={"error"}/>
 					</> : <>
 					</>
 				}

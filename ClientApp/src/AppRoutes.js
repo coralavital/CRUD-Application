@@ -6,23 +6,23 @@ import Home from "./containers/Home";
 const AppRoutes = [
 	  {
 	    index: true,
-	    element: <Home />
+	    element: <Home/>
 	  },
 	  {
 		path: '/',
-		element: <Home />
+		element: <Home/>
 	  },
 	  {
 		path: '/login',
-		element: <Login />
+		element: <Login/>
 	  },
 	{
 		path: '/register',
-		element: <Register />
+		element: <Register/>
 	},
 	{
 		path: '*',
-		element: <NotFound />
+		element: <NotFound/>
 	},
 ];
 

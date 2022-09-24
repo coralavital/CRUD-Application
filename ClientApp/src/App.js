@@ -27,9 +27,9 @@ export default function App() {
 		'Content-Type': 'application/json'
 	}
 
-	useEffect(() => {
+	useEffect(() =>{
 		CURRENT_USER({ headers },
-			(response) => {
+			(response) =>{
 				if (!response.user) {
 					throw new Error(response.message);
 				}
@@ -39,7 +39,7 @@ export default function App() {
 					payload: { ...response }
 				})
 			},
-			(error) => {
+			(error) =>{
 				localStorage.removeItem("Authorization");
 				setIsAuthenticating(false);
 			}
@@ -53,13 +53,12 @@ export default function App() {
 					value={{
 						state,
 						dispatch
-					}}
-				>
+					}}>
 					<Layout>
 						<Routes>
-							{AppRoutes.map((route, index) => {
+							{AppRoutes.map((route, index) =>{
 								const { element, ...rest } = route;
-								return <Route key={index} {...rest} element={element} />;
+								return <Route key={index} {...rest} element={element}/>;
 							})}
 						</Routes>
 					</Layout>

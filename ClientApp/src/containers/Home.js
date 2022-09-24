@@ -23,7 +23,7 @@ import Box from '@mui/material/Box';
 import '../custom.css';
 
 // Home page - for a logged in user 
-const Home = () => {
+const Home = () =>{
 
 	// For Table Pagination
 	const [page, setPage] = useState(0);
@@ -49,17 +49,17 @@ const Home = () => {
 
 	// UseEffect keep the users and addresses list updated
 
-	useEffect(() => {
+	useEffect(() =>{
 		if (state.user) {
 			GET_ALL_USERS({},
-				(response) => {
+				(response) =>{
 					if (!response.users) {
 						throw new Error(response.message);
 					}
 					setAddresses(response.addresses);
 					setUsers(response.users);
 				},
-				(error) => {
+				(error) =>{
 					console.log(error);
 					alert(error.message);
 				})
@@ -68,11 +68,11 @@ const Home = () => {
 
 
 	// Handle with change page
-	const handleChangePage = (event, newPage) => {
+	const handleChangePage = (event, newPage) =>{
 		setPage(newPage);
 	};
 
-	const handleChangeRowsPerPage = (event) => {
+	const handleChangeRowsPerPage = (event) =>{
 		setRowsPerPage(+event.target.value);
 		setPage(0);
 	};
@@ -83,12 +83,12 @@ const Home = () => {
 	}
 
 	// Handle dialog open
-	const handleClickOpen = () => {
+	const handleClickOpen = () =>{
 		setShowRegisterDialog(true);
 	};
 
 	// Handle dialog close
-	const handleClose = () => {
+	const handleClose = () =>{
 		setShowRegisterDialog(false);
 	};
 
@@ -96,8 +96,8 @@ const Home = () => {
 	// Rows for showing table - contain users list
 	const rows = [...users];
 	const addressesList = [...addresses];
-	rows.forEach(user => {
-		var address = addressesList.find((address) => { return address.userId === user.id });
+	rows.forEach(user =>{
+		var address = addressesList.find((address) =>{ return address.userId === user.id });
 		if (address != undefined) {
 			user.userAddress = address.userAddress;
 		}
@@ -109,7 +109,7 @@ const Home = () => {
 	// If user logged in display users table
 	if (state.user) {
 		if (users.length === 0 || addresses.length === 0) {
-			return <Spinner />
+			return <Spinner/>
 		}
 		// Return users table with option to open dialog for add user as a logged in user
 		return (
@@ -127,7 +127,7 @@ const Home = () => {
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
 				</Box>
 				<Box sx={{ paddingBottom: '10%' }}>
-					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }} >
+					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }}>
 						<TableContainer sx={{ marginBottom: 1, borderRadius: 7, }}>
 							<Table aria-label="collapsible table" stickyHeader style={{ margin: 'auto', borderBottom: "none" }}>
 								<TableHead>
@@ -138,8 +138,8 @@ const Home = () => {
 											fontWeight: "bolder",
 											color: "rgba(96, 96, 96)",
 										},
-									}} >
-										<TableCell />
+									}}>
+										<TableCell/>
 										<TableCell align="center">Email</TableCell>
 										<TableCell align="center">User Name</TableCell>
 									</TableRow>
@@ -148,7 +148,7 @@ const Home = () => {
 									{rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((row) => (
 											<Row onDeleteUser={onDeleteUser} key={row.email} setShowDeletedAlert={setShowDeletedAlert}
-												row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser} />
+												row={row} setShowUpdatedAlert={setShowUpdatedAlert} setUpdatedUser={setUpdatedUser}/>
 										))}
 								</TableBody>
 							</Table>
@@ -157,11 +157,10 @@ const Home = () => {
 							component="div"
 							count={rows.length}
 							rowsPerPage={rowsPerPage}
-							rowsPerPageOptions={5}
+							rowsPerPageOptions={[5]}
 							page={page}
 							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
+							onRowsPerPageChange={handleChangeRowsPerPage}/>
 					</Paper>
 				</Box>
 				<>
@@ -181,12 +180,12 @@ const Home = () => {
 									onClick={handleClose}
 									aria-label="close"
 								>
-									<CloseIcon />
+									<CloseIcon/>
 								</IconButton>
 								<DialogTitle sx={{ fontSize: 'xx-large', fontWeight: 'bolder', textAlign: 'center', padding: 1 }}>Add User</DialogTitle>
 								<DialogContent>
 									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert}
-										setShowRegisterDialog={setShowRegisterDialog} />
+										setShowRegisterDialog={setShowRegisterDialog}/>
 								</DialogContent>
 							</Dialog>
 						</> :
@@ -196,7 +195,7 @@ const Home = () => {
 				<>
 					{showCreatedAlert ?
 						<>
-							<CustomizedSnackbar message={"User successfully created"} type={"success"} />
+							<CustomizedSnackbar message={"User successfully created"} type={"success"}/>
 						</> : <>
 						</>
 					}
@@ -204,7 +203,7 @@ const Home = () => {
 				<>
 					{showUpdatedAlert ?
 						<>
-							<CustomizedSnackbar message={"User successfully updated"} type={"success"} />
+							<CustomizedSnackbar message={"User successfully updated"} type={"success"}/>
 						</> : <>
 						</>
 					}
@@ -212,7 +211,7 @@ const Home = () => {
 				<>
 					{showDeletedAlert ?
 						<>
-							<CustomizedSnackbar message={"User successfully deleted"} type={"success"} />
+							<CustomizedSnackbar message={"User successfully deleted"} type={"success"}/>
 						</> : <>
 						</>
 					}
