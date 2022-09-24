@@ -50,7 +50,6 @@ namespace hometask.Data
 					UserAddress = $"{addresses[i - 1]}"
 				};
 			}
-
 			modelBuilder.Entity<Address>().HasData(addressesToSeed);
 			modelBuilder.Entity<IdentityUser>().HasData(usersToSeed);
 			base.OnModelCreating(modelBuilder);

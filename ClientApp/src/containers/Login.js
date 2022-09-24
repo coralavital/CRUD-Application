@@ -3,7 +3,7 @@ import { LOGIN_USER } from '../api/backendRequests';
 import React, { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 import { AuthContext } from '../App';
 
 // Login page
@@ -44,27 +44,27 @@ const LoginForm = () => {
 			password: formData.password,
 		};
 
-		await new Promise((resolve, reject) => {
-			LOGIN_USER({ userToLogin },
-				(response) => {
-					if (!response.user) {
-						throw new Error(response);
-					}
-					console.log(response)
-					localStorage.setItem("Authorization", response.token);
-					dispatch({
-						type: "LOGIN",
-						payload: { ...response }
-					});
-					// Navigate to the home page as a logged in user
-					setRedirect(true);
-					resolve()
-				},
-				(error) => {
-					setShowLoginErrorAlert(true);
-					reject(error);
-				})
-		})
+    await new Promise((resolve, reject) => {
+      LOGIN_USER({ userToLogin },
+        (response) => {
+          if (!response.user) {
+            throw new Error(response);
+          }
+          console.log(response)
+          localStorage.setItem("Authorization", response.token);
+          dispatch({
+            type: "LOGIN",
+            payload: { ...response }
+          });
+          // Navigate to the home page as a logged in user
+          setRedirect(true);
+          resolve()
+        },
+        (error) => {
+          setShowLoginErrorAlert(true);
+          reject(error);
+        })
+    })
 
 	}
 
@@ -82,7 +82,7 @@ const LoginForm = () => {
 					<div className='mb-3'>
 						<label>Email</label>
 						<input type='email' name="email" className='form-control' placeholder='Enter Email'
-							pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+							pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
 							onChange={handleChange} required />
 					</div>
 					<div className='mb-3'>
@@ -95,14 +95,13 @@ const LoginForm = () => {
 					</div>
 				</form>
 				<span className='already-registered mx-auto text-right'>
-					Not a user ? <Button component={Link} to='/register' border='none' sx={{
-						border: 'none',
-						color: {
-							"&:hover": {
-								color: "#90caf9"
+					Not a user ? <Button component={Link} to='/register' border='none' sx={{border: 'none',
+							color: {
+								"&:hover": {
+									color: "#90caf9"
+								}
 							}
-						}
-					}} underline="none">Sign Up</Button>
+						}}  underline="none">Sign Up</Button>
 				</span>
 			</div>
 			<>

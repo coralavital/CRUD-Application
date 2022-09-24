@@ -83,20 +83,21 @@ const RegisterForm = (props) => {
 
 	return (
 		<>
-			{/* If some user register other user in add user dialog */}
 			{props.flag === true ?
 				<>
+					{/* If some user register other user in add user dialog */}
 					<form onSubmit={handleSubmit}>
 						<div className='mb-3'>
 							<label>Email</label>
-							<input type='email' name='email'  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" 
+							<input type='email' name='email'
 								className='form-control' placeholder='Please enter email'
+								pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
 								onChange={handleChange} required maxLength={25} />
 						</div>
 						<div className='mb-3'>
 							<label>User Name</label>
 							<input type='text' name="username" className='form-control' placeholder='Please enter username'
-								onChange={handleChange} required maxLength={25}/>
+								onChange={handleChange} required maxLength={25} />
 						</div>
 
 						<div className='mb-3'>
@@ -122,7 +123,8 @@ const RegisterForm = (props) => {
 								<h3 className='signup-title'>Sign Up</h3>
 								<div className='mb-3'>
 									<label>Email</label>
-									<input type='email' name='email' pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" className='form-control' placeholder='Please enter email'
+									<input type='email' name='email' className='form-control' placeholder='Please enter email'
+										pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.]{1}[a-zA-Z]{2,}$"
 										onChange={handleChange} required maxLength={25} />
 								</div>
 								<div className='mb-3'>
@@ -162,7 +164,7 @@ const RegisterForm = (props) => {
 			<>
 				{showCreateErrorAlert ?
 					<>
-						<CustomizedSnackbar message={"The email already exist"} type={"error"} />
+						<CustomizedSnackbar message={"The email or username already exist"} type={"error"} />
 					</> : <>
 					</>
 				}

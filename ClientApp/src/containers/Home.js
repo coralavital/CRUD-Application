@@ -224,10 +224,10 @@ const Home = () => {
 	return (
 		<div className='main'>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 50, fontWeight: 'bolder', flexGrow: 1 }}>
-					Hey there
+					Hey there,
 				</Typography>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 40, fontWeight: 'bolder', flexGrow: 1 }}>
-					Welcome to my home task
+					Welcome to my home task :)
 				</Typography>
 				<Typography color={"black"} variant="h6" component="div" sx={{ fontSize: 40, fontWeight: 'bolder', flexGrow: 1 }}>
 					Sign in or register to see more
