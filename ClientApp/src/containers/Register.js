@@ -89,7 +89,8 @@ const RegisterForm = (props) => {
 					<form onSubmit={handleSubmit}>
 						<div className='mb-3'>
 							<label>Email</label>
-							<input type='email' name='email' className='form-control' placeholder='Please enter email'
+							<input type='email' name='email'  pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" 
+								className='form-control' placeholder='Please enter email'
 								onChange={handleChange} required maxLength={25} />
 						</div>
 						<div className='mb-3'>
@@ -121,7 +122,7 @@ const RegisterForm = (props) => {
 								<h3 className='signup-title'>Sign Up</h3>
 								<div className='mb-3'>
 									<label>Email</label>
-									<input type='email' name='email' className='form-control' placeholder='Please enter email'
+									<input type='email' name='email' pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" className='form-control' placeholder='Please enter email'
 										onChange={handleChange} required maxLength={25} />
 								</div>
 								<div className='mb-3'>
