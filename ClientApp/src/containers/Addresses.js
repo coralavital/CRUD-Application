@@ -55,7 +55,7 @@ const Addresses = (props) => {
 			<div className='mb-3'>
 				<label>Query</label>
 				<input type='text' name='query'
-					className='form-control' placeholder='Please enter query' required onKeyUpCapture={handleChange} onKeyDownCapture={handleChange} />
+					className='form-control' placeholder='Please enter query' required onChange={handleChange} onKeyDownCapture={handleChange}  />
 			</div>
 
 			<div className='main'>
@@ -97,7 +97,7 @@ const Addresses = (props) => {
 			<>
 				{showAddressesAlert ?
 					<>
-						<CustomizedSnackbar message={"There is a problem to fetch"} type={"error"} />
+						<CustomizedSnackbar message={"There is no results"} type={"error"} />
 					</> : <>
 					</>
 				}
