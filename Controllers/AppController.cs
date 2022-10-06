@@ -85,10 +85,8 @@ namespace hometask.Controllers
 			if(addresses.Any()) {
 				return Ok(new { addresses });
 			}
-			else {
-
-				return BadRequest(error: new { message = "There is a problem to fetch", error = true });
-			}
+			return BadRequest(error: new { message = "There is a problem to fetch", error = true });
+			
 		}
 
 	}
