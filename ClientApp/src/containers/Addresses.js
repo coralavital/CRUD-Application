@@ -6,12 +6,13 @@ import '../custom.css';
 import CustomizedSnackbar from '../components/CustomizedSnackbar';
 
 // Home page - for a logged in user 
-const Addresses = () => {
+const Addresses = (props) => {
 
 	// A list that will hold all users
 	const [addresses, setAddresses] = useState([]);
+
 	const [showAddressesAlert, setShowAddressesAlert] = useState(false);
-	const [query, setQuery] = useState([]);
+
 
 	const initialFormData = Object.freeze({
 		query: ""
@@ -26,33 +27,35 @@ const Addresses = () => {
 			...formData,
 			[e.target.name]: e.target.value,
 		});
-		setQuery(formData.query);
 		setShowAddressesAlert(false);
+
 	};
+
+	const data = formData.query;
 
 	useEffect(() => {
 		setAddresses([]);
-		if (query) {
-			GET_ADDRESSES( query ,
+		if (data) {
+			GET_ADDRESSES(data,
 				(response) => {
-					if (!response) {
+					if (!response.addresses) {
 						throw new Error(response.message);
 					}
 					setAddresses(response.addresses);
-					
+					setShowAddressesAlert(false);
 				},
 				(error) => {
 					setShowAddressesAlert(true);
 				})
 		}
-	}, [query])
+	}, [data])
 
 	return (
 		<form >
 			<div className='mb-3'>
 				<label>Query</label>
 				<input type='text' name='query'
-					className='form-control' placeholder='Please enter query' onKeyPress={handleChange} />
+					className='form-control' placeholder='Please enter query' required onKeyUpCapture={handleChange} onKeyDownCapture={handleChange} />
 			</div>
 
 			<div className='main'>
@@ -94,7 +97,7 @@ const Addresses = () => {
 			<>
 				{showAddressesAlert ?
 					<>
-						<CustomizedSnackbar message={"There is no results"} type={"error"} />
+						<CustomizedSnackbar message={"There is a problem to fetch"} type={"error"} />
 					</> : <>
 					</>
 				}
