@@ -1,4 +1,4 @@
-import { GET_ALL_ADDRESSES, GET_ALL_USERS } from '../api/backendRequests';
+import { GET_ALL_USERS } from '../api/backendRequests';
 import React, { useContext, useEffect, useState } from 'react';
 import TablePagination from '@mui/material/TablePagination';
 import TableContainer from '@mui/material/TableContainer';
@@ -21,10 +21,12 @@ import { AuthContext } from '../App';
 import Row from '../components/Row';
 import Box from '@mui/material/Box';
 import '../custom.css';
+import Addresses from './Addresses';
 
 // Home page - for a logged in user 
 const Home = () =>{
 
+	
 	// For Table Pagination
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -38,6 +40,7 @@ const Home = () =>{
 
 	// Flag for open/close register dialog when logged in user create a new user
 	const [showRegisterDialog, setShowRegisterDialog] = useState(false);
+	const [showFindAddressesDialog, setShowFindAddressesDialog] = useState(false);
 
 	const [addedUser, setAddedUser] = useState([]);
 	const [updatedUser, setUpdatedUser] = useState([]);
@@ -85,14 +88,21 @@ const Home = () =>{
 	// Handle dialog open
 	const handleClickOpen = () =>{
 		setShowRegisterDialog(true);
+		setShowFindAddressesDialog(false);
 	};
 
 	// Handle dialog close
 	const handleClose = () =>{
 		setShowRegisterDialog(false);
 	};
+		// Handle dialog close
+		const handleCloseAddresses = () =>{
+			setShowFindAddressesDialog(false);
+		};
 
-
+	const navigateToAddresses = () => {
+		setShowFindAddressesDialog(true);
+	};
 	// Rows for showing table - contain users list
 	const rows = [...users];
 	const addressesList = [...addresses];
@@ -125,6 +135,7 @@ const Home = () =>{
 					alignItems="flex-end"
 				>
 					<button type='submit' onClick={handleClickOpen} className="btn btn-dark btn-lg btn-block d-grid ">Add User</button>
+					<button type='submit' onClick={navigateToAddresses} className="btn btn-dark btn-lg btn-block d-grid mx-2">Find Addresses</button>
 				</Box>
 				<Box sx={{ paddingBottom: '10%' }}>
 					<Paper sx={{ height: '100%', width: '100%', borderRadius: 6, marginTop: 1, }}>
@@ -186,6 +197,34 @@ const Home = () =>{
 								<DialogContent>
 									<RegisterForm flag={true} setAddedUser={setAddedUser} setShowCreatedAlert={setShowCreatedAlert}
 										setShowRegisterDialog={setShowRegisterDialog}/>
+								</DialogContent>
+							</Dialog>
+						</> :
+						<> </>
+					}
+				</>
+				<>
+					{showFindAddressesDialog ?
+						<>
+							<Dialog open={showFindAddressesDialog} onClose={handleCloseAddresses} PaperProps={{
+								style: {
+									minHeight: 300,
+									maxHeight: 400,
+									minWidth: 400,
+									maxWidth: 400,
+								},
+							}}>
+								<IconButton sx={{ marginLeft: 'auto', marginTop: 1, marginRight: 1, marginBottom: 'auto' }}
+									edge="start"
+									color="inherit"
+									onClick={handleCloseAddresses}
+									aria-label="close"
+								>
+									<CloseIcon/>
+								</IconButton>
+								<DialogTitle sx={{ fontSize: 'xx-large', fontWeight: 'bolder', textAlign: 'center', padding: 1 }}>Find Addresses</DialogTitle>
+								<DialogContent>
+									<Addresses setShowFindAddressesDialog={setShowFindAddressesDialog}/>
 								</DialogContent>
 							</Dialog>
 						</> :

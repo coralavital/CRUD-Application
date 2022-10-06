@@ -2,27 +2,32 @@ import Register from './containers/Register';
 import NotFound from './components/NotFound';
 import Login from "./containers/Login";
 import Home from "./containers/Home";
+import Addresses from "./containers/Addresses";
 
 const AppRoutes = [
-	  {
-	    index: true,
-	    element: <Home/>
-	  },
-	  {
+	{
+		index: true,
+		element: <Home />
+	},
+	{
 		path: '/',
-		element: <Home/>
-	  },
-	  {
+		element: <Home />
+	},
+	{
 		path: '/login',
-		element: <Login/>
-	  },
+		element: <Login />
+	},
 	{
 		path: '/register',
-		element: <Register/>
+		element: <Register />
+	},
+	{
+		path: '/addresses',
+		element: <Addresses />
 	},
 	{
 		path: '*',
-		element: <NotFound/>
+		element: <NotFound />
 	},
 ];
 

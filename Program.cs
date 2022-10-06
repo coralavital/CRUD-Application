@@ -67,6 +67,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swaggerGenOptions =>
 {
     swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "Home Task", Version = "v1" });
+	swaggerGenOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme{
+		Name = "Authorization",
+		In = ParameterLocation.Header,
+		Scheme = "Bearer",
+		Type = SecuritySchemeType.ApiKey
+	});
+	swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement{
+		{
+			new OpenApiSecurityScheme{
+				Reference = new OpenApiReference{
+					Id= "Bearer",
+					Type = ReferenceType.SecurityScheme
+				}
+			},new List<string>()
+		}
+	});
 });
 
 var app = builder.Build();
@@ -75,6 +91,7 @@ app.UseSwagger();
 app.UseSwaggerUI(swaggerUIOptions =>
 {
     swaggerUIOptions.DocumentTitle = "Home Task";
+	swaggerUIOptions.RoutePrefix = String.Empty;
     swaggerUIOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API serving a User model.");
     swaggerUIOptions.RoutePrefix = string.Empty;
 });
