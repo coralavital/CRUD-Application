@@ -81,7 +81,7 @@ namespace hometask.Controllers
 		[HttpGet("getAddresses")]
 		public IActionResult GetAddresses(string query)
 		{
-			var addresses = _context.Addresses.Where(address => address.UserAddress.Contains(query)).ToList();
+			var addresses = _context.Addresses.Where(address => address.UserAddress.ToLower().Contains(query.ToLower())).ToList();
 			if(addresses.Any()) {
 				return Ok(new { addresses });
 			}
