@@ -28,7 +28,6 @@ const Addresses = (props) => {
 			[e.target.name]: e.target.value,
 		});
 		setShowAddressesAlert(false);
-
 	};
 
 	const data = formData.query;
@@ -55,7 +54,7 @@ const Addresses = (props) => {
 			<div className='mb-3'>
 				<label>Query</label>
 				<input type='text' name='query'
-					className='form-control' placeholder='Please enter query' required onKeyUpCapture={handleChange} />
+					className='form-control' placeholder='Please enter query' required onKeyUpCapture={handleChange}/>
 			</div>
 
 			<div className='main'>
@@ -97,7 +96,7 @@ const Addresses = (props) => {
 			<>
 				{showAddressesAlert ?
 					<>
-						<CustomizedSnackbar message={"There is a problem to fetch"} type={"error"} />
+						<CustomizedSnackbar message={"There is no results"} type={"error"} />
 					</> : <>
 					</>
 				}

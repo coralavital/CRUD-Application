@@ -82,7 +82,6 @@ namespace hometask.Controllers
 		public IActionResult GetAddresses(string query)
 		{
 			var addresses = _context.Addresses.Where(address => address.UserAddress.Contains(query)).ToList();
-				Console.WriteLine(addresses);
 			if(addresses.Any()) {
 				return Ok(new { addresses });
 			}
@@ -91,8 +90,6 @@ namespace hometask.Controllers
 				return BadRequest(error: new { message = "There is a problem to fetch", error = true });
 			}
 		}
-
-
 
 	}
 }
